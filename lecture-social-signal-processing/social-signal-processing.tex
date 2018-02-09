@@ -1,0 +1,1339 @@
+%!TEX program = xelatex
+
+\documentclass[compress]{beamer}
+%--------------------------------------------------------------------------
+% Common packages
+%--------------------------------------------------------------------------
+
+\definecolor{links}{HTML}{663000}
+\hypersetup{colorlinks,linkcolor=,urlcolor=links}
+
+\usepackage[english]{babel}
+\usepackage{pgfpages} % required for notes on second screen
+\usepackage{graphicx}
+
+\usepackage{multicol}
+
+\usepackage{tabularx,ragged2e}
+\usepackage{booktabs}
+
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+\usetheme{hri}
+
+% Display the navigation bullet even without subsections
+\usepackage{remreset}% tiny package containing just the \@removefromreset command
+\makeatletter
+\@removefromreset{subsection}{section}
+\makeatother
+\setcounter{subsection}{1}
+
+
+\newcommand{\source}[2]{{\tiny\it Source: \href{#1}{#2}}}
+
+\usepackage{tikz}
+\usetikzlibrary{mindmap,backgrounds,positioning,calc,patterns}
+
+\graphicspath{{figs/}}
+
+\title{Social Signal Processing}
+\subtitle{AINT512}
+\date{}
+\author{Séverin Lemaignan}
+\institute{Centre for Neural Systems and Robotics\\{\bf Plymouth University}}
+
+\begin{document}
+
+\licenseframe{github.com/severin-lemaignan/lectures-hri}
+
+\maketitle
+
+\begin{frame}{Social signal processing}
+
+\begin{itemize}
+\tightlist
+\item
+  The ability to recognize human social signals and social behaviours
+  like turn taking, politeness, and disagreement.
+\item
+  Essential when building social robots, human-robot interaction,
+  interactive systems, \ldots{}
+\end{itemize}
+
+Vinciarelli, A., Pantic, M., \& Bourlard, H. (2009).
+\href{http://www.dcs.gla.ac.uk/~vincia/papers/sspsurvey.pdf}{Social
+signal processing: Survey of an emerging domain}.~\emph{Image and Vision
+Computing},~\emph{27}(12), 1743-1759.
+
+\end{frame}
+
+\begin{frame}{Is it hard?}
+
+Again, as with most human activities that seem easy to us, social signal
+processing is tremendously hard.
+
+Often broken down in smaller, sometimes more manageable, tasks:
+
+\begin{itemize}
+\tightlist
+\item
+  People detection
+\item
+  Face detection
+\item
+  Face recognition
+\item
+  Gesture recognition
+\item
+  Gaze detection
+\item
+  Facial expression reading (wink, blink, talking, \ldots{})
+\item
+  Detection of social signals from verbal communication
+\item
+  Emotion recognition (from faces, movement, speech, \ldots{})
+\item
+  \ldots{}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{In this lecture}
+
+\begin{itemize}
+\tightlist
+\item
+  A historical case study: Kismet.
+\item
+  Recognising emotions from speech.
+\item
+  Speech recognition in the context of HRI.
+\item
+  Classification (k-nearest neighbours and Support Vector Machines)
+\item
+  Classification for social signal processing
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Case study: Kismet's vision system}
+
+Remember Kismet?
+(\href{https://www.youtube.com/watch?v=8KRZX5KL4fA}{video})
+
+\begin{itemize}
+\tightlist
+\item
+  Built by Cynthia Breazeal and a team of postgrad students at the
+  Massachusetts Institute of Technology (MIT).
+\end{itemize}
+
+Primary goal: implement an \textbf{attention system}: directing gaze
+towards salient features.
+
+\begin{itemize}
+\tightlist
+\item
+  This should be real-time.
+\item
+  Should resemble the attention system of human infants.
+\end{itemize}
+
+Attention to several cues:
+
+\begin{itemize}
+\tightlist
+\item
+  Skin tone
+\item
+  Saturated colours
+\item
+  Motion
+\end{itemize}
+
+Note that detecting skin tone is easier than detection faces, and often
+has the same result as face detection
+
+\{\#section style=``page-break-before:always;''\}
+
+\end{frame}
+
+\begin{frame}{Skin tone feature detector}
+
+Incoming stream is 8-bit colour images, 128 by 128 pixels.
+
+\begin{itemize}
+\tightlist
+\item
+  128 x 128 resolution limit caused by hardware throughput and
+  computation available at the time, current hardware will be able to
+  handle megapixel resolution in real-time.
+\end{itemize}
+
+A pixel is not skin-toned if
+
+\begin{itemize}
+\tightlist
+\item
+  R \textless{} 1.1 G and
+\item
+  R \textless{} 0.9 B and
+\item
+  R \textgreater{} 2.0 max(G,B) and
+\item
+  R \textless{} 20 and
+\item
+  R \textgreater{} 250
+\end{itemize}
+
+This simple procedure works for most skin colours and under most
+lighting conditions.
+
+\begin{itemize}
+\tightlist
+\item
+  It is claimed this even works with non-Caucasian skin, as it picks up
+  a colour component in the blood.
+\end{itemize}
+
+\{\#section-1 style=``page-break-before:always;''\}
+
+Cut through RGB 3-dimensional space, picking out only skin tone RGB
+values
+
+Result of skin tone detector in action.
+
+\end{frame}
+
+\begin{frame}[fragile]{Saturation detector}
+
+Covert RGB to HSV values
+
+\begin{itemize}
+\tightlist
+\item
+  From \textless{}red, green, blue\textgreater{} to \textless{}hue,
+  saturation, value\textgreater{} representation.
+\item
+  \textbf{hue} is the ``colour'', \textbf{saturation} is how deep the
+  colour is and \textbf{value} is how bright the pixel is.
+\item
+  Usually an excellent first step in computer vision when processing
+  colour images, as it removes the effect of uneven lighting.
+\end{itemize}
+
+(from MATLAB)
+
+\begin{matlabcode}
+// r,g,b values are from 0 to 1
+// h = [0,360], s = [0,1], v = [0,1]
+// if s == 0, then h = -1 (undefined)
+
+void RGBtoHSV( float r, float g, float b, float \h, float \s, float \v )
+{
+
+    float min, max, delta;
+    min = MIN( r, g, b );
+    max = MAX( r, g, b );
+    \v = max; // v
+    delta = max - min;
+    if( max != 0 )
+        \s = delta / max; // s
+    else {
+        // r = g = b = 0 // s = 0, v is undefined
+        \s = 0;
+        \h = -1;
+        return;
+    }
+
+    if( r == max )
+        \h = ( g - b ) / delta; // between yellow & magenta
+    else if( g == max )
+        \h = 2 + ( b - r ) / delta; // between cyan & yellow
+    else
+        \h = 4 + ( r - g ) / delta; // between magenta & cyan
+    \h \= 60; // degrees
+    if( \h &lt; 0 )
+        \h += 360;
+}
+\end{matlabcode}
+
+From \url{https://www.cs.rit.edu/~ncs/color/t_convert.html}
+
+\end{frame}
+
+\begin{frame}[fragile]{Saturation detector}
+
+\begin{itemize}
+\tightlist
+\item
+  Convert image from RGB to HSV, and mark pixels (by setting them to
+  WHITE) that have a saturation over a certain threshold.
+\item
+  Focus on \textbf{Centre of Gravity} of all saturation pixels.
+\end{itemize}
+
+\begin{matlabcode}
+void centerOfGravity (int[][] image, int imageWidth,
+        int imageHeight)
+{
+    int SumX = 0;
+    int SumY = 0;
+    int num = 0;
+    for (int i=0; i&lt;imageWidth; i++)
+    {
+        for (int j=0; j&lt;imageHeight; j++)
+        {
+            if (image[i][j] == WHITE)
+            {
+                SumX = SumX + i;
+                SumY = SumY + j;
+                num++;
+            }
+        }
+    }
+    SumX = SumX / num;
+    SumY = SumY / num;
+    // The coordinate (SumX,SumY) is the center of gravity
+}
+\end{matlabcode}
+
+\end{frame}
+
+\begin{frame}[fragile]{Motion detector}
+
+\begin{itemize}
+\tightlist
+\item
+  Motion is a strong social signal, essential for survival (both in
+  detecting prey and predator). Robots are expected to be sensitive to
+  motion as well.
+\end{itemize}
+
+\begin{matlabcode}
+int[][] motionDetection (int[][] image,
+        int[][] imagePrevious, int imageWidth, int
+        imageHeight)
+
+{
+    int[][] imageMotion;
+    int num = 0;
+    imageMotion = (int\\)malloc( imageWidth \ imageHeight)
+
+    for (int i=0; i&lt;imageWidth; i++)
+    {
+        for (int j=0; j&lt;imageHeight; j++)
+        {
+            imageMotion[i][j] = abs(image[i][j] - imagePrevious[i][j]);
+        }
+    }
+}
+\end{matlabcode}
+
+\end{frame}
+
+\begin{frame}{Post-attentive processing}
+
+After attention has been fixed, run some additional algorithms
+
+\begin{itemize}
+\tightlist
+\item
+  Eye detection: using template matching.
+\item
+  Proximity estimation: using stereo vision.
+\item
+  Loom detection: if the size of the motion blob increases rapidly.
+\item
+  Threat detection: rapid motion or fast looming.
+\end{itemize}
+
+The results of these visual processes feed into the behaviour manager of
+the robot.
+
+\begin{itemize}
+\tightlist
+\item
+  Robot focuses on visual regions that draw its attention
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Selection of attention}
+
+Kismet does not attend to all three features for computational reasons,
+but selects one according to its current behaviour.
+
+\begin{itemize}
+\tightlist
+\item
+  For example, when the seek\_people behaviour is active, it uses skin
+  tone to direct its attention.
+\item
+  This was back in early 2000, current hardware can handle this
+  computational lead without problem. However, it is good practice to
+  not spend processor cycles on signals you do not require.
+\end{itemize}
+
+Implementation
+
+An attention activation map is built.
+
+\begin{itemize}
+\tightlist
+\item
+  A 128 by 128 map of activation for the feature detectors is
+  constructed.
+\item
+  A threshold is applied to get rid of noise.
+\item
+  Connected regions are found using the 4-connect algorithm.
+\item
+  Regions of less than 30 pixels are thrown away.
+\item
+  Centroid is computed.
+\item
+  Attention is drawn to largest region.
+\end{itemize}
+
+Attention map is independent of the feature (color, motion, \ldots{})
+
+\end{frame}
+
+\begin{frame}{The auditory system}
+
+Kismet does not understand human language!
+
+It only pays attention to emotional content of speech. This is done
+though monitoring \textbf{prosody}.
+
+The advantage is that this is
+
+\begin{itemize}
+\tightlist
+\item
+  rather easy and computationally inexpensive.
+\item
+  the robot is not committed to one single language.
+\item
+  the robot is speaker independent.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Emotion from prosody}
+
+„Sie haben es gerade hochgetragen und jetzt gehen sie wieder runter``
+(They just carried it upstairs and now they are going down again).
+
+\begin{itemize}
+\tightlist
+\item
+  From \href{http://www.expressive-speech.net/}{Berlin Database of
+  Emotional Speech}
+\end{itemize}
+
+Which emotion do you recognise?
+
+\begin{itemize}
+\tightlist
+\item
+  Anger
+\item
+  Boredom
+\item
+  Disgust
+\item
+  Anxiety/Fear
+\item
+  Happiness
+\item
+  Sadness
+\item
+  Neutral
+\end{itemize}
+
+Humans recognise emotions from prosody with approx. 80\% accuracy
+
+\begin{itemize}
+\tightlist
+\item
+  Caveat: this is for speech spoken by actors in a recording studio
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Speech processing system}
+
+Compute features from the samples
+
+\begin{itemize}
+\tightlist
+\item
+  Pitch mean
+\item
+  Pitch variance
+\item
+  Maximum pitch.
+\item
+  Minimum pitch.
+\item
+  Pitch range.
+\item
+  \ldots{}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Audio processing stream in Kismet}
+
+Many different samples were recorded and classified by a human subject.
+Then an algorithm was trained (Expectation Maximisation) to classify the
+samples into five distinct classes.
+
+\begin{itemize}
+\tightlist
+\item
+  Approvals.
+\item
+  Attention drawing.
+\item
+  Prohibition.
+\item
+  Comforting.
+\item
+  Neutral.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Speech recognition}
+
+See Guido's lectures, but here's a small heads up.
+
+Automated Speech Recognition has improved tremendously over the past few
+years.
+
+\begin{itemize}
+\tightlist
+\item
+  Improved recognition performance.
+\item
+  Speaker independence.
+\item
+  Can deal with a larger amount of background noise.
+\end{itemize}
+
+Plenty of reports on increased performance
+
+\begin{itemize}
+\tightlist
+\item
+  ``\href{https://blogs.microsoft.com/next/2016/10/18/historic-achievement-microsoft-researchers-reach-human-parity-conversational-speech-recognition/\#g5qKXHrZZ2pbxuPH.99}{Historic
+  Achievement: Microsoft researchers reach human parity in
+  conversational speech recognition}'' (Oct 2016)
+\item
+  Error rate (\textasciitilde{} \% of misunderstood words) on
+  \href{https://catalog.ldc.upenn.edu/LDC2004S13}{Switchboard} (SWB) and
+  CallHome (CH) corpus.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Speech recognition}
+
+So what has changed?
+
+\begin{itemize}
+\tightlist
+\item
+  Introduction of new models for speech recognition based on Deep Neural
+  Networks (DNN) or Convolutional Neural Networks (CNN), replacing
+  models based on n-grams or Hidden Markov Models (HMM).
+\item
+  More availability of training data, often collected through speech
+  command interfaces (such as Google Now, Microsoft's Xbox chat
+  function).
+\item
+  Computational power to train DNN has increased: High Performance
+  Computing clusters and Graphical Processing Units (GPUs).
+\item
+  Recognition happens in the cloud, rather than on-board a device. This
+  offers more computational power and access to large networks.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Speech recognition}
+
+Question
+
+\begin{itemize}
+\tightlist
+\item
+  So, given that ASR performance seems high, how good is it really for
+  Human-Robot Interaction?
+\end{itemize}
+
+Human-Robot Interaction is unique
+
+\begin{itemize}
+\tightlist
+\item
+  There is often a noise environment.
+\item
+  Users are at a distance from the robot (and any speakers carried on
+  the robot). Almost all ASR engines have been trained on speech
+  recorded close to the microphone (\textless{} 10cm).
+\item
+  There might be a multi-party conversation (i.e.~multiple speakers).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Speech recognition for children}
+
+How well does speech recognition perform for child speech?
+
+\begin{itemize}
+\tightlist
+\item
+  For counting (1,2,3, \ldots{}) and short sentences \textbf{spoken by
+  adults}, recognition rate is \textbf{90\% using Nao microphone and
+  on-board ASR} (Nuance VoCon 4.7). And up to 99\% recognition with a
+  high-quality microphone and Google ASR.
+\item
+  Can we assume that ASR on children's speech will have the same
+  performance?
+\end{itemize}
+
+Child speech is very different from adult speech.
+
+\begin{itemize}
+\tightlist
+\item
+  Higher pitch (due to small vocal tracts).
+\item
+  higher number of disfluencies and, especially in younger children,
+  language utterances are often ungrammatical (e.g. ``The boy
+  \emph{putted} the frog in the box'').
+\end{itemize}
+
+\{\#section-5 style=``page-break-before:always;''\}
+
+\end{frame}
+
+\begin{frame}{Examples of recordings (cleaned-up, normalised)}
+
+\begin{itemize}
+\tightlist
+\item
+  Numbers (0 to 10)
+\item
+  Sentences
+\item
+  Spontaneous speech
+\end{itemize}
+
+Jacob, native English speaker
+
+Julia, native English speaker
+
+Clean
+
+Noisy
+
+(Recorded with studio microphone)
+
+\end{frame}
+
+\begin{frame}{Impact of microphone type}
+
+Recognition rate of numbers spoken by children, split by microphone type
+(62 utterances) using Nao's ASR engine (Nuance Vocon 4.7) constrained by
+a grammar containing only number words.
+
+\end{frame}
+
+\begin{frame}{Impact of background noise}
+
+Recognition rate of number utterances spoken by children, split by
+background noise level (83 total utterances) using Nao's ASR engine
+(Nuance Vocon 4.7) constrained by a grammar containing only number
+words.
+
+Clean
+
+Background noise
+
+\end{frame}
+
+\begin{frame}{Location of speaker wrt. Nao}
+
+\{\#section-6 style=``page-break-before:always;''\}
+
+With background noise
+
+Without background noise
+
+\end{frame}
+
+\begin{frame}{Classification}
+
+Social signal processing often relies on \textbf{classification.}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://en.wikipedia.org/wiki/Statistical_classification}{\textbf{Classification}}
+  is deciding on which \textbf{category} a new observation belongs to
+  based on training data.
+\item
+  The training data contains data and known categories.
+\item
+  Classification is a \textbf{supervised} learning algorithm.
+\end{itemize}
+
+Examples
+
+\begin{itemize}
+\tightlist
+\item
+  An incoming tweet needs to classified as being positive or negative.
+\item
+  An radar ping of a flying objects needs to be classified as belonging
+  to one of \emph{n} possible planes.
+\item
+  The prosody of speech needs to be classified as belonging to one of
+  six basic categories of emotion (happy, sad, angry, bored, surprised,
+  neutral).
+\item
+  A gesture filmed through a camera needs to be classified as meaning
+  stop, go, left or right.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Classification: example}
+
+\begin{itemize}
+\tightlist
+\item
+  Two dimensional problem.
+\item
+  Two categories, with training data for both categories.
+\item
+  To which category does a new observation belong?
+\end{itemize}
+
+?
+
+\end{frame}
+
+\begin{frame}{Classification}
+
+\begin{itemize}
+\tightlist
+\item
+  When categories can be linearly separated, we have a very easy
+  classification problem
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Classification}
+
+\begin{itemize}
+\tightlist
+\item
+  Three or more can still be linearly separated\ldots{}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Classification}
+
+\begin{itemize}
+\tightlist
+\item
+  But what if categories are not linearly separable?
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Two classification methods}
+
+Two methods will be explained here
+
+\begin{itemize}
+\tightlist
+\item
+  \(k\) Nearest Neighbour (kNN)
+\item
+  Support Vector Machines (SVM)
+\end{itemize}
+
+But there are hundreds of classifiers
+
+\begin{itemize}
+\tightlist
+\item
+  Decision trees
+\item
+  Random forest
+\item
+  Bayes classifiers
+\item
+  Neural Networks
+\item
+  \ldots{}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{\(k\) Nearest Neighbour}
+
+\begin{itemize}
+\tightlist
+\item
+  When an observation comes in, calculate the distance to \(k\) nearest
+  neighbours, the observation belongs to the most common class.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{\(k\) Nearest Neighbour}
+
+Choosing \(k\)
+
+\begin{itemize}
+\tightlist
+\item
+  Choose too small and it sensitive to classification noise.
+\item
+  Choose too large and classification accuracy decreases.
+\end{itemize}
+
+Decision border with \(k\)=1 and \(k\)=2
+
+\end{frame}
+
+\begin{frame}[fragile]{\(k\) Nearest Neighbour}
+
+\begin{block}{Python code for k Nearest Neighbour}
+
+\begin{pythoncode}
+def knn(k, data, dataClass, inputs):
+  nInputs = np.shape(inputs)[0]
+  closest = np.zeros(nInputs)
+
+  for n in range(nInputs):
+  
+  # Compute distances
+  distances = np.sum((data - inputs[n,:])\\2,axis=1)
+  
+  # Identify the nearest neighbours
+  indices = np.argsort(distances,axis=0)
+  classes = np.unique(dataClass[indices[:k]])
+  
+  if len(classes)==1:
+    closest[n] = np.unique(classes)
+  else:
+    counts = np.zeros(max(classes)+1)
+  
+  for i in range(k):
+    counts[dataClass[indices[i]]] += 1
+  
+  closest[n] = np.argmax(counts,axis=0)
+  return closest
+\end{pythoncode}
+
+\{\#section-7 style=``page-break-before:always;''\}
+
+\(k\) Nearest Neighbour usually does really well on a large number of
+classification problem, but can underperform near the classification
+boundary.
+
+Struggles with very large datasets, as it needs to calculate the
+distance to all training data every time you classify a new observation.
+
+\begin{itemize}
+\tightlist
+\item
+  Some work around are available, relying on approximate distances and
+  optimisation of the algorithmic code.
+\end{itemize}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Support Vector Machines}
+
+A very popular classification algorithm introduced by Vapnik in 1992.
+
+Often (but not always) provides very impressive classification
+performance on reasonably sized datasets.
+
+SVMs do not work well on extremely large datasets, since (as we shall
+see) the computations don't scale well with the number of training
+examples, and so become computationally very expensive.
+
+\begin{itemize}
+\tightlist
+\item
+  Training a SVM requires \emph{O(m3)} operations and \emph{O(m2)}
+  memory, with \emph{m} being the number of training samples\emph{.} For
+  example, if you have 10,000 training samples, the training will take
+  in the order of 1012 operations (imagine you can do 100,000
+  operations/second, you will need 108 seconds  3 years to train your
+  SVM and 1012 memory units.
+\end{itemize}
+
+As opposed to k Nearest Neighbour, SVM are more difficult to understand
+(although no knowledge of the algorithms internals is needed to use it).
+
+For more information on ``big O notation'', see time
+\href{https://en.wikipedia.org/wiki/Time_complexity}{complexity of
+algorithms}.
+
+\end{frame}
+
+\begin{frame}{SVM principle}
+
+Three different classification lines. All are correct, but is there any
+reason why one is better than the others?
+
+Intuitively, the line that is most distant to the training data is the
+best division.
+
+\begin{itemize}
+\tightlist
+\item
+  The empty area near the division line is symmetric. It forms a bar in
+  2D space, a cylinder in 3D space, and a hyper-cylinder in n-D space.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Classifier and Support vectors}
+
+The classifier in the middle is called the \textbf{maximum margin
+classifier}.
+
+The data points nearest the classifier are called \textbf{support
+vectors}.
+
+Two observations
+
+\begin{itemize}
+\tightlist
+\item
+  The margins should be as large as possible.
+\item
+  The support vectors are the most useful datapoints because they are
+  the ones that we might get wrong.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Linear classifier}
+
+A linear classifier for two categories can be written as
+\(y = w \cdot x + b\)
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{w}~·~\textbf{x}~= ∑\emph{i}~\emph{wixi}. This is called the
+  scalar product or inner product. Can also be written as a matrix
+  multiplication~\textbf{w}T\textbf{x}
+\item
+  \textbf{w} is a weight vector, tilting the line
+\item
+  \textbf{x} is a data point
+\item
+  \emph{b} is a bias, lifting the line up along the y-axis
+\end{itemize}
+
+\textbf{w} is such that if for an \textbf{x} observation \emph{y} is
+positive, then the observation belongs to one category (the `+'
+category). **** If \emph{y} is negative, the observation belongs to the
+`o' category.
+
+In SVM we want a margin \emph{M}, so we can rewrite the linear
+classifier. If \textbf{w}T\textbf{x}~+~\emph{b}~≥~\emph{M} than an
+observation belongs to `+', for \textbf{w}T\textbf{x}~+~\emph{b}~≤
+−\emph{M} it belongs to `o'.
+
+Now suppose that we pick a point~\textbf{x}+~that lies on the `+' class
+boundary line, so that~\textbf{w}T\textbf{x}+~=~\emph{M}. This is a
+\textbf{support vector}.
+
+\end{frame}
+
+\begin{frame}{Finding the optimal classifier}
+
+The problem is to find the \textbf{optimal} values for \textbf{w} and
+\emph{b.}
+
+The classifier needs to satisfy two conditions
+
+\begin{itemize}
+\tightlist
+\item
+  It needs to correctly classify the training data,
+\item
+  and needs the margin from the classifier to be as large as possible.
+\end{itemize}
+
+Let's assume the target values \emph{ti} of the categories are +1 and -1
+(not 0 and 1), we can rewrite the equation for the linear classifier
+as~\emph{ti}(\textbf{w}T\textbf{x}~+~\emph{b}) ≥ 1.
+
+A \textbf{quadratic programming solver} is used to find the optimal
+values for \textbf{w} and \emph{b.}
+
+\end{frame}
+
+\begin{frame}{Transformation of data}
+
+\begin{itemize}
+\tightlist
+\item
+  Unfortunately, all this still assumes that the data is linearly
+  separable. But what if it isn't, and we are not prepared for a few
+  misclassifications?
+\item
+  The solution is to \textbf{transform} the data: move data points in
+  the n-D space until the training data is linearly separable again
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Kernel methods}
+
+We can transform data points (= move them) or even add more dimensions.
+
+We are using some function Θ(x\emph{i}) from input~x\emph{i}.
+
+If we knew something about the data, then we might be able to identify
+functions that would be a good idea.
+
+\begin{itemize}
+\tightlist
+\item
+  Example, separating odd from even numbers
+\end{itemize}
+
+But we often don't have domain knowledge.
+
+A possible solution is to take \textbf{polynomials} of the input data:
+for example everything up to degree 2
+
+\begin{itemize}
+\tightlist
+\item
+  Starting from input data \emph{x}1,~\emph{x}2, \ldots{},~\emph{xd,}
+  square all data \emph{x}21,~\emph{x}22, \ldots{},~\emph{x}2\emph{d},
+  and also take all products of the
+  data~\emph{x}1\emph{x}2,~\emph{x}1\emph{x}3,
+  \ldots{},~\emph{xd}−1\emph{xd}.~
+\item
+  We've transformed a data set of \emph{d} elements into a set with
+  \emph{d}2/2~elements.
+\end{itemize}
+
+\{\#section-9 style=``page-break-before:always;''\}
+
+\begin{itemize}
+\tightlist
+\item
+  For example, for one dimension \emph{x}1 the data is linearly
+  inseparable. But adding a second dimension \emph{x}12 results in the
+  data being separable.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Which kernel to use?}
+
+\begin{itemize}
+\tightlist
+\item
+  As seen two slides ago, polynomials up to some degree~\emph{s}~in the
+  elements~\emph{xk}~of the input vector
+  (e.g.,~\emph{x}33~or~\emph{x}1\emph{x}4). This can be written as
+\item
+  Sigmoid functions of the~\emph{xk}s with parameters κ and δ, and
+  kernel:
+\item
+  Radial basis function expansions of the~\emph{xk}s with parameter σ
+  and kernel:
+\end{itemize}
+
+\{\#section-10 style=``page-break-before:always;''\}
+
+\begin{itemize}
+\tightlist
+\item
+  Choosing which kernel to use and the parameters in these kernels is a
+  tricky problem. While there is some theory based on something known as
+  the Vapnik--Chernik dimension that can be applied, most people just
+  experiment with different values and find one that works.
+\item
+  Let's experiment\ldots{} Install Weka
+  \url{http://www.cs.waikato.ac.nz/ml/weka/}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{The iris data set}
+
+Classifies three species of irises (flowers) on the bases of four
+properties
+
+\begin{itemize}
+\tightlist
+\item
+  Sepal length, sepal width, petal length, petal width
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Confusion: clustering and classification}
+
+\textbf{Clustering} is sometimes confused with \textbf{classification}.
+
+\begin{itemize}
+\tightlist
+\item
+  Often because some algorithms have similar names,e.g. \emph{k Means
+  clustering} and \emph{k Nearest Neighbours}.
+\end{itemize}
+
+\textbf{Clustering} starts from unlabelled data points and tries to find
+\(k\) clusters in the data.
+
+\begin{itemize}
+\tightlist
+\item
+  Used to find patterns in the data.
+\end{itemize}
+
+\textbf{Classification} starts from training data, and attempts to
+correctly classify and unknown observation.
+
+\end{frame}
+
+\begin{frame}{How to classify social signals?}
+
+Raw signals will in most cases require pre-processing to extract
+features.
+
+The raw social signal (audio or video) requires pre-processing to
+extract between 10 and over a 1000 \textbf{features}.
+
+\begin{itemize}
+\tightlist
+\item
+  A raw signals contains too much data, and cannot be fed to the
+  classifier immediately.
+\item
+  Pre-processing extracts feature data which is relevant for the
+  information which we are after (pitch, volume/energy, duration,
+  formant frequencies, \ldots{})
+\item
+  These features then form the input for the classifier.
+\end{itemize}
+
+For more information see, for example, Liang et al. (2005)
+\href{http://ieeexplore.ieee.org/xpls/icp.jsp?arnumber=1571239}{Feature
+analysis and extraction for audio automatic classification}, Systems,
+Man and Cybernetics, 2005 IEEE International Conference on.
+
+Did you know\ldots{} An exception to this are Convolutional Neural
+Networks, which can deal with unprocessed data.
+
+\end{frame}
+
+\begin{frame}{Example: recognising gender from speech}
+
+Can we automatically recognise someone's gender from speech?
+
+3,168 recorded voice samples, collected from male and female speakers.
+
+\begin{itemize}
+\tightlist
+\item
+  Examples from the database: male (US), female (US), male (Scotish)
+\end{itemize}
+
+The voice samples are pre-processed by acoustic analysis in R using the
+seewave, warbleR and tuneR packages, with an analysed frequency range of
+0hz-280hz (fundamental frequency of human speech).
+
+\begin{itemize}
+\tightlist
+\item
+  Extracted 20 features.
+\end{itemize}
+
+For data and more information see
+\url{https://www.kaggle.com/primaryobjects/voicegender}
+
+\end{frame}
+
+\begin{frame}{Example: recognising gender from speech}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{meanfreq}: mean frequency (in kHz)
+\item
+  \textbf{sd}: standard deviation of frequency
+\item
+  \textbf{median}: median frequency (in kHz)
+\item
+  \textbf{Q25}: first quantile (in kHz)
+\item
+  \textbf{Q75}: third quantile (in kHz)
+\item
+  \textbf{IQR}: interquantile range (in kHz)
+\item
+  \textbf{skew}: skewness (see note in specprop description)
+\item
+  \textbf{kurt}: kurtosis (see note in specprop description)
+\item
+  \textbf{sp.ent}: spectral entropy
+\item
+  \textbf{sfm}: spectral flatness
+\item
+  \textbf{mode}: mode frequency
+\item
+  \textbf{centroid}: frequency centroid (see specprop)
+\item
+  \textbf{peakf}: peak frequency (frequency with highest energy)
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{meanfun}: average of fundamental frequency measured across
+  acoustic signal
+\item
+  \textbf{minfun}: minimum fundamental frequency measured across
+  acoustic signal
+\item
+  \textbf{maxfun}: maximum fundamental frequency measured across
+  acoustic signal
+\item
+  \textbf{meandom}: average of dominant frequency measured across
+  acoustic signal
+\item
+  \textbf{mindom}: minimum of dominant frequency measured across
+  acoustic signal
+\item
+  \textbf{maxdom}: maximum of dominant frequency measured across
+  acoustic signal
+\item
+  \textbf{dfrange}: range of dominant frequency measured across acoustic
+  signal
+\item
+  \textbf{modindx}: modulation index. Calculated as the accumulated
+  absolute difference between adjacent measurements of fundamental
+  frequencies divided by the frequency range
+\end{itemize}
+
+The 20 features used for gender classification
+
+\end{frame}
+
+\begin{frame}{Example: recognising gender from speech}
+
+\begin{block}{Some examples of features vectors}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Example: recognising gender from speech}
+
+Performance
+
+\begin{itemize}
+\tightlist
+\item
+  kNN (k = 7): 97.8\% classified correctly.
+\item
+  SVM: 97.5\% classified correctly.
+\end{itemize}
+
+Recognising gender from speech is easy and robust.
+
+\begin{itemize}
+\tightlist
+\item
+  All classification algorithms can deal with this problem (at least all
+  the ones I tried).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Conclusion}
+
+Social signal processing is extracting relevant information from the
+social environment.
+
+Some work relatively well
+
+\begin{itemize}
+\tightlist
+\item
+  Face \textbf{detection}, voice activity detection, gender
+  classification, \ldots{}
+\end{itemize}
+
+Some work, but need improvement
+
+\begin{itemize}
+\tightlist
+\item
+  Gaze detection, basic emotion recognition, face \textbf{recognition},
+  speech recognition, \ldots{}
+\end{itemize}
+
+But still many open problems remaining
+
+\begin{itemize}
+\tightlist
+\item
+  Complex real-word affect and emotion recognition (e.g.~embarrassment,
+  pride).
+\item
+  Speech recognition for atypical speakers (children, elderly),
+  multi-party interaction, \ldots{}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{}
+    \begin{center}
+        \Large
+        That's all, folks!\\[2em]
+        \normalsize
+        Questions:\\
+        Portland Square A216 or \url{severin.lemaignan@plymouth.ac.uk} \\[1em]
+
+        Slides:\\ \href{https://github.com/severin-lemaignan/module-mobile-and-humanoid-robots}{\small github.com/severin-lemaignan/module-mobile-and-humanoid-robots}
+
+    \end{center}
+\end{frame}
+
+
+
+\end{document}
