@@ -5,8 +5,7 @@ TEXTARGETS=$(wildcard lecture-*/*.tex)
 
 TARGET=$(TEXTARGETS:.tex=.pdf)
 
-DOT=$(wildcard figs/*.dot)
-SVG=$(wildcard part[1-9]*/figs/*.svg)
+SVG=$(wildcard lecture-*/figs/*.svg)
 
 MODE ?= batchmode
 

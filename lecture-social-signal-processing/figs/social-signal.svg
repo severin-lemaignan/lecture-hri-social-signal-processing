@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1920pt"
+   height="1080pt"
+   viewBox="0 0 677.33335 381.00001"
+   version="1.1"
+   id="svg4766"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   sodipodi:docname="social-signal.svg">
+  <defs
+     id="defs4760">
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path9248"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="844.45294"
+     inkscape:cy="676.94111"
+     inkscape:document-units="mm"
+     inkscape:current-layer="g9675"
+     showgrid="false"
+     width="1920mm"
+     units="pt"
+     inkscape:snap-bbox="true"
+     inkscape:snap-page="true"
+     inkscape:window-width="2560"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="873"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata4763">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,84.000061)">
+    <image
+       sodipodi:absref="/home/slemaignan/teaching/aint512/lecture-social-signal-processing/figs/social-signal-te3ars-of-steel.png"
+       xlink:href="social-signal-te3ars-of-steel.png"
+       style="stroke-width:0.49860141"
+       width="677.33331"
+       height="284.16251"
+       preserveAspectRatio="none"
+       id="image9535"
+       x="-4.4160828e-16"
+       y="-41.188385" />
+    <g
+       id="g9558">
+      <text
+         id="text9540"
+         y="-56.893948"
+         x="428.64178"
+         style="font-style:normal;font-weight:normal;font-size:19.5977478px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FlamaLight;-inkscape-font-specification:FlamaLight;stroke-width:0.26458332px"
+           y="-56.893948"
+           x="428.64178"
+           id="tspan9538"
+           sodipodi:role="line">Emotions</tspan></text>
+      <g
+         transform="translate(0.75595238,-7.5595238)"
+         style="opacity:0.781"
+         id="g9551">
+        <path
+           style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 421.82142,-47.336371 363.99107,12.383865"
+           id="path9542"
+           inkscape:connector-curvature="0" />
+        <circle
+           style="opacity:1;vector-effect:non-scaling-stroke;fill:#000000;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.49803904"
+           id="path9544"
+           cx="364.48648"
+           cy="12.04503"
+           r="6.0951056" />
+      </g>
+    </g>
+    <g
+       id="g9570"
+       transform="translate(-156.86012,-8.3154762)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:19.5977478px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="373.07928"
+         y="-50.647167"
+         id="text9562"><tspan
+           sodipodi:role="line"
+           id="tspan9560"
+           x="373.07928"
+           y="-50.647167"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FlamaLight;-inkscape-font-specification:FlamaLight;stroke-width:0.26458332px">Gestures</tspan></text>
+      <g
+         id="g9568"
+         style="opacity:0.781"
+         transform="rotate(-62.112588,405.67809,-44.295928)"
+         inkscape:transform-center-x="9.8277326"
+         inkscape:transform-center-y="-36.258013">
+        <path
+           inkscape:connector-curvature="0"
+           id="path9564"
+           d="M 410.34264,-37.028493 363.99107,12.383865"
+           style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           sodipodi:nodetypes="cc" />
+        <circle
+           r="6.0951056"
+           cy="12.04503"
+           cx="364.48648"
+           id="circle9566"
+           style="opacity:1;vector-effect:non-scaling-stroke;fill:#000000;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.49803904" />
+      </g>
+    </g>
+    <g
+       id="g9582"
+       transform="translate(2.6726953,328.20698)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:19.5977478px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="520.04797"
+         y="-42.995934"
+         id="text9574"><tspan
+           sodipodi:role="line"
+           id="tspan9572"
+           x="520.04797"
+           y="-42.995934"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FlamaLight;-inkscape-font-specification:FlamaLight;stroke-width:0.26458332px">Body posture</tspan></text>
+      <g
+         id="g9580"
+         style="opacity:0.781"
+         transform="rotate(82.533789,473.79739,0.53523447)">
+        <path
+           inkscape:connector-curvature="0"
+           id="path9576"
+           d="M 421.82142,-47.336371 363.99107,12.383865"
+           style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <circle
+           r="6.0951056"
+           cy="12.04503"
+           cx="364.48648"
+           id="circle9578"
+           style="opacity:1;vector-effect:non-scaling-stroke;fill:#000000;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.49803904" />
+      </g>
+    </g>
+    <g
+       transform="translate(-289.42581,61.174601)"
+       id="g9594">
+      <text
+         id="text9586"
+         y="-7.9001613"
+         x="389.91095"
+         style="font-style:normal;font-weight:normal;font-size:19.5977478px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FlamaLight;-inkscape-font-specification:FlamaLight;stroke-width:0.26458332px"
+           y="-7.9001613"
+           x="389.91095"
+           id="tspan9584"
+           sodipodi:role="line">Gaze</tspan></text>
+      <g
+         inkscape:transform-center-y="11.517541"
+         inkscape:transform-center-x="35.663667"
+         transform="rotate(-154.59419,428.83446,-29.885948)"
+         style="opacity:0.781"
+         id="g9592">
+        <path
+           sodipodi:nodetypes="cc"
+           style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 410.34264,-37.028493 363.99107,12.383865"
+           id="path9588"
+           inkscape:connector-curvature="0" />
+        <circle
+           style="opacity:1;vector-effect:non-scaling-stroke;fill:#000000;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.49803904"
+           id="circle9590"
+           cx="364.48648"
+           cy="12.04503"
+           r="6.0951056" />
+      </g>
+    </g>
+    <g
+       id="g9606"
+       transform="translate(-343.70861,275.82215)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:19.5977478px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="394.43127"
+         y="8.8543558"
+         id="text9598"><tspan
+           sodipodi:role="line"
+           id="tspan9596"
+           x="394.43127"
+           y="8.8543558"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FlamaLight;-inkscape-font-specification:FlamaLight;stroke-width:0.26458332px">Verbal communication</tspan></text>
+      <g
+         id="g9604"
+         style="opacity:0.781"
+         transform="translate(3.9631867,-9.69768)">
+        <path
+           inkscape:connector-curvature="0"
+           id="path9600"
+           d="M 387.07638,12.532003 363.99107,12.383865"
+           style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           sodipodi:nodetypes="cc" />
+        <circle
+           r="6.0951056"
+           cy="12.04503"
+           cx="364.48648"
+           id="circle9602"
+           style="opacity:1;vector-effect:non-scaling-stroke;fill:#000000;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.49803904" />
+      </g>
+    </g>
+    <g
+       transform="translate(-343.70861,255.50967)"
+       id="g9618">
+      <text
+         id="text9610"
+         y="8.8543558"
+         x="394.43127"
+         style="font-style:normal;font-weight:normal;font-size:19.5977478px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FlamaLight;-inkscape-font-specification:FlamaLight;stroke-width:0.26458332px"
+           y="8.8543558"
+           x="394.43127"
+           id="tspan9608"
+           sodipodi:role="line">Prosody</tspan></text>
+      <g
+         transform="translate(3.9631867,-9.69768)"
+         style="opacity:0.781"
+         id="g9616">
+        <path
+           sodipodi:nodetypes="cc"
+           style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 387.07638,12.532003 363.99107,12.383865"
+           id="path9612"
+           inkscape:connector-curvature="0" />
+        <circle
+           style="opacity:1;vector-effect:non-scaling-stroke;fill:#000000;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.49803904"
+           id="circle9614"
+           cx="364.48648"
+           cy="12.04503"
+           r="6.0951056" />
+      </g>
+    </g>
+    <g
+       id="g9661"
+       transform="translate(-278.20049,43.534812)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:19.5977478px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="435.05484"
+         y="-58.681374"
+         id="text9653"><tspan
+           sodipodi:role="line"
+           id="tspan9651"
+           x="435.05484"
+           y="-58.681374"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:50%;font-family:FlamaLight;-inkscape-font-specification:FlamaLight;text-align:end;text-anchor:end;stroke-width:0.26458332px"
+           dy="0">Face</tspan><tspan
+           sodipodi:role="line"
+           x="435.05484"
+           y="-34.184189"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:50%;font-family:FlamaLight;-inkscape-font-specification:FlamaLight;text-align:end;text-anchor:end;stroke-width:0.26458332px"
+           id="tspan9663">identification</tspan></text>
+      <g
+         id="g9659"
+         style="opacity:0.781"
+         transform="rotate(-122.4719,419.18277,-54.75315)"
+         inkscape:transform-center-x="37.482241"
+         inkscape:transform-center-y="-5.200903">
+        <path
+           inkscape:connector-curvature="0"
+           id="path9655"
+           d="M 410.34264,-37.028493 363.99107,12.383865"
+           style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           sodipodi:nodetypes="cc" />
+        <circle
+           r="6.0951056"
+           cy="12.04503"
+           cx="364.48648"
+           id="circle9657"
+           style="opacity:1;vector-effect:non-scaling-stroke;fill:#000000;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.49803904" />
+      </g>
+    </g>
+    <g
+       transform="translate(-159.85707,328.20698)"
+       id="g9675">
+      <text
+         id="text9667"
+         y="-42.995934"
+         x="520.04797"
+         style="font-style:normal;font-weight:normal;font-size:19.5977478px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FlamaLight;-inkscape-font-specification:FlamaLight;stroke-width:0.26458332px"
+           y="-42.995934"
+           x="520.04797"
+           id="tspan9665"
+           sodipodi:role="line">Proxemics</tspan></text>
+      <g
+         transform="rotate(82.533789,480.34685,-18.935401)"
+         style="opacity:0.781"
+         id="g9673">
+        <path
+           style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 443.27413,-59.773265 -79.28306,72.15713"
+           id="path9669"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <circle
+           style="opacity:1;vector-effect:non-scaling-stroke;fill:#000000;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.49803904"
+           id="circle9671"
+           cx="364.48648"
+           cy="12.04503"
+           r="6.0951056" />
+      </g>
+    </g>
+  </g>
+</svg>

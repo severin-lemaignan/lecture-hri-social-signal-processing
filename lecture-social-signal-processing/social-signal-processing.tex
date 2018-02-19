@@ -18,9 +18,6 @@
 \usepackage{booktabs}
 
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-
 
 \usetheme{hri}
 
@@ -51,52 +48,78 @@
 
 \maketitle
 
-\begin{frame}{Social signal processing}
+\section[Social signals?]{What are Social Signals?}
 
+\videoframe[0.56]{figs/tears-of-steel-extract.mp4}
+\imageframe{social-signal}
+
+
+{
+    \paper{Burgoon, Magnenat-Thalmann, Pantic, Vinciarelli, {\bf Social Signal Processing}, 2017}
+
+\begin{frame}{What are social signals?}
+
+
+    \begin{itemize}
+        \item<1-> Social signals are \emph{observable} behaviours that people
+            display during social interactions
+        \item<2-> Social signals from individual A \emph{produces changes} in others
+            (like creating a belief about A, generating an appropriate social
+            response, perform an actions)
+        \item<3-> the changes are not random, they follow \emph{principles and
+            laws} (in particular, \emph{social norms})
+
+    \end{itemize}
+
+\end{frame}
+}
+
+\begin{frame}{Why?}
 \begin{itemize}
-\tightlist
-\item
-  The ability to recognize human social signals and social behaviours
+
+\item The ability to recognize human social signals and social behaviours
   like turn taking, politeness, and disagreement.
-\item
-  Essential when building social robots, human-robot interaction,
+\item Essential when building social robots, human-robot interaction,
   interactive systems, \ldots{}
 \end{itemize}
 
-Vinciarelli, A., Pantic, M., \& Bourlard, H. (2009).
-\href{http://www.dcs.gla.ac.uk/~vincia/papers/sspsurvey.pdf}{Social
-signal processing: Survey of an emerging domain}.~\emph{Image and Vision
-Computing},~\emph{27}(12), 1743-1759.
+    \begin{exampleblock}{3 main problems}
 
+    \begin{itemize}
+        \item \emph{Modeling}: identification of the principles and laws
+        \item \emph{Analysis}: automatic detection and interpretation
+        \item \emph{Synthesis}: automatic generation of artificial social
+            signals
+    \end{itemize}
+
+    \end{exampleblock}
 \end{frame}
 
 \begin{frame}{Is it hard?}
 
-Again, as with most human activities that seem easy to us, social signal
+    On the following video, pay particular attention to turn taking
+\end{frame}
+
+\videoframe[0.56]{figs/social-signal.mkv}
+
+\begin{frame}{Is it hard?}
+
+As with most human activities that seem easy to us, social signal
 processing is tremendously hard.
 
 Often broken down in smaller, sometimes more manageable, tasks:
 
 \begin{itemize}
-\tightlist
-\item
-  People detection
-\item
-  Face detection
-\item
-  Face recognition
-\item
-  Gesture recognition
-\item
-  Gaze detection
-\item
-  Facial expression reading (wink, blink, talking, \ldots{})
-\item
-  Detection of social signals from verbal communication
-\item
-  Emotion recognition (from faces, movement, speech, \ldots{})
-\item
-  \ldots{}
+
+\item People detection
+\item Face detection
+\item Face recognition
+\item Gesture recognition
+\item Gaze detection
+\item Facial expression reading (wink, blink, talking, \ldots{})
+\item Detection of social signals from verbal communication
+\item Emotion recognition (from faces, movement, speech, \ldots{})
+\item \ldots{}
 \end{itemize}
 
 \end{frame}
@@ -104,7 +127,7 @@ Often broken down in smaller, sometimes more manageable, tasks:
 \begin{frame}{In this lecture}
 
 \begin{itemize}
-\tightlist
+
 \item
   A historical case study: Kismet.
 \item
@@ -119,156 +142,240 @@ Often broken down in smaller, sometimes more manageable, tasks:
 
 \end{frame}
 
-\begin{frame}{Case study: Kismet's vision system}
 
-Remember Kismet?
-(\href{https://www.youtube.com/watch?v=8KRZX5KL4fA}{video})
+\begin{frame}{Next 2 weeks}
 
-\begin{itemize}
-\tightlist
-\item
-  Built by Cynthia Breazeal and a team of postgrad students at the
-  Massachusetts Institute of Technology (MIT).
-\end{itemize}
+    More technical:
 
-Primary goal: implement an \textbf{attention system}: directing gaze
-towards salient features.
-
-\begin{itemize}
-\tightlist
-\item
-  This should be real-time.
-\item
-  Should resemble the attention system of human infants.
-\end{itemize}
-
-Attention to several cues:
-
-\begin{itemize}
-\tightlist
-\item
-  Skin tone
-\item
-  Saturated colours
-\item
-  Motion
-\end{itemize}
-
-Note that detecting skin tone is easier than detection faces, and often
-has the same result as face detection
-
-\{\#section style=``page-break-before:always;''\}
+    \begin{itemize}
+        \item How to extract facial features
+        \item How to estimate gaze
+        \item How to measure attention
+        \item How to recognise a face
+        \item How to model emotions
+    \end{itemize}
 
 \end{frame}
 
+\begin{frame}[plain]
+\centering
+        \resizebox{!}{0.9\paperheight}{%
+            \begin{tikzpicture}[
+                    >=latex,
+                every edge/.style={<-, draw, very thick}]
+        
+
+            \path[small mindmap, 
+                level 1 concept/.append style={sibling angle=90}, 
+                level 2 concept/.append style={sibling angle=60}, 
+            concept color=white,text=hriWarmGreyDark]
+            node[concept, visible on=<1-3>] {\bf Social\\Signals...}
+            [clockwise from=0]
+            child[concept color=hriSec2] { node[concept] (percept){...on the face}
+                [clockwise from=30]
+                child[concept color=hriSec3Dark,text=white] { node[concept]
+                (emotions) {Emotions} }
+                child[concept color=hriSec2Dark,text=white] { node[concept] (attention) {Gaze} };
+            }
+            child[concept color=hriSec2Comp,text=white,visible on=<2->] { node[concept] (knowledge) {...from the body}
+                [counterclockwise from=-150]
+                child[concept color=hriSec1CompDark,text=white] { node[concept] (soc-rules) {Proxemics} }
+                child[concept color=hriSec3Comp,text=black] { node[concept] (soc-ctxt) {Body posture} }
+                child[concept color=hriSec2Dark,text=white] { node[concept] (memory) {Gestures} };
+            }
+            child[concept color=hriSec3Comp,text=black,visible on=<3->] { node[concept] (comm) {...in the voice} 
+                [counterclockwise from=90]
+                child[concept color=hriSec1CompDark,text=white] { node[concept] (dialog) {Prosody} }
+                child[concept color=hriSec3,text=white] { node[concept] (dialog) {Verbal communication} }
+                child[concept color=hriSec1Dark,text=white] { node[concept] (non-verbal) {Non-verbal} };
+            };
+
+
+        \end{tikzpicture}
+    }
+\end{frame}
+
+\section[Kismet]{Case study: Kismet's vision system}
+
+
+\begin{frame}{Case study: Kismet's vision system}
+
+    \only<1>{
+        Remember Kismet?
+
+    \begin{center}
+    \video{0.7\paperwidth}{figs/kismet.mp4}
+    \end{center}
+
+
+
+    Built by Cynthia Breazeal and a team of postgrad students at the
+    Massachusetts Institute of Technology (MIT) in 1997.
+}
+    \only<2>{
+
+        Primary goal: implement an \textbf{attention system}: directing gaze
+    towards salient features.
+
+    \begin{itemize}
+        \item This should be real-time.
+        \item Should resemble the attention system of human infants.
+    \end{itemize}
+
+    \begin{columns}
+        \begin{column}{0.4\linewidth}
+    Attention to several cues:
+
+    \begin{itemize}
+        \item Skin tone
+        \item Saturated colours
+        \item Motion
+    \end{itemize}
+            
+        \end{column}
+        \begin{column}{0.6\linewidth}
+    \begin{center}
+        \includegraphics[width=\columnwidth]{colormap}
+    \end{center}
+        \end{column}
+    \end{columns}
+
+
+    Note that detecting skin tone is easier than detecting faces, and often
+    has the same result as face detection
+}
+\end{frame}
+
+\imageframe{attention}
+
 \begin{frame}{Skin tone feature detector}
 
-Incoming stream is 8-bit colour images, 128 by 128 pixels.
+    Incoming stream is 8-bit colour images, 128 by 128 pixels\bubblemark{128x128}.
 
-\begin{itemize}
-\tightlist
-\item
+
+    \bubble<1>[70][0.7][5cm]{128x128}{
   128 x 128 resolution limit caused by hardware throughput and
   computation available at the time, current hardware will be able to
-  handle megapixel resolution in real-time.
-\end{itemize}
+    handle megapixel resolution in real-time.}
 
-A pixel is not skin-toned if
+    A pixel is \emph{not} skin-toned if:
 
 \begin{itemize}
-\tightlist
-\item
-  R \textless{} 1.1 G and
-\item
-  R \textless{} 0.9 B and
-\item
-  R \textgreater{} 2.0 max(G,B) and
-\item
-  R \textless{} 20 and
-\item
-  R \textgreater{} 250
+\item $R < 1.1 G$ and
+\item $R < 0.9 B$ and
+\item $R > 2.0 \times max(G,B)$ and
+\item $R < 20$ and
+\item $R > 250$
 \end{itemize}
 
 This simple procedure works for most skin colours and under most
 lighting conditions.
 
-\begin{itemize}
-\tightlist
-\item
   It is claimed this even works with non-Caucasian skin, as it picks up
   a colour component in the blood.
-\end{itemize}
 
-\{\#section-1 style=``page-break-before:always;''\}
 
-Cut through RGB 3-dimensional space, picking out only skin tone RGB
-values
+\end{frame}
 
-Result of skin tone detector in action.
+\begin{frame}{Skin tone feature detector}
+
+    \begin{center}
+        \includegraphics[width=\linewidth]{skin-tone}
+    \end{center}
+
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            Cut through RGB 3-dimensional space, picking out only skin tone RGB
+            values
+
+
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            Result of skin tone detector in action.
+        \end{column}
+    \end{columns}
 
 \end{frame}
 
 \begin{frame}[fragile]{Saturation detector}
 
-Covert RGB to HSV values
+Convert RGB to HSV values
 
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
 \begin{itemize}
-\tightlist
-\item
-  From \textless{}red, green, blue\textgreater{} to \textless{}hue,
-  saturation, value\textgreater{} representation.
-\item
-  \textbf{hue} is the ``colour'', \textbf{saturation} is how deep the
+
+    \item From \texttt{<red, green, blue>} to \texttt{<hue, saturation, value>} representation.
+\item \textbf{hue} is the ``colour'', \textbf{saturation} is how deep the
   colour is and \textbf{value} is how bright the pixel is.
-\item
-  Usually an excellent first step in computer vision when processing
+\item Usually an excellent first step in computer vision when processing
   colour images, as it removes the effect of uneven lighting.
 \end{itemize}
+            
+        \end{column}
+        \begin{column}{0.5\linewidth}
 
-(from MATLAB)
+    \begin{center}
+        \includegraphics[width=\columnwidth]{hsv}
+    \end{center}
 
-\begin{matlabcode}
-// r,g,b values are from 0 to 1
-// h = [0,360], s = [0,1], v = [0,1]
-// if s == 0, then h = -1 (undefined)
+        \end{column}
+    \end{columns}
 
-void RGBtoHSV( float r, float g, float b, float \h, float \s, float \v )
-{
 
-    float min, max, delta;
-    min = MIN( r, g, b );
-    max = MAX( r, g, b );
-    \v = max; // v
-    delta = max - min;
-    if( max != 0 )
-        \s = delta / max; // s
-    else {
-        // r = g = b = 0 // s = 0, v is undefined
-        \s = 0;
-        \h = -1;
-        return;
-    }
+\end{frame}
 
-    if( r == max )
-        \h = ( g - b ) / delta; // between yellow & magenta
-    else if( g == max )
-        \h = 2 + ( b - r ) / delta; // between cyan & yellow
-    else
-        \h = 4 + ( r - g ) / delta; // between magenta & cyan
-    \h \= 60; // degrees
-    if( \h &lt; 0 )
-        \h += 360;
-}
-\end{matlabcode}
+\begin{frame}[fragile]{RGB to HSV in Python}
 
-From \url{https://www.cs.rit.edu/~ncs/color/t_convert.html}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+\begin{pythoncode}
+def rgb2hsv(r, g, b):
+    r, g, b = r/255.0, g/255.0, b/255.0
+    mx = max(r, g, b)
+    mn = min(r, g, b)
+    df = mx-mn
+    if mx == mn:
+        h = 0
+    elif mx == r:
+        h = (60 * ((g-b)/df) + 360) % 360
+    elif mx == g:
+        h = (60 * ((b-r)/df) + 120) % 360
+    elif mx == b:
+        h = (60 * ((r-g)/df) + 240) % 360
+    if mx == 0:
+        s = 0
+    else:
+        s = df/mx
+    v = mx
+    return h, s, v
+\end{pythoncode}
+\source{http://code.activestate.com/recipes/576919-python-rgb-and-hsv-conversion/}{Python recipes}
+            
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \vspace{4cm}
+
+or better:
+
+\begin{pythoncode}
+import colorsys
+colorsys.rgb_to_hsv(0.2, 0.4, 0.4)
+--> (0.5, 0.5, 0.4)
+colorsys.hsv_to_rgb(0.5, 0.5, 0.4)
+--> (0.2, 0.4, 0.4)
+\end{pythoncode}
+
+        \end{column}
+    \end{columns}
+
 
 \end{frame}
 
 \begin{frame}[fragile]{Saturation detector}
 
 \begin{itemize}
-\tightlist
+
 \item
   Convert image from RGB to HSV, and mark pixels (by setting them to
   WHITE) that have a saturation over a certain threshold.
@@ -306,7 +413,7 @@ void centerOfGravity (int[][] image, int imageWidth,
 \begin{frame}[fragile]{Motion detector}
 
 \begin{itemize}
-\tightlist
+
 \item
   Motion is a strong social signal, essential for survival (both in
   detecting prey and predator). Robots are expected to be sensitive to
@@ -335,27 +442,36 @@ int[][] motionDetection (int[][] image,
 
 \end{frame}
 
+\begin{frame}{Optical flow}
+
+    Today, motion detection is performed by computing the \emph{optical flow}
+    of a video stream.
+
+    \video{0.8\paperwidth}{figs/optical_flow.mp4}
+
+    The colours indicate the direction in which each pixel moves.
+
+
+\end{frame}
+
+
 \begin{frame}{Post-attentive processing}
 
 After attention has been fixed, run some additional algorithms
 
 \begin{itemize}
-\tightlist
-\item
-  Eye detection: using template matching.
-\item
-  Proximity estimation: using stereo vision.
-\item
-  Loom detection: if the size of the motion blob increases rapidly.
-\item
-  Threat detection: rapid motion or fast looming.
+
+\item Eye detection: using template matching.
+\item Proximity estimation: using stereo vision.
+\item Loom detection: if the size of the motion blob increases rapidly.
+\item Threat detection: rapid motion or fast looming.
 \end{itemize}
 
 The results of these visual processes feed into the behaviour manager of
 the robot.
 
 \begin{itemize}
-\tightlist
+
 \item
   Robot focuses on visual regions that draw its attention
 \end{itemize}
@@ -364,42 +480,33 @@ the robot.
 
 \begin{frame}{Selection of attention}
 
-Kismet does not attend to all three features for computational reasons,
-but selects one according to its current behaviour.
+Kismet does not attend to all three features for computational
+reasons\bubblemark{processingpower}, but selects one according to its
+current behaviour.
+
+For example, when the {\tt seek\_people} behaviour is active, it uses skin tone
+to direct its attention.
+
+\bubble<1>[110][1.7][5cm]{processingpower}{ This was back in early 2000s.
+Current hardware can handle this computational load without problem.
+However, it is good practice to not spend processor cycles on signals you
+do not require.  }
+
+    \onslide<2>{
+Implementation: an \textbf{attention activation map}
 
 \begin{itemize}
-\tightlist
-\item
-  For example, when the seek\_people behaviour is active, it uses skin
-  tone to direct its attention.
-\item
-  This was back in early 2000, current hardware can handle this
-  computational lead without problem. However, it is good practice to
-  not spend processor cycles on signals you do not require.
+    \item A 128 by 128 map of activation for the feature detectors is
+    constructed.
+    \item A threshold is applied to get rid of noise.
+    \item Connected regions are found using the 4-connect algorithm.
+    \item Regions of less than 30 pixels are thrown away.
+    \item Centroid is computed.
+    \item Attention is drawn to largest region.
 \end{itemize}
 
-Implementation
-
-An attention activation map is built.
-
-\begin{itemize}
-\tightlist
-\item
-  A 128 by 128 map of activation for the feature detectors is
-  constructed.
-\item
-  A threshold is applied to get rid of noise.
-\item
-  Connected regions are found using the 4-connect algorithm.
-\item
-  Regions of less than 30 pixels are thrown away.
-\item
-  Centroid is computed.
-\item
-  Attention is drawn to largest region.
-\end{itemize}
-
-Attention map is independent of the feature (color, motion, \ldots{})
+The attention map is independent of the feature (color, motion, \ldots{})
+}
 
 \end{frame}
 
@@ -410,16 +517,13 @@ Kismet does not understand human language!
 It only pays attention to emotional content of speech. This is done
 though monitoring \textbf{prosody}.
 
-The advantage is that this is
+Advantages:
 
 \begin{itemize}
-\tightlist
-\item
-  rather easy and computationally inexpensive.
-\item
-  the robot is not committed to one single language.
-\item
-  the robot is speaker independent.
+
+\item rather easy and computationally inexpensive
+\item the robot is not committed to one single language
+\item the robot is speaker independent
 \end{itemize}
 
 \end{frame}
@@ -429,40 +533,26 @@ The advantage is that this is
 „Sie haben es gerade hochgetragen und jetzt gehen sie wieder runter``
 (They just carried it upstairs and now they are going down again).
 
-\begin{itemize}
-\tightlist
-\item
-  From \href{http://www.expressive-speech.net/}{Berlin Database of
+    \begin{center}
+    \video[1]{1cm}{figs/prosody/media1.mp4}\hspace{0.3em}
+    \video[1]{1cm}{figs/prosody/media2.mp4}\hspace{0.3em}
+    \video[1]{1cm}{figs/prosody/media3.mp4}\hspace{0.3em}
+    \video[1]{1cm}{figs/prosody/media4.mp4}\hspace{0.3em}
+    \video[1]{1cm}{figs/prosody/media5.mp4}
+    \end{center}
+
+    \source{http://emodb.bilderbar.info/start.html}{Berlin Database of
   Emotional Speech}
-\end{itemize}
+
 
 Which emotion do you recognise?
 
-\begin{itemize}
-\tightlist
-\item
-  Anger
-\item
-  Boredom
-\item
-  Disgust
-\item
-  Anxiety/Fear
-\item
-  Happiness
-\item
-  Sadness
-\item
-  Neutral
-\end{itemize}
+
+    \textbf{Anger} -- \textbf{Boredom} -- \textbf{Disgust} -- \textbf{Anxiety/Fear} -- \textbf{Happiness} --
+    \textbf{Sadness} --  \textbf{Neutral}
 
 Humans recognise emotions from prosody with approx. 80\% accuracy
-
-\begin{itemize}
-\tightlist
-\item
-  Caveat: this is for speech spoken by actors in a recording studio
-\end{itemize}
+(\textit{caveat: this is for speech spoken by actors in a recording studio})
 
 \end{frame}
 
@@ -471,7 +561,7 @@ Humans recognise emotions from prosody with approx. 80\% accuracy
 Compute features from the samples
 
 \begin{itemize}
-\tightlist
+
 \item
   Pitch mean
 \item
@@ -486,60 +576,64 @@ Compute features from the samples
   \ldots{}
 \end{itemize}
 
+    \begin{center}
+        \includegraphics[width=0.8\linewidth]{prosody}
+    \end{center}
+
 \end{frame}
 
 \begin{frame}{Audio processing stream in Kismet}
 
-Many different samples were recorded and classified by a human subject.
-Then an algorithm was trained (Expectation Maximisation) to classify the
-samples into five distinct classes.
+    Many different samples were recorded and classified by a human subject.
+    Then an algorithm was trained (Expectation Maximisation) to classify the
+    samples into five distinct classes.
 
-\begin{itemize}
-\tightlist
-\item
-  Approvals.
-\item
-  Attention drawing.
-\item
-  Prohibition.
-\item
-  Comforting.
-\item
-  Neutral.
-\end{itemize}
+    \begin{itemize}
+        \item Approvals
+        \item Attention drawing
+        \item Prohibition
+        \item Comforting
+        \item Neutral
+    \end{itemize}
+
+    \begin{center}
+        \includegraphics[width=0.8\linewidth]{kismet-audio-processing}
+    \end{center}
 
 \end{frame}
 
+\section{Speech recognition}
+
 \begin{frame}{Speech recognition}
 
-See Guido's lectures, but here's a small heads up.
+    See Guido's lectures, but here's a small heads up.
 
-Automated Speech Recognition has improved tremendously over the past few
-years.
+    Automated Speech Recognition has improved tremendously over the past few
+    years.
 
-\begin{itemize}
-\tightlist
-\item
-  Improved recognition performance.
-\item
-  Speaker independence.
-\item
-  Can deal with a larger amount of background noise.
-\end{itemize}
+    \begin{itemize}
+        \item Improved recognition performance
+        \item Speaker independence
+        \item Can deal with a larger amount of background noise
+    \end{itemize}
 
-Plenty of reports on increased performance
+    Plenty of reports on increased performance
 
 \begin{itemize}
-\tightlist
+
 \item
   ``\href{https://blogs.microsoft.com/next/2016/10/18/historic-achievement-microsoft-researchers-reach-human-parity-conversational-speech-recognition/\#g5qKXHrZZ2pbxuPH.99}{Historic
   Achievement: Microsoft researchers reach human parity in
   conversational speech recognition}'' (Oct 2016)
 \item
-  Error rate (\textasciitilde{} \% of misunderstood words) on
+  Error rate (\% of misunderstood words) on
   \href{https://catalog.ldc.upenn.edu/LDC2004S13}{Switchboard} (SWB) and
   CallHome (CH) corpus.
 \end{itemize}
+
+    \begin{center}
+        \includegraphics[width=0.8\linewidth]{asr-error-rates}
+    \end{center}
 
 \end{frame}
 
@@ -548,31 +642,33 @@ Plenty of reports on increased performance
 So what has changed?
 
 \begin{itemize}
-\tightlist
-\item
-  Introduction of new models for speech recognition based on Deep Neural
+
+\item Introduction of new models for speech recognition based on Deep Neural
   Networks (DNN) or Convolutional Neural Networks (CNN), replacing
   models based on n-grams or Hidden Markov Models (HMM).
-\item
-  More availability of training data, often collected through speech
+
+        \begin{center}
+            \includegraphics[width=0.8\linewidth]{asr-evolution}
+        \end{center}
+\item More availability of training data, often collected through speech
   command interfaces (such as Google Now, Microsoft's Xbox chat
   function).
-\item
-  Computational power to train DNN has increased: High Performance
+\item Computational power to train DNN has increased: High Performance
   Computing clusters and Graphical Processing Units (GPUs).
-\item
-  Recognition happens in the cloud, rather than on-board a device. This
+\item Recognition happens in the cloud, rather than on-board a device. This
   offers more computational power and access to large networks.
 \end{itemize}
 
 \end{frame}
+
+\imageframe[caption=Open-source efforts by Mozilla]{common-voice-project}
 
 \begin{frame}{Speech recognition}
 
 Question
 
 \begin{itemize}
-\tightlist
+
 \item
   So, given that ASR performance seems high, how good is it really for
   Human-Robot Interaction?
@@ -581,7 +677,7 @@ Question
 Human-Robot Interaction is unique
 
 \begin{itemize}
-\tightlist
+
 \item
   There is often a noise environment.
 \item
@@ -599,7 +695,7 @@ Human-Robot Interaction is unique
 How well does speech recognition perform for child speech?
 
 \begin{itemize}
-\tightlist
+
 \item
   For counting (1,2,3, \ldots{}) and short sentences \textbf{spoken by
   adults}, recognition rate is \textbf{90\% using Nao microphone and
@@ -613,7 +709,7 @@ How well does speech recognition perform for child speech?
 Child speech is very different from adult speech.
 
 \begin{itemize}
-\tightlist
+
 \item
   Higher pitch (due to small vocal tracts).
 \item
@@ -622,14 +718,14 @@ Child speech is very different from adult speech.
   \emph{putted} the frog in the box'').
 \end{itemize}
 
-\{\#section-5 style=``page-break-before:always;''\}
-
 \end{frame}
+
+\imageframe{child-speech}
 
 \begin{frame}{Examples of recordings (cleaned-up, normalised)}
 
 \begin{itemize}
-\tightlist
+
 \item
   Numbers (0 to 10)
 \item
@@ -652,6 +748,10 @@ Noisy
 
 \begin{frame}{Impact of microphone type}
 
+    \begin{center}
+        \includegraphics[width=0.8\linewidth]{mic_graph}
+    \end{center}
+
 Recognition rate of numbers spoken by children, split by microphone type
 (62 utterances) using Nao's ASR engine (Nuance Vocon 4.7) constrained by
 a grammar containing only number words.
@@ -659,6 +759,10 @@ a grammar containing only number words.
 \end{frame}
 
 \begin{frame}{Impact of background noise}
+
+\begin{center}
+    \includegraphics[width=0.8\linewidth]{noise_graph}
+\end{center}
 
 Recognition rate of number utterances spoken by children, split by
 background noise level (83 total utterances) using Nao's ASR engine
@@ -673,11 +777,28 @@ Background noise
 
 \begin{frame}{Location of speaker wrt. Nao}
 
-\{\#section-6 style=``page-break-before:always;''\}
+\only<1>{
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+                \includegraphics[width=0.8\linewidth]{recording-audio-nao}
+            \end{center}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+    \begin{center}
+        \includegraphics[width=0.8\linewidth]{directional_recordings}
+    \end{center}
+        \end{column}
+    \end{columns}
 
-With background noise
+}
 
-Without background noise
+    \only<2>{
+        \begin{center}
+            \includegraphics[width=0.8\linewidth]{heatmaps}
+        \end{center}
+    }
+
 
 \end{frame}
 
@@ -686,7 +807,7 @@ Without background noise
 Social signal processing often relies on \textbf{classification.}
 
 \begin{itemize}
-\tightlist
+
 \item
   \href{https://en.wikipedia.org/wiki/Statistical_classification}{\textbf{Classification}}
   is deciding on which \textbf{category} a new observation belongs to
@@ -700,7 +821,7 @@ Social signal processing often relies on \textbf{classification.}
 Examples
 
 \begin{itemize}
-\tightlist
+
 \item
   An incoming tweet needs to classified as being positive or negative.
 \item
@@ -720,7 +841,7 @@ Examples
 \begin{frame}{Classification: example}
 
 \begin{itemize}
-\tightlist
+
 \item
   Two dimensional problem.
 \item
@@ -736,7 +857,7 @@ Examples
 \begin{frame}{Classification}
 
 \begin{itemize}
-\tightlist
+
 \item
   When categories can be linearly separated, we have a very easy
   classification problem
@@ -747,7 +868,7 @@ Examples
 \begin{frame}{Classification}
 
 \begin{itemize}
-\tightlist
+
 \item
   Three or more can still be linearly separated\ldots{}
 \end{itemize}
@@ -757,7 +878,7 @@ Examples
 \begin{frame}{Classification}
 
 \begin{itemize}
-\tightlist
+
 \item
   But what if categories are not linearly separable?
 \end{itemize}
@@ -769,7 +890,7 @@ Examples
 Two methods will be explained here
 
 \begin{itemize}
-\tightlist
+
 \item
   \(k\) Nearest Neighbour (kNN)
 \item
@@ -779,7 +900,7 @@ Two methods will be explained here
 But there are hundreds of classifiers
 
 \begin{itemize}
-\tightlist
+
 \item
   Decision trees
 \item
@@ -797,7 +918,7 @@ But there are hundreds of classifiers
 \begin{frame}{\(k\) Nearest Neighbour}
 
 \begin{itemize}
-\tightlist
+
 \item
   When an observation comes in, calculate the distance to \(k\) nearest
   neighbours, the observation belongs to the most common class.
@@ -810,7 +931,7 @@ But there are hundreds of classifiers
 Choosing \(k\)
 
 \begin{itemize}
-\tightlist
+
 \item
   Choose too small and it sensitive to classification noise.
 \item
@@ -851,7 +972,7 @@ def knn(k, data, dataClass, inputs):
   return closest
 \end{pythoncode}
 
-\{\#section-7 style=``page-break-before:always;''\}
+
 
 \(k\) Nearest Neighbour usually does really well on a large number of
 classification problem, but can underperform near the classification
@@ -861,7 +982,7 @@ Struggles with very large datasets, as it needs to calculate the
 distance to all training data every time you classify a new observation.
 
 \begin{itemize}
-\tightlist
+
 \item
   Some work around are available, relying on approximate distances and
   optimisation of the algorithmic code.
@@ -883,7 +1004,7 @@ see) the computations don't scale well with the number of training
 examples, and so become computationally very expensive.
 
 \begin{itemize}
-\tightlist
+
 \item
   Training a SVM requires \emph{O(m3)} operations and \emph{O(m2)}
   memory, with \emph{m} being the number of training samples\emph{.} For
@@ -911,7 +1032,7 @@ Intuitively, the line that is most distant to the training data is the
 best division.
 
 \begin{itemize}
-\tightlist
+
 \item
   The empty area near the division line is symmetric. It forms a bar in
   2D space, a cylinder in 3D space, and a hyper-cylinder in n-D space.
@@ -930,7 +1051,7 @@ vectors}.
 Two observations
 
 \begin{itemize}
-\tightlist
+
 \item
   The margins should be as large as possible.
 \item
@@ -946,7 +1067,7 @@ A linear classifier for two categories can be written as
 \(y = w \cdot x + b\)
 
 \begin{itemize}
-\tightlist
+
 \item
   \textbf{w}~·~\textbf{x}~= ∑\emph{i}~\emph{wixi}. This is called the
   scalar product or inner product. Can also be written as a matrix
@@ -983,7 +1104,7 @@ The problem is to find the \textbf{optimal} values for \textbf{w} and
 The classifier needs to satisfy two conditions
 
 \begin{itemize}
-\tightlist
+
 \item
   It needs to correctly classify the training data,
 \item
@@ -1002,7 +1123,7 @@ values for \textbf{w} and \emph{b.}
 \begin{frame}{Transformation of data}
 
 \begin{itemize}
-\tightlist
+
 \item
   Unfortunately, all this still assumes that the data is linearly
   separable. But what if it isn't, and we are not prepared for a few
@@ -1024,7 +1145,7 @@ If we knew something about the data, then we might be able to identify
 functions that would be a good idea.
 
 \begin{itemize}
-\tightlist
+
 \item
   Example, separating odd from even numbers
 \end{itemize}
@@ -1035,7 +1156,7 @@ A possible solution is to take \textbf{polynomials} of the input data:
 for example everything up to degree 2
 
 \begin{itemize}
-\tightlist
+
 \item
   Starting from input data \emph{x}1,~\emph{x}2, \ldots{},~\emph{xd,}
   square all data \emph{x}21,~\emph{x}22, \ldots{},~\emph{x}2\emph{d},
@@ -1047,10 +1168,10 @@ for example everything up to degree 2
   \emph{d}2/2~elements.
 \end{itemize}
 
-\{\#section-9 style=``page-break-before:always;''\}
+
 
 \begin{itemize}
-\tightlist
+
 \item
   For example, for one dimension \emph{x}1 the data is linearly
   inseparable. But adding a second dimension \emph{x}12 results in the
@@ -1062,7 +1183,7 @@ for example everything up to degree 2
 \begin{frame}{Which kernel to use?}
 
 \begin{itemize}
-\tightlist
+
 \item
   As seen two slides ago, polynomials up to some degree~\emph{s}~in the
   elements~\emph{xk}~of the input vector
@@ -1075,10 +1196,10 @@ for example everything up to degree 2
   and kernel:
 \end{itemize}
 
-\{\#section-10 style=``page-break-before:always;''\}
+
 
 \begin{itemize}
-\tightlist
+
 \item
   Choosing which kernel to use and the parameters in these kernels is a
   tricky problem. While there is some theory based on something known as
@@ -1097,7 +1218,7 @@ Classifies three species of irises (flowers) on the bases of four
 properties
 
 \begin{itemize}
-\tightlist
+
 \item
   Sepal length, sepal width, petal length, petal width
 \end{itemize}
@@ -1109,7 +1230,7 @@ properties
 \textbf{Clustering} is sometimes confused with \textbf{classification}.
 
 \begin{itemize}
-\tightlist
+
 \item
   Often because some algorithms have similar names,e.g. \emph{k Means
   clustering} and \emph{k Nearest Neighbours}.
@@ -1119,7 +1240,7 @@ properties
 \(k\) clusters in the data.
 
 \begin{itemize}
-\tightlist
+
 \item
   Used to find patterns in the data.
 \end{itemize}
@@ -1138,7 +1259,7 @@ The raw social signal (audio or video) requires pre-processing to
 extract between 10 and over a 1000 \textbf{features}.
 
 \begin{itemize}
-\tightlist
+
 \item
   A raw signals contains too much data, and cannot be fed to the
   classifier immediately.
@@ -1167,7 +1288,7 @@ Can we automatically recognise someone's gender from speech?
 3,168 recorded voice samples, collected from male and female speakers.
 
 \begin{itemize}
-\tightlist
+
 \item
   Examples from the database: male (US), female (US), male (Scotish)
 \end{itemize}
@@ -1177,7 +1298,7 @@ seewave, warbleR and tuneR packages, with an analysed frequency range of
 0hz-280hz (fundamental frequency of human speech).
 
 \begin{itemize}
-\tightlist
+
 \item
   Extracted 20 features.
 \end{itemize}
@@ -1190,7 +1311,7 @@ For data and more information see
 \begin{frame}{Example: recognising gender from speech}
 
 \begin{itemize}
-\tightlist
+
 \item
   \textbf{meanfreq}: mean frequency (in kHz)
 \item
@@ -1220,7 +1341,7 @@ For data and more information see
 \end{itemize}
 
 \begin{itemize}
-\tightlist
+
 \item
   \textbf{meanfun}: average of fundamental frequency measured across
   acoustic signal
@@ -1265,7 +1386,7 @@ The 20 features used for gender classification
 Performance
 
 \begin{itemize}
-\tightlist
+
 \item
   kNN (k = 7): 97.8\% classified correctly.
 \item
@@ -1275,7 +1396,7 @@ Performance
 Recognising gender from speech is easy and robust.
 
 \begin{itemize}
-\tightlist
+
 \item
   All classification algorithms can deal with this problem (at least all
   the ones I tried).
@@ -1291,7 +1412,7 @@ social environment.
 Some work relatively well
 
 \begin{itemize}
-\tightlist
+
 \item
   Face \textbf{detection}, voice activity detection, gender
   classification, \ldots{}
@@ -1300,7 +1421,7 @@ Some work relatively well
 Some work, but need improvement
 
 \begin{itemize}
-\tightlist
+
 \item
   Gaze detection, basic emotion recognition, face \textbf{recognition},
   speech recognition, \ldots{}
@@ -1309,7 +1430,7 @@ Some work, but need improvement
 But still many open problems remaining
 
 \begin{itemize}
-\tightlist
+
 \item
   Complex real-word affect and emotion recognition (e.g.~embarrassment,
   pride).
