@@ -20,6 +20,8 @@
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 
 \usetheme{hri}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{svg.path}
 
 % Display the navigation bullet even without subsections
 \usepackage{remreset}% tiny package containing just the \@removefromreset command
@@ -128,16 +130,11 @@ Often broken down in smaller, sometimes more manageable, tasks:
 
 \begin{itemize}
 
-\item
-  A historical case study: Kismet.
-\item
-  Recognising emotions from speech.
-\item
-  Speech recognition in the context of HRI.
-\item
-  Classification (k-nearest neighbours and Support Vector Machines)
-\item
-  Classification for social signal processing
+\item A historical case study: Kismet.
+\item Recognising emotions from speech.
+\item Speech recognition in the context of HRI.
+\item Classification (k-nearest neighbours and Support Vector Machines)
+\item Classification for social signal processing
 \end{itemize}
 
 \end{frame}
@@ -194,6 +191,11 @@ Often broken down in smaller, sometimes more manageable, tasks:
         \end{tikzpicture}
     }
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \section[Kismet]{Case study: Kismet's vision system}
 
@@ -376,11 +378,9 @@ colorsys.hsv_to_rgb(0.5, 0.5, 0.4)
 
 \begin{itemize}
 
-\item
-  Convert image from RGB to HSV, and mark pixels (by setting them to
+\item Convert image from RGB to HSV, and mark pixels (by setting them to
   WHITE) that have a saturation over a certain threshold.
-\item
-  Focus on \textbf{Centre of Gravity} of all saturation pixels.
+\item Focus on \textbf{Centre of Gravity} of all saturation pixels.
 \end{itemize}
 
 \begin{matlabcode}
@@ -414,8 +414,7 @@ void centerOfGravity (int[][] image, int imageWidth,
 
 \begin{itemize}
 
-\item
-  Motion is a strong social signal, essential for survival (both in
+\item Motion is a strong social signal, essential for survival (both in
   detecting prey and predator). Robots are expected to be sensitive to
   motion as well.
 \end{itemize}
@@ -472,8 +471,7 @@ the robot.
 
 \begin{itemize}
 
-\item
-  Robot focuses on visual regions that draw its attention
+\item Robot focuses on visual regions that draw its attention
 \end{itemize}
 
 \end{frame}
@@ -562,18 +560,12 @@ Compute features from the samples
 
 \begin{itemize}
 
-\item
-  Pitch mean
-\item
-  Pitch variance
-\item
-  Maximum pitch.
-\item
-  Minimum pitch.
-\item
-  Pitch range.
-\item
-  \ldots{}
+\item Pitch mean
+\item Pitch variance
+\item Maximum pitch.
+\item Minimum pitch.
+\item Pitch range.
+\item \ldots{}
 \end{itemize}
 
     \begin{center}
@@ -602,6 +594,11 @@ Compute features from the samples
 
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \section{Speech recognition}
 
 \begin{frame}{Speech recognition}
@@ -621,12 +618,10 @@ Compute features from the samples
 
 \begin{itemize}
 
-\item
-  ``\href{https://blogs.microsoft.com/next/2016/10/18/historic-achievement-microsoft-researchers-reach-human-parity-conversational-speech-recognition/\#g5qKXHrZZ2pbxuPH.99}{Historic
+\item ``\href{https://blogs.microsoft.com/next/2016/10/18/historic-achievement-microsoft-researchers-reach-human-parity-conversational-speech-recognition/\#g5qKXHrZZ2pbxuPH.99}{Historic
   Achievement: Microsoft researchers reach human parity in
   conversational speech recognition}'' (Oct 2016)
-\item
-  Error rate (\% of misunderstood words) on
+\item Error rate (\% of misunderstood words) on
   \href{https://catalog.ldc.upenn.edu/LDC2004S13}{Switchboard} (SWB) and
   CallHome (CH) corpus.
 \end{itemize}
@@ -669,8 +664,7 @@ Question
 
 \begin{itemize}
 
-\item
-  So, given that ASR performance seems high, how good is it really for
+\item So, given that ASR performance seems high, how good is it really for
   Human-Robot Interaction?
 \end{itemize}
 
@@ -678,14 +672,11 @@ Human-Robot Interaction is unique
 
 \begin{itemize}
 
-\item
-  There is often a noise environment.
-\item
-  Users are at a distance from the robot (and any speakers carried on
+\item There is often a noise environment.
+\item Users are at a distance from the robot (and any speakers carried on
   the robot). Almost all ASR engines have been trained on speech
   recorded close to the microphone (\textless{} 10cm).
-\item
-  There might be a multi-party conversation (i.e.~multiple speakers).
+\item There might be a multi-party conversation (i.e.~multiple speakers).
 \end{itemize}
 
 \end{frame}
@@ -696,13 +687,11 @@ How well does speech recognition perform for child speech?
 
 \begin{itemize}
 
-\item
-  For counting (1,2,3, \ldots{}) and short sentences \textbf{spoken by
+\item For counting (1,2,3, \ldots{}) and short sentences \textbf{spoken by
   adults}, recognition rate is \textbf{90\% using Nao microphone and
   on-board ASR} (Nuance VoCon 4.7). And up to 99\% recognition with a
   high-quality microphone and Google ASR.
-\item
-  Can we assume that ASR on children's speech will have the same
+\item Can we assume that ASR on children's speech will have the same
   performance?
 \end{itemize}
 
@@ -710,10 +699,8 @@ Child speech is very different from adult speech.
 
 \begin{itemize}
 
-\item
-  Higher pitch (due to small vocal tracts).
-\item
-  higher number of disfluencies and, especially in younger children,
+\item Higher pitch (due to small vocal tracts).
+\item higher number of disfluencies and, especially in younger children,
   language utterances are often ungrammatical (e.g. ``The boy
   \emph{putted} the frog in the box'').
 \end{itemize}
@@ -726,12 +713,9 @@ Child speech is very different from adult speech.
 
 \begin{itemize}
 
-\item
-  Numbers (0 to 10)
-\item
-  Sentences
-\item
-  Spontaneous speech
+\item Numbers (0 to 10)
+\item Sentences
+\item Spontaneous speech
 \end{itemize}
 
 Jacob, native English speaker
@@ -802,37 +786,39 @@ Background noise
 
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Classification}
+
 \begin{frame}{Classification}
 
 Social signal processing often relies on \textbf{classification.}
 
 \begin{itemize}
+    \item \href{https://en.wikipedia.org/wiki/Statistical_classification}{\textbf{Classification}}
+        is deciding on which \textbf{category} a new observation belongs to
+        based on training data.
 
-\item
-  \href{https://en.wikipedia.org/wiki/Statistical_classification}{\textbf{Classification}}
-  is deciding on which \textbf{category} a new observation belongs to
-  based on training data.
-\item
-  The training data contains data and known categories.
-\item
-  Classification is a \textbf{supervised} learning algorithm.
+    \item The training data contains data and known categories.
+    \item Classification is a \textbf{supervised} learning algorithm.
 \end{itemize}
 
-Examples
+\pause
+
+Examples:
 
 \begin{itemize}
 
-\item
-  An incoming tweet needs to classified as being positive or negative.
-\item
-  An radar ping of a flying objects needs to be classified as belonging
+\item An incoming tweet needs to classified as being positive or negative.
+\item An radar ping of a flying objects needs to be classified as belonging
   to one of \emph{n} possible planes.
-\item
-  The prosody of speech needs to be classified as belonging to one of
+\item The prosody of speech needs to be classified as belonging to one of
   six basic categories of emotion (happy, sad, angry, bored, surprised,
   neutral).
-\item
-  A gesture filmed through a camera needs to be classified as meaning
+\item A gesture filmed through a camera needs to be classified as meaning
   stop, go, left or right.
 \end{itemize}
 
@@ -841,206 +827,390 @@ Examples
 \begin{frame}{Classification: example}
 
 \begin{itemize}
-
-\item
-  Two dimensional problem.
-\item
-  Two categories, with training data for both categories.
-\item
-  To which category does a new observation belong?
+\item Two dimensional problem
+\item Two categories, with training data for both categories
+\item To which category does a new observation belong?
 \end{itemize}
 
-?
+    \begin{center}
+        \resizebox{0.5\linewidth}{!}{
+            \begin{tikzpicture}[>=latex,
+                starmarker/.style={star, fill=hriSec2Comp,opacity=0.5,inner sep=0,minimum size=4pt}]
 
-\end{frame}
+                %\draw[help lines] (0,0) grid (5,4);
+                \draw[thick, ->] (0,0) -> (5.2,0);
+                \draw[thick, ->] (0,0) -> (0,4.2);
 
-\begin{frame}{Classification}
+                \fill [hriSec2, opacity=0.5] (2.2,1.3) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (3.2,2.3) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (2.5,0.4) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (0.6,0.3) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (2.8,0.7) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (3.8,1.7) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (4.5,1.0) circle (2pt);
 
-\begin{itemize}
+                \only<1-2,4->{
+                    \fill [hriSec2, opacity=0.5] (4.1,2.4) circle (2pt);
+                    \fill [hriSec2, opacity=0.5] (4.5,3.5) circle (2pt);
+                }
 
-\item
-  When categories can be linearly separated, we have a very easy
-  classification problem
-\end{itemize}
+                \fill [hriSec3Comp, opacity=0.5] (2.3,3.2) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (0.3,0.6) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.5,1.4) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (2.4,2.2) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (0.7,2.8) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.7,3.8) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.0,2.5) rectangle +(3.5pt,3.5pt);
 
-\end{frame}
+                \only<1-3>{
+                    \fill [hriSec3Comp, opacity=0.5] (2.2,2.5) rectangle +(3.5pt,3.5pt);
+                    \fill [hriSec3Comp, opacity=0.5] (1.3,2.2) rectangle +(3.5pt,3.5pt);
+                }
+                \only<4->{
+                    \fill [hriSec2, opacity=0.5] (2.2,2.5) circle (2pt);
+                    \fill [hriSec2, opacity=0.5] (1.3,2.2) circle (2pt);
+                }
 
-\begin{frame}{Classification}
 
-\begin{itemize}
+                \only<1>{
+                    \fill (3.5,3) circle (2pt) node[above] {?};
+                }
 
-\item
-  Three or more can still be linearly separated\ldots{}
-\end{itemize}
+                \only<2>{
+                    \draw[dashed, ultra thick] (0,0.1) -- (4.9,4);
+                    \fill[hriSec3Comp] (3.5,3) circle (3pt);
+                }
 
-\end{frame}
+                \only<3->{
+                \node[starmarker] at(2.8,3.5) {};
+                \node[starmarker] at(3.2,2.6) {};
+                \node[starmarker] at(3.7,2.5) {};
+                \node[starmarker] at(4.8,2.3) {};
+                \node[starmarker] at(4.2,3.5) {};
+                \node[starmarker] at(4.7,3.2) {};
+                \node[starmarker] at(3.6,3.5) {};
+                \node[starmarker] at(3.2,3.0) {};
+            }
 
-\begin{frame}{Classification}
+                \only<3>{
+                \coordinate (center) at (3,2.5);
+                    \draw[dashed, ultra thick] (0,0.1) -- (center);
+                    \draw[dashed, ultra thick] (2.1,4) -- (center);
+                    \draw[dashed, ultra thick] (5,2) -- (center);
+                }
 
-\begin{itemize}
+                \only<4>{
+                    \draw[ultra thick, dashed] svg[scale=0.355mm] {M 0,0 C 7.3028978,5.4871928 17.986558,18.924336 25.712718,23.631806 33.180198,27.981126 42.096418,29.772386 48.918988,35.157436 53.234728,39.486306 53.152318,48.037756 47.022748,50.669426 42.040828,52.174296 36.443098,53.302996 33.138128,57.811566 29.262578,61.437306 31.018648,68.735086 36.313848,69.650946 45.513978,70.336506 52.317528,79.815856 61.890318,78.092016 67.994798,76.405086 66.315798,68.913296 65.206548,64.346256 62.816378,59.430726 65.265748,53.196516 71.506418,55.666566 76.735423,57.642746 77.207603,62.923806 82.494663,67.005556 87.781723,71.087306 97.769793,65.300896 103.85227,64.480036 109.93475,63.659176 113.08322,69.782766 115.38846,74.251266 119.51535,82.521786 120.32667,91.925786 123.66302,100.4599 126.136,107.56288 135.65151,102.31662 131.03155,96.353476 128.47853,90.355456 123.56513,84.297766 125.88953,77.387966 127.40319,68.340166 132.79437,57.935476 141.71719,53.730616};
+                    \draw[ultra thick, dashed] svg[scale=0.355mm] {M 84.116373,67.870526 C 84.388083,71.283156 84.773743,74.838716 83.492033,78.110256 82.006413,83.150896 79.611653,88.027626 75.899043,91.805036 73.482483,94.619536 71.510448,97.822816 70.142548,101.27341 69.330828,105.09004 70.025558,108.99486 70.135548,112.8405};
+                }
 
-\item
-  But what if categories are not linearly separable?
-\end{itemize}
+
+
+            \end{tikzpicture}
+        }
+    \end{center}
+
+
+    \only<2> {
+        When categories can be linearly separated, we have a very easy
+        classification problem.
+    }
+
+    \only<3> {
+        Three or more can still be linearly separated.
+    }
+
+
+    \only<4-> {
+        \textbf{But what if categories are not linearly separable?}
+    }
 
 \end{frame}
 
 \begin{frame}{Two classification methods}
 
-Two methods will be explained here
+Two methods will be explained here:
 
 \begin{itemize}
 
-\item
-  \(k\) Nearest Neighbour (kNN)
-\item
-  Support Vector Machines (SVM)
+\item $k$-nearest Neighbours (kNN)
+\item Support Vector Machines (SVM)
 \end{itemize}
 
 But there are hundreds of classifiers
 
 \begin{itemize}
 
-\item
-  Decision trees
-\item
-  Random forest
-\item
-  Bayes classifiers
-\item
-  Neural Networks
-\item
-  \ldots{}
+\item Decision trees
+\item Random forest
+\item Bayes classifiers
+\item Neural Networks
+\item \ldots{}
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{\(k\) Nearest Neighbour}
+\begin{frame}{$k$-nearest Neighbours}
+
+
+When an observation comes in, calculate the distance to the $k$ nearest
+neighbours. The observation belongs to the class the most frequent amongst neighbours.
+
+    \begin{center}
+        \resizebox{0.5\linewidth}{!}{
+            \begin{tikzpicture}[>=latex,
+                starmarker/.style={star, fill=hriSec2Comp,opacity=0.5,inner sep=0,minimum size=4pt}]
+
+                %\draw[help lines] (0,0) grid (5,4);
+                \draw[thick, ->] (0,0) -> (5.2,0);
+                \draw[thick, ->] (0,0) -> (0,4.2);
+
+                \fill [hriSec2, opacity=0.5] (2.2,1.3) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (3.2,2.3) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (2.5,0.4) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (0.6,0.3) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (2.8,0.7) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (3.8,1.7) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (4.5,1.0) circle (2pt);
+
+                \fill [hriSec2, opacity=0.5] (1.3,2.2) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (4.1,2.4) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (4.5,3.5) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (2.2,2.5) circle (2pt);
+
+                \fill [hriSec3Comp, opacity=0.5] (2.3,3.2) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (0.3,0.6) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.5,1.4) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (2.4,2.2) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (0.7,2.8) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.7,3.8) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.0,2.5) rectangle +(3.5pt,3.5pt);
+
+
+
+                \node[starmarker] at(2.8,3.5) {};
+                \node[starmarker] at(3.2,2.6) {};
+                \node[starmarker] at(3.7,2.5) {};
+                \node[starmarker] at(4.8,2.3) {};
+                \node[starmarker] at(4.2,3.5) {};
+                \node[starmarker] at(4.7,3.2) {};
+                \node[starmarker] at(3.6,3.5) {};
+                \node[starmarker] at(3.2,3.0) {};
+
+                \only<1>{
+                    \fill (3.5,3) circle (2pt);
+                }
+                \only<2>{
+                    \node[starmarker,opacity=1] at(3.5,3) {};
+                    \fill (1.5,3) circle (2pt);
+                }
+                \only<3>{
+                    \node[starmarker,opacity=1] at(3.5,3) {};
+                    \fill [hriSec3Comp, opacity=1] (1.5,3) rectangle +(3.5pt,3.5pt);
+                    \fill (1.8,1.9) circle (2pt);
+                }
+                \only<4>{
+                    \node[starmarker,opacity=1] at(3.5,3) {};
+                    \fill [hriSec3Comp, opacity=1] (1.5,3) rectangle +(3.5pt,3.5pt);
+                    \fill [hriSec3Comp, opacity=1] (1.8,1.9) rectangle +(3.5pt,3.5pt);
+                }
+
+
+            \end{tikzpicture}
+        }
+    \end{center}
+
+\end{frame}
+\begin{frame}{Choosing $k$}
+
 
 \begin{itemize}
-
-\item
-  When an observation comes in, calculate the distance to \(k\) nearest
-  neighbours, the observation belongs to the most common class.
+    \item too small and it sensitive to classification noise.
+    \item too large and classification accuracy decreases.
 \end{itemize}
+
+Decision border with $k=1$ and $k=2$:
+
+    \begin{center}
+        \includegraphics[width=0.9\linewidth]{knns-border}
+    \end{center}
 
 \end{frame}
 
-\begin{frame}{\(k\) Nearest Neighbour}
+\begin{frame}[fragile]{Python implementation of $k$-nearest neighbours}
 
-Choosing \(k\)
-
-\begin{itemize}
-
-\item
-  Choose too small and it sensitive to classification noise.
-\item
-  Choose too large and classification accuracy decreases.
-\end{itemize}
-
-Decision border with \(k\)=1 and \(k\)=2
-
-\end{frame}
-
-\begin{frame}[fragile]{\(k\) Nearest Neighbour}
-
-\begin{block}{Python code for k Nearest Neighbour}
-
+\begin{onlyenv}<1>
 \begin{pythoncode}
-def knn(k, data, dataClass, inputs):
-  nInputs = np.shape(inputs)[0]
-  closest = np.zeros(nInputs)
+import numpy as np
 
-  for n in range(nInputs):
-  
-  # Compute distances
-  distances = np.sum((data - inputs[n,:])\\2,axis=1)
-  
-  # Identify the nearest neighbours
-  indices = np.argsort(distances,axis=0)
-  classes = np.unique(dataClass[indices[:k]])
-  
-  if len(classes)==1:
-    closest[n] = np.unique(classes)
-  else:
-    counts = np.zeros(max(classes)+1)
-  
-  for i in range(k):
-    counts[dataClass[indices[i]]] += 1
-  
-  closest[n] = np.argmax(counts,axis=0)
+def knn(k, data, categories, inputs):
+  nb_inputs = np.shape(inputs)[0]
+  closest = np.zeros(nb_inputs)
+
+  for n in range(nb_inputs):
+    # Compute distances
+    distances = np.sum((data - inputs[n,:])\\2, axis=1)
+    
+    # Identify the nearest neighbours
+    indices = np.argsort(distances, axis=0)
+
+    classes = np.unique(categories[indices[:k]])
+    
+    if len(classes)==1:
+        closest[n] = np.unique(classes)
+    else:
+        counts = np.zeros(max(classes) + 1)
+        for i in range(k):
+            counts[categories[indices[i]]] += 1
+        closest[n] = np.argmax(counts, axis=0)
   return closest
 \end{pythoncode}
+\end{onlyenv}
+
+\begin{onlyenv}<2>
+    Alternatively, using \python{sklearn}:
+
+\begin{pythoncode}
+from sklearn import neighbors
+
+knns = neighbors.KNeighborsClassifier(k)
+knns.fit(data, categories)
+
+predictions = knns.predict(inputs)
+\end{pythoncode}
+
+\end{onlyenv}
+
+\begin{onlyenv}<3>
+    Complete example, with the data above:
+
+\begin{columns}
+    \begin{column}{0.4\linewidth}
+\begin{pythoncode}
+""" data.csv:
+2.2,1.3,0 -> circles
+3.2,2.3,0
+...
+
+2.3,3.2,1 -> squares
+0.3,0.6,1
+...
+
+2.8,3.5,2 -> stars
+3.2,2.6,2
+...
+"""
+\end{pythoncode}
+        
+    \end{column}
+    \begin{column}{0.6\linewidth}
+\begin{pythoncode}
+from numpy import genfromtxt
+from sklearn import neighbors
+
+csv = genfromtxt('data.csv', delimiter=',')
+data = csv[:,:2]
+categories = csv[:,2]
+
+inputs = [ [3.5,3], [1.5,3], [1.8,1.9] ]
+
+k = 3
+knns = neighbors.KNeighborsClassifier(k)
+knns.fit(data, categories)
+
+predictions = knns.predict(inputs)
+print(predictions)
+
+>>>  [2.  1.  1.]
+
+\end{pythoncode}
+    \end{column}
+\end{columns}
+
+\end{onlyenv}
 
 
+\end{frame}
 
-\(k\) Nearest Neighbour usually does really well on a large number of
-classification problem, but can underperform near the classification
-boundary.
+\begin{frame}{Choice of $k$ and weights}
 
-Struggles with very large datasets, as it needs to calculate the
-distance to all training data every time you classify a new observation.
+\begin{center}
+    \includegraphics[width=0.45\linewidth]{knns_1}
+    \includegraphics[width=0.45\linewidth]{knns_2}
+
+    \includegraphics[width=0.45\linewidth]{knns_3}
+    \includegraphics[width=0.45\linewidth]{knns_4}
+\end{center}
+\end{frame}
+
+
+    \begin{frame}{$k$-nearest neighbours: summary}
 
 \begin{itemize}
+    \item<+-> $k$-nearest Neighbours usually does really well on a large number of
+    classification problem, but can underperform near the classification
+    boundary.
 
-\item
-  Some work around are available, relying on approximate distances and
-  optimisation of the algorithmic code.
+    \item<+-> might struggle with very large datasets, as it needs to calculate the
+    distance to all training data every time you classify a new observation
+    (some work around are available, relying on approximate distances and
+    optimisation of the algorithmic code)
+
+    \item<+-> commonly, the neighbours are weighted with the inverse of the
+        distance $\frac{1}{d}$ to the observation (\ie closer neighbours have
+        stronger influence). With \python{sklearn}:
+        \python{neighbors.KNeighborsClassifier(k, weights='distance')}
+
 \end{itemize}
 
-\end{block}
 
 \end{frame}
 
 \begin{frame}{Support Vector Machines}
 
+\only<1-3>{
 A very popular classification algorithm introduced by Vapnik in 1992.
+
+\pause
 
 Often (but not always) provides very impressive classification
 performance on reasonably sized datasets.
+
+\pause
+As opposed to $k$-nearest Neighbours, SVM are more difficult to understand
+(although no knowledge of the algorithms internals is needed to use it).
+}
+
+ \only<4>{
 
 SVMs do not work well on extremely large datasets, since (as we shall
 see) the computations don't scale well with the number of training
 examples, and so become computationally very expensive.
 
-\begin{itemize}
+\begin{exampleblock}{Complexity}
+Training a SVM requires $O(m^3)$\bubblemark{bigo} operations and $O(m^2)$
+memory, with $m$ being the number of training samples. For example, if you
+have 10,000 training samples, the training will take in the order of
+$10^{12}$ operations (imagine you can do 100,000 operations/second, you
+will need $10^8$ seconds $\equiv$ 3 years to train your SVM and $10^{12}$
+memory units.
+\end{exampleblock}
 
-\item
-  Training a SVM requires \emph{O(m3)} operations and \emph{O(m2)}
-  memory, with \emph{m} being the number of training samples\emph{.} For
-  example, if you have 10,000 training samples, the training will take
-  in the order of 1012 operations (imagine you can do 100,000
-  operations/second, you will need 108 seconds  3 years to train your
-  SVM and 1012 memory units.
-\end{itemize}
+\bubble<1>[110][1.7][5cm]{bigo}{For more information on ``big-O notation'',
+see \href{https://en.wikipedia.org/wiki/Time_complexity}{complexity of
+algorithms}}
 
-As opposed to k Nearest Neighbour, SVM are more difficult to understand
-(although no knowledge of the algorithms internals is needed to use it).
-
-For more information on ``big O notation'', see time
-\href{https://en.wikipedia.org/wiki/Time_complexity}{complexity of
-algorithms}.
-
+}
 \end{frame}
 
 \begin{frame}{SVM principle}
 
+\only<1-2>{
 Three different classification lines. All are correct, but is there any
 reason why one is better than the others?
+}
 
-Intuitively, the line that is most distant to the training data is the
-best division.
-
-\begin{itemize}
-
-\item
-  The empty area near the division line is symmetric. It forms a bar in
-  2D space, a cylinder in 3D space, and a hyper-cylinder in n-D space.
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Classifier and Support vectors}
+\only<3>{
 
 The classifier in the middle is called the \textbf{maximum margin
 classifier}.
@@ -1048,75 +1218,178 @@ classifier}.
 The data points nearest the classifier are called \textbf{support
 vectors}.
 
+}
+
+
+    \begin{center}
+        \only<1>{
+        \resizebox{0.3\linewidth}{!}{
+            \begin{tikzpicture}[>=latex]
+
+                \draw[thick, ->] (0,0) -> (5.2,0);
+                \draw[thick, ->] (0,0) -> (0,4.2);
+
+                \fill [hriSec2, opacity=0.5] (2.2,1.3) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (2.5,0.4) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (2.8,0.7) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (3.8,1.7) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (4.5,1.0) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (4.1,2.4) circle (2pt);
+
+                \fill [hriSec3Comp, opacity=0.5] (2.3,3.2) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (0.7,2.8) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.7,3.8) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.0,2.5) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (2.2,2.5) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.3,2.2) rectangle +(3.5pt,3.5pt);
+
+                \draw[dashed, ultra thick] (0,1.8) -- (4.9,2.8);
+
+            \end{tikzpicture}
+        }
+        }
+        \resizebox{0.3\linewidth}{!}{
+            \begin{tikzpicture}[>=latex]
+
+                \draw[thick, ->] (0,0) -> (5.2,0);
+                \draw[thick, ->] (0,0) -> (0,4.2);
+
+                \fill [hriSec2, opacity=0.5] (2.2,1.3) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (2.5,0.4) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (2.8,0.7) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (3.8,1.7) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (4.5,1.0) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (4.1,2.4) circle (2pt);
+
+                \fill [hriSec3Comp, opacity=0.5] (2.3,3.2) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (0.7,2.8) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.7,3.8) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.0,2.5) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (2.2,2.5) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.3,2.2) rectangle +(3.5pt,3.5pt);
+
+                \only<2->{
+                \draw[red,opacity=0.5,line width=25pt] (0,0.65) -- (4.9,3.45);
+                }
+                \draw[dashed, ultra thick] (0,0.65) -- (4.9,3.45);
+
+            \end{tikzpicture}
+        }
+        \only<1>{
+        \resizebox{0.3\linewidth}{!}{
+            \begin{tikzpicture}[>=latex]
+
+                \draw[thick, ->] (0,0) -> (5.2,0);
+                \draw[thick, ->] (0,0) -> (0,4.2);
+
+                \fill [hriSec2, opacity=0.5] (2.2,1.3) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (2.5,0.4) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (2.8,0.7) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (3.8,1.7) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (4.5,1.0) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (4.1,2.4) circle (2pt);
+
+                \fill [hriSec3Comp, opacity=0.5] (2.3,3.2) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (0.7,2.8) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.7,3.8) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.0,2.5) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (2.2,2.5) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.3,2.2) rectangle +(3.5pt,3.5pt);
+
+                \draw[dashed, ultra thick] (1.5,0) -- (3.2,4);
+
+            \end{tikzpicture}
+        }
+        }
+    \end{center}
+
+\only<1-2> {
+
+Intuitively, the line that is most distant to the training data is the
+best division.
+
+\onslide<2>{
+The empty area near the division line is symmetric. It forms a bar in
+2D space, a cylinder in 3D space, and a hyper-cylinder in n-D space.
+}
+
+}
+\only<3> {
 Two observations
 
 \begin{itemize}
 
-\item
-  The margins should be as large as possible.
-\item
-  The support vectors are the most useful datapoints because they are
+\item The margins should be as large as possible.
+\item The support vectors are the most useful datapoints because they are
   the ones that we might get wrong.
 \end{itemize}
+
+}
 
 \end{frame}
 
 \begin{frame}{Linear classifier}
 
+\only<1>{
+
 A linear classifier for two categories can be written as
-\(y = w \cdot x + b\)
+    $y = \mathbf{w} \cdot \mathbf{x} + b$.
 
 \begin{itemize}
 
-\item
-  \textbf{w}~·~\textbf{x}~= ∑\emph{i}~\emph{wixi}. This is called the
-  scalar product or inner product. Can also be written as a matrix
-  multiplication~\textbf{w}T\textbf{x}
-\item
-  \textbf{w} is a weight vector, tilting the line
-\item
-  \textbf{x} is a data point
-\item
-  \emph{b} is a bias, lifting the line up along the y-axis
+    \item $\mathbf{w} \cdot \mathbf{x} = \sum_i w_i x_i$. This is called the
+        scalar product or inner product. Can also be written as a matrix
+        multiplication $\mathbf{w}^T\mathbf{x}$.
+    \item $\mathbf{w}$ is a weight vector, tilting the line
+    \item $\mathbf{x}$ is a data point
+    \item $b$ is a bias, lifting the line up along the $y$-axis
 \end{itemize}
 
-\textbf{w} is such that if for an \textbf{x} observation \emph{y} is
-positive, then the observation belongs to one category (the `+'
-category). **** If \emph{y} is negative, the observation belongs to the
-`o' category.
+$\mathbf{w}$ is such that if for an $\mathbf{x}$ observation, if $y$ is
+positive, then the observation belongs to one category (the $\blacksquare$
+category). If $y$ is negative, the observation belongs to the $\circ$
+category.
+}
 
-In SVM we want a margin \emph{M}, so we can rewrite the linear
-classifier. If \textbf{w}T\textbf{x}~+~\emph{b}~≥~\emph{M} than an
-observation belongs to `+', for \textbf{w}T\textbf{x}~+~\emph{b}~≤
-−\emph{M} it belongs to `o'.
+\pause
 
-Now suppose that we pick a point~\textbf{x}+~that lies on the `+' class
-boundary line, so that~\textbf{w}T\textbf{x}+~=~\emph{M}. This is a
-\textbf{support vector}.
+In SVM we want a margin $M$, so we can rewrite the linear
+classifier.
+    
+If $\mathbf{w}^T\mathbf{x} + b \geq M$, then an observation belongs to
+$\blacksquare$, for $\mathbf{w}^T\mathbf{x} + b \leq −M$, it belongs to
+$\circ$.
+
+\pause
+
+Now suppose that we pick a point $\mathbf{x}^\blacksquare$ that lies on the $\blacksquare$ class
+boundary line, \ie $\mathbf{w}^T\mathbf{x}^\blacksquare = M$.
+    
+$\mathbf{x}^\blacksquare$ is a \textbf{support vector}.
 
 \end{frame}
 
 \begin{frame}{Finding the optimal classifier}
 
-The problem is to find the \textbf{optimal} values for \textbf{w} and
-\emph{b.}
+The problem is to find the \textbf{optimal} values for $\mathbf{w}$ and
+$b$.
 
 The classifier needs to satisfy two conditions
 
 \begin{itemize}
 
-\item
-  It needs to correctly classify the training data,
-\item
-  and needs the margin from the classifier to be as large as possible.
+\item It needs to correctly classify the training data,
+\item and needs the margin from the classifier to be as large as possible.
 \end{itemize}
 
-Let's assume the target values \emph{ti} of the categories are +1 and -1
+\pause
+
+Let's assume the target values $t_i$ of the categories are $+1$ and $-1$
 (not 0 and 1), we can rewrite the equation for the linear classifier
-as~\emph{ti}(\textbf{w}T\textbf{x}~+~\emph{b}) ≥ 1.
+as $t_i ( \mathbf{w}^T\mathbf{x} + b) \geq 1$.
 
 A \textbf{quadratic programming solver} is used to find the optimal
-values for \textbf{w} and \emph{b.}
+values for $\mathbf{w}$ and $b$.
 
 \end{frame}
 
@@ -1124,93 +1397,108 @@ values for \textbf{w} and \emph{b.}
 
 \begin{itemize}
 
-\item
-  Unfortunately, all this still assumes that the data is linearly
-  separable. But what if it isn't, and we are not prepared for a few
+\item Unfortunately, all this still assumes that the data is linearly
+  separable. But what if it is not, and we are not prepared for a few
   misclassifications?
-\item
-  The solution is to \textbf{transform} the data: move data points in
+\item The solution is to \textbf{transform} the data: move data points in
   the n-D space until the training data is linearly separable again
 \end{itemize}
 
+    \begin{center}
+        \includegraphics[width=0.8\linewidth]{svm-kernels}
+    \end{center}
 \end{frame}
 
 \begin{frame}{Kernel methods}
 
+\only<1>{
 We can transform data points (= move them) or even add more dimensions.
 
-We are using some function Θ(x\emph{i}) from input~x\emph{i}.
+We are using some function $\theta(x_i)$ from input $x_i$.
 
 If we knew something about the data, then we might be able to identify
 functions that would be a good idea.
 
 \begin{itemize}
 
-\item
-  Example, separating odd from even numbers
+\item Example, separating odd from even numbers
 \end{itemize}
 
 But we often don't have domain knowledge.
+}
 
+    \only<2>{
 A possible solution is to take \textbf{polynomials} of the input data:
-for example everything up to degree 2
+for example everything up to degree 2:
 
 \begin{itemize}
 
-\item
-  Starting from input data \emph{x}1,~\emph{x}2, \ldots{},~\emph{xd,}
-  square all data \emph{x}21,~\emph{x}22, \ldots{},~\emph{x}2\emph{d},
+\item Starting from input data $x_1, x_2, \dots, x_d$,
+  square all data $x^2_1, x^2_2, \dots, x^2_d$,
   and also take all products of the
-  data~\emph{x}1\emph{x}2,~\emph{x}1\emph{x}3,
-  \ldots{},~\emph{xd}−1\emph{xd}.~
-\item
-  We've transformed a data set of \emph{d} elements into a set with
-  \emph{d}2/2~elements.
+        data $x_1 x_2, x_1 x_3, \dots, x_{d−1} x_d$.
+
+\item We've transformed a data set of $d$ elements into a set with
+    $\frac{d^2}{2}$ elements.
 \end{itemize}
 
+}
+\only<3>{
 
 
-\begin{itemize}
-
-\item
-  For example, for one dimension \emph{x}1 the data is linearly
-  inseparable. But adding a second dimension \emph{x}12 results in the
+For example, for one dimension $x_1$ the data is linearly
+    inseparable. But adding a second dimension $x^2_1$ results in the
   data being separable.
-\end{itemize}
 
+
+\begin{center}
+    \includegraphics[width=0.8\linewidth]{svm-kernels-separation}
+\end{center}
+}
 \end{frame}
 
 \begin{frame}{Which kernel to use?}
 
 \begin{itemize}
 
-\item
-  As seen two slides ago, polynomials up to some degree~\emph{s}~in the
-  elements~\emph{xk}~of the input vector
-  (e.g.,~\emph{x}33~or~\emph{x}1\emph{x}4). This can be written as
-\item
-  Sigmoid functions of the~\emph{xk}s with parameters κ and δ, and
+    \item As seen two slides ago, \textbf{polynomials} up to some degree $s$ in the
+  elements $x_k$ of the input vector (\eg $x^3_3$ or $x_1 x_4$). This can be written as:
+
+    \[
+        K(x, y) = (1 + x^Ty)^s
+    \]
+
+\item \textbf{Sigmoid functions} of the $x_k$ with parameters $\kappa$ and $\delta$, and
   kernel:
-\item
-  Radial basis function expansions of the~\emph{xk}s with parameter σ
+    \[
+        K(x, y) = tanh(\kappa x^T y - \delta)
+    \]
+\item \textbf{Radial basis function} expansions of the $x_k$ with parameter $\sigma$
   and kernel:
+    \[
+        K(x, y) = exp(- \frac{(x-y)^2}{2\sigma^2})
+    \]
+
 \end{itemize}
 
 
 
-\begin{itemize}
-
-\item
-  Choosing which kernel to use and the parameters in these kernels is a
+Choosing which kernel to use and the parameters in these kernels is a
   tricky problem. While there is some theory based on something known as
   the Vapnik--Chernik dimension that can be applied, most people just
   experiment with different values and find one that works.
-\item
-  Let's experiment\ldots{} Install Weka
+
+Let's experiment\ldots{} Install Weka
   \url{http://www.cs.waikato.ac.nz/ml/weka/}
-\end{itemize}
 
 \end{frame}
+
+\begin{frame}{Comparision of kernel function}
+    \begin{center}
+        \includegraphics[width=0.8\linewidth]{svm_comparison}
+    \end{center}
+\end{frame}
+
 
 \begin{frame}{The iris data set}
 
@@ -1219,8 +1507,7 @@ properties
 
 \begin{itemize}
 
-\item
-  Sepal length, sepal width, petal length, petal width
+\item Sepal length, sepal width, petal length, petal width
 \end{itemize}
 
 \end{frame}
@@ -1231,24 +1518,29 @@ properties
 
 \begin{itemize}
 
-\item
-  Often because some algorithms have similar names,e.g. \emph{k Means
-  clustering} and \emph{k Nearest Neighbours}.
+\item Often because some algorithms have similar names,e.g. \emph{k-means
+  clustering} and \emph{k-nearest neighbours}.
 \end{itemize}
 
 \textbf{Clustering} starts from unlabelled data points and tries to find
-\(k\) clusters in the data.
+    $k$ clusters in the data $\rightarrow$ \textbf{unsupervised learning}.
 
 \begin{itemize}
 
-\item
-  Used to find patterns in the data.
+\item Used to find patterns in the data.
 \end{itemize}
 
-\textbf{Classification} starts from training data, and attempts to
-correctly classify and unknown observation.
+    \textbf{Classification} starts from training data ($\rightarrow$
+    \textbf{supervised learning}), and attempts to correctly classify an
+    unknown observation.
 
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section[Classifying social signal]{How to classify social signal?}
 
 \begin{frame}{How to classify social signals?}
 
@@ -1260,15 +1552,12 @@ extract between 10 and over a 1000 \textbf{features}.
 
 \begin{itemize}
 
-\item
-  A raw signals contains too much data, and cannot be fed to the
+\item A raw signals contains too much data, and cannot be fed to the
   classifier immediately.
-\item
-  Pre-processing extracts feature data which is relevant for the
+\item Pre-processing extracts feature data which is relevant for the
   information which we are after (pitch, volume/energy, duration,
   formant frequencies, \ldots{})
-\item
-  These features then form the input for the classifier.
+\item These features then form the input for the classifier.
 \end{itemize}
 
 For more information see, for example, Liang et al. (2005)
@@ -1289,8 +1578,7 @@ Can we automatically recognise someone's gender from speech?
 
 \begin{itemize}
 
-\item
-  Examples from the database: male (US), female (US), male (Scotish)
+\item Examples from the database: male (US), female (US), male (Scotish)
 \end{itemize}
 
 The voice samples are pre-processed by acoustic analysis in R using the
@@ -1299,8 +1587,7 @@ seewave, warbleR and tuneR packages, with an analysed frequency range of
 
 \begin{itemize}
 
-\item
-  Extracted 20 features.
+\item Extracted 20 features.
 \end{itemize}
 
 For data and more information see
@@ -1312,59 +1599,38 @@ For data and more information see
 
 \begin{itemize}
 
-\item
-  \textbf{meanfreq}: mean frequency (in kHz)
-\item
-  \textbf{sd}: standard deviation of frequency
-\item
-  \textbf{median}: median frequency (in kHz)
-\item
-  \textbf{Q25}: first quantile (in kHz)
-\item
-  \textbf{Q75}: third quantile (in kHz)
-\item
-  \textbf{IQR}: interquantile range (in kHz)
-\item
-  \textbf{skew}: skewness (see note in specprop description)
-\item
-  \textbf{kurt}: kurtosis (see note in specprop description)
-\item
-  \textbf{sp.ent}: spectral entropy
-\item
-  \textbf{sfm}: spectral flatness
-\item
-  \textbf{mode}: mode frequency
-\item
-  \textbf{centroid}: frequency centroid (see specprop)
-\item
-  \textbf{peakf}: peak frequency (frequency with highest energy)
+\item \textbf{meanfreq}: mean frequency (in kHz)
+\item \textbf{sd}: standard deviation of frequency
+\item \textbf{median}: median frequency (in kHz)
+\item \textbf{Q25}: first quantile (in kHz)
+\item \textbf{Q75}: third quantile (in kHz)
+\item \textbf{IQR}: interquantile range (in kHz)
+\item \textbf{skew}: skewness (see note in specprop description)
+\item \textbf{kurt}: kurtosis (see note in specprop description)
+\item \textbf{sp.ent}: spectral entropy
+\item \textbf{sfm}: spectral flatness
+\item \textbf{mode}: mode frequency
+\item \textbf{centroid}: frequency centroid (see specprop)
+\item \textbf{peakf}: peak frequency (frequency with highest energy)
 \end{itemize}
 
 \begin{itemize}
 
-\item
-  \textbf{meanfun}: average of fundamental frequency measured across
+\item \textbf{meanfun}: average of fundamental frequency measured across
   acoustic signal
-\item
-  \textbf{minfun}: minimum fundamental frequency measured across
+\item \textbf{minfun}: minimum fundamental frequency measured across
   acoustic signal
-\item
-  \textbf{maxfun}: maximum fundamental frequency measured across
+\item \textbf{maxfun}: maximum fundamental frequency measured across
   acoustic signal
-\item
-  \textbf{meandom}: average of dominant frequency measured across
+\item \textbf{meandom}: average of dominant frequency measured across
   acoustic signal
-\item
-  \textbf{mindom}: minimum of dominant frequency measured across
+\item \textbf{mindom}: minimum of dominant frequency measured across
   acoustic signal
-\item
-  \textbf{maxdom}: maximum of dominant frequency measured across
+\item \textbf{maxdom}: maximum of dominant frequency measured across
   acoustic signal
-\item
-  \textbf{dfrange}: range of dominant frequency measured across acoustic
+\item \textbf{dfrange}: range of dominant frequency measured across acoustic
   signal
-\item
-  \textbf{modindx}: modulation index. Calculated as the accumulated
+\item \textbf{modindx}: modulation index. Calculated as the accumulated
   absolute difference between adjacent measurements of fundamental
   frequencies divided by the frequency range
 \end{itemize}
@@ -1387,18 +1653,15 @@ Performance
 
 \begin{itemize}
 
-\item
-  kNN (k = 7): 97.8\% classified correctly.
-\item
-  SVM: 97.5\% classified correctly.
+\item kNN (k = 7): 97.8\% classified correctly.
+\item SVM: 97.5\% classified correctly.
 \end{itemize}
 
 Recognising gender from speech is easy and robust.
 
 \begin{itemize}
 
-\item
-  All classification algorithms can deal with this problem (at least all
+\item All classification algorithms can deal with this problem (at least all
   the ones I tried).
 \end{itemize}
 
@@ -1413,8 +1676,7 @@ Some work relatively well
 
 \begin{itemize}
 
-\item
-  Face \textbf{detection}, voice activity detection, gender
+\item Face \textbf{detection}, voice activity detection, gender
   classification, \ldots{}
 \end{itemize}
 
@@ -1422,8 +1684,7 @@ Some work, but need improvement
 
 \begin{itemize}
 
-\item
-  Gaze detection, basic emotion recognition, face \textbf{recognition},
+\item Gaze detection, basic emotion recognition, face \textbf{recognition},
   speech recognition, \ldots{}
 \end{itemize}
 
@@ -1431,11 +1692,9 @@ But still many open problems remaining
 
 \begin{itemize}
 
-\item
-  Complex real-word affect and emotion recognition (e.g.~embarrassment,
+\item Complex real-word affect and emotion recognition (e.g.~embarrassment,
   pride).
-\item
-  Speech recognition for atypical speakers (children, elderly),
+\item Speech recognition for atypical speakers (children, elderly),
   multi-party interaction, \ldots{}
 \end{itemize}
 
