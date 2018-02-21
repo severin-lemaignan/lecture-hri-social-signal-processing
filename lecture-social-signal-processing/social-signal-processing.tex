@@ -1598,9 +1598,8 @@ Often however we do not have such domain knowledge.
 
 \end{frame}
 
-\begin{frame}{Which kernel to use?}
+\begin{frame}{Standard kernels}
 
-    \only<1>{
 \begin{itemize}
 
     \item \textbf{Polynomials} up to some degree $s$ in the
@@ -1625,18 +1624,6 @@ Often however we do not have such domain knowledge.
 
 \end{itemize}
 
-}
-    \only<2>{
-
-
-Choosing which kernel to use and the parameters in these kernels is a
-  tricky problem. While there is some theory based on something known as
-  the Vapnik--Chernik dimension that can be applied, most people just
-  experiment with different values and find one that works.
-
-
-}
-
 \end{frame}
 
 \begin{frame}{Comparison of kernel functions}
@@ -1653,11 +1640,11 @@ Choosing which kernel to use and the parameters in these kernels is a
 from sklearn import svm
 
 C = 1.0  # SVM regularization parameter ~~ 'how acceptable are misclassification'
-classifier = svm.SVC(kernel='linear', C=C) # kernel='poly', 'rbf', 'sigmoid'...
+clf = svm.SVC(kernel='linear', C=C) # kernel='poly', 'rbf', 'sigmoid'...
 
-classifier.fit(data, categories)
+clf.fit(data, categories)
 
-predictions = classifier.predict(inputs)
+predictions = clf.predict(inputs)
 \end{pythoncode}
 
 \end{onlyenv}
@@ -1696,7 +1683,9 @@ categories = csv[:,2]
 
 inputs = [ [3.5,3], [1.5,3], [1.8,1.9] ]
 
-clf = svm.SVC(kernel='rbf', gamma = 0.7, C=1.0)
+clf = svm.SVC(kernel='rbf',
+              gamma = 0.7,
+              C=1.0)
 clf.fit(data, categories)
 
 predictions = clf.predict(inputs)
@@ -1713,6 +1702,16 @@ print(predictions)
 
 \end{frame}
 
+\begin{frame}{Choosing the kernel}
+
+
+Choosing which kernel to use and the parameters in these kernels is a
+tricky problem. While there is some theory based on something known as
+the Vapnik--Chernik dimension that can be applied, most people just
+experiment with different values and find one that works.
+
+\end{frame}
+
 
 
 \begin{frame}{The iris data set}
@@ -1725,25 +1724,32 @@ properties
 \item Sepal length, sepal width, petal length, petal width
 \end{itemize}
 
+
+    \begin{center}
+        \includegraphics[width=0.35\linewidth]{iris}
+        \includegraphics[width=0.5\linewidth]{iris-classification}
+    \end{center}
+
 \end{frame}
 
-\begin{frame}{Confusion: clustering and classification}
+\begin{frame}{Clustering vs classification}
 
-\textbf{Clustering} is sometimes confused with \textbf{classification}.
-
-\begin{itemize}
-
-\item Often because some algorithms have similar names,e.g. \emph{k-means
-  clustering} and \emph{k-nearest neighbours}.
-\end{itemize}
+\textbf{Clustering} is sometimes confused with \textbf{classification}.  (often
+    because some algorithms have similar names,e.g. \emph{k-means clustering}
+    and \emph{k-nearest neighbours}).
 
 \textbf{Clustering} starts from unlabelled data points and tries to find
     $k$ clusters in the data $\rightarrow$ \textbf{unsupervised learning}.
 
-\begin{itemize}
 
-\item Used to find patterns in the data.
-\end{itemize}
+$\rightarrow$ Used to find patterns in the data.
+
+    \begin{center}
+        \includegraphics[width=0.3\linewidth]{clustering-0}
+        $\rightarrow$
+        \includegraphics[width=0.3\linewidth]{clustering-1}
+    \end{center}
+
 
     \textbf{Classification} starts from training data ($\rightarrow$
     \textbf{supervised learning}), and attempts to correctly classify an
@@ -1759,29 +1765,36 @@ properties
 
 \begin{frame}{How to classify social signals?}
 
-Raw signals will in most cases require pre-processing to extract
+    Raw signals will in most cases require pre-processing to extract
 features.
 
-The raw social signal (audio or video) requires pre-processing to
+The raw social signal (audio or video) requires pre-processing\bubblemark{preprocessing} to
 extract between 10 and over a 1000 \textbf{features}.
 
 \begin{itemize}
 
-\item A raw signals contains too much data, and cannot be fed to the
-  classifier immediately.
-\item Pre-processing extracts feature data which is relevant for the
+    \item A raw signals contains too much data, and cannot be fed to the
+      classifier immediately.
+
+        \begin{center}
+            \includegraphics[width=0.5\linewidth]{rawaudio}
+        \end{center}
+
+    \item Pre-processing extracts feature data which is relevant for the
   information which we are after (pitch, volume/energy, duration,
   formant frequencies, \ldots{})
-\item These features then form the input for the classifier.
+    \item These features then form the input for the classifier.
 \end{itemize}
 
+    {\footnotesize
 For more information see, for example, Liang et al. (2005)
 \href{http://ieeexplore.ieee.org/xpls/icp.jsp?arnumber=1571239}{Feature
 analysis and extraction for audio automatic classification}, Systems,
 Man and Cybernetics, 2005 IEEE International Conference on.
+    }
 
-Did you know\ldots{} An exception to this are Convolutional Neural
-Networks, which can deal with unprocessed data.
+\bubble<2>[50][0.7][5cm]{preprocessing}{An exception to this are Convolutional Neural
+    Networks, which can deal with unprocessed data}
 
 \end{frame}
 
@@ -1796,22 +1809,30 @@ Can we automatically recognise someone's gender from speech?
 \item Examples from the database: male (US), female (US), male (Scotish)
 \end{itemize}
 
+    \begin{center}
+    \video[1]{1cm}{figs/male-us.mp4}\hspace{0.3em}
+    \video[1]{1cm}{figs/male-scottish.mp4}\hspace{0.3em}
+    \video[1]{1cm}{figs/female-us.mp4}
+    \end{center}
+
+
 The voice samples are pre-processed by acoustic analysis in R using the
-seewave, warbleR and tuneR packages, with an analysed frequency range of
-0hz-280hz (fundamental frequency of human speech).
+{\tt seewave}, {\tt warbleR} and {\tt tuneR} packages, with an analysed frequency range of
+0hz-280Hz (fundamental frequency of human speech).
 
 \begin{itemize}
 
 \item Extracted 20 features.
 \end{itemize}
 
-For data and more information see
-\url{https://www.kaggle.com/primaryobjects/voicegender}
+    \source{https://www.kaggle.com/primaryobjects/voicegender}{data and more information}
+
 
 \end{frame}
 
-\begin{frame}{Example: recognising gender from speech}
+\begin{frame}{The 20 features used for gender classification}
 
+    \only<1>{
 \begin{itemize}
 
 \item \textbf{meanfreq}: mean frequency (in kHz)
@@ -1828,7 +1849,8 @@ For data and more information see
 \item \textbf{centroid}: frequency centroid (see specprop)
 \item \textbf{peakf}: peak frequency (frequency with highest energy)
 \end{itemize}
-
+}
+    \only<2>{
 \begin{itemize}
 
 \item \textbf{meanfun}: average of fundamental frequency measured across
@@ -1849,17 +1871,15 @@ For data and more information see
   absolute difference between adjacent measurements of fundamental
   frequencies divided by the frequency range
 \end{itemize}
-
-The 20 features used for gender classification
+}
 
 \end{frame}
 
 \begin{frame}{Example: recognising gender from speech}
 
-\begin{block}{Some examples of features vectors}
-
-\end{block}
-
+    \begin{center}
+        \includegraphics[width=\linewidth]{vector-gender-voice}
+    \end{center}
 \end{frame}
 
 \begin{frame}{Example: recognising gender from speech}
