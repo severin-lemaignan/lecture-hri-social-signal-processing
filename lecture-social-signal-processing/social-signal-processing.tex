@@ -1012,7 +1012,8 @@ neighbours. The observation belongs to the class the most frequent amongst neigh
                 \only<4>{
                     \node[starmarker,opacity=1] at(3.5,3) {};
                     \fill [hriSec3Comp, opacity=1] (1.5,3) rectangle +(3.5pt,3.5pt);
-                    \fill [hriSec3Comp, opacity=1] (1.8,1.9) rectangle +(3.5pt,3.5pt);
+                    \fill (1.8,1.9) circle (2pt) node[above] {?};
+                    %\fill [hriSec3Comp, opacity=1] (1.8,1.9) rectangle +(3.5pt,3.5pt);
                 }
 
 
@@ -1273,6 +1274,13 @@ vectors}.
                 }
                 \draw[dashed, ultra thick] (0,0.65) -- (4.9,3.45);
 
+                \only<3>{
+                    \draw [red, thick] (2.25,2.55) circle (5pt);
+                    \draw [red, thick] (4.1,2.4) circle (5pt);
+                    \draw [red, thick] (2.2,1.3) circle (5pt);
+
+                }
+
             \end{tikzpicture}
         }
         \only<1>{
@@ -1330,30 +1338,149 @@ Two observations
 
 \begin{frame}{Linear classifier}
 
+    \begin{center}
+        \resizebox{0.3\linewidth}{!}{
+            \begin{tikzpicture}[>=latex]
+
+                \draw[thick, ->] (0,0) -> (5.2,0);
+                \draw[thick, ->] (0,0) -> (0,4.2);
+
+                \fill [hriSec2, opacity=0.5] (2.2,1.3) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (2.5,0.4) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (2.8,0.7) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (3.8,1.7) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (4.5,1.0) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (4.1,2.4) circle (2pt);
+
+                \fill [hriSec3Comp, opacity=0.5] (2.3,3.2) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (0.7,2.8) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.7,3.8) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.0,2.5) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (2.2,2.5) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.3,2.2) rectangle +(3.5pt,3.5pt);
+
+                \draw[dashed, ultra thick] (0,0.65) -- (4.9,3.45);
+
+            \end{tikzpicture}
+        }
+        \hspace{2em}
+        \only<4-5>{
+        \resizebox{0.4\linewidth}{!}{
+                \includegraphics[width=\linewidth]{svm-hyperplane}
+%            \begin{tikzpicture}[>=latex]
+%
+%                %\draw[help lines] (-1,-1) grid (5,4);
+%                \draw[thick, ->] (0,0) -> (5.2,0);
+%                \draw[thick, ->] (0,0) -> (0,4.2);
+%                \draw[thick, ->] (0,0) -> (-1.5,-1.2);
+%
+%                \fill [hriSec2, opacity=0.5] (2.2,1.3) circle (2pt);
+%                \fill [hriSec2, opacity=0.5] (2.5,0.4) circle (2pt);
+%                \fill [hriSec2, opacity=0.5] (2.8,0.7) circle (2pt);
+%                \fill [hriSec2, opacity=0.5] (3.8,1.7) circle (2pt);
+%                \fill [hriSec2, opacity=0.5] (4.5,1.0) circle (2pt);
+%                \fill [hriSec2, opacity=0.5] (4.1,2.4) circle (2pt);
+%
+%                \fill [hriSec3Comp, opacity=0.5] (2.3,3.2) rectangle +(3.5pt,3.5pt);
+%                \fill [hriSec3Comp, opacity=0.5] (0.7,2.8) rectangle +(3.5pt,3.5pt);
+%                \fill [hriSec3Comp, opacity=0.5] (1.7,3.8) rectangle +(3.5pt,3.5pt);
+%                \fill [hriSec3Comp, opacity=0.5] (1.0,2.5) rectangle +(3.5pt,3.5pt);
+%                \fill [hriSec3Comp, opacity=0.5] (2.2,2.5) rectangle +(3.5pt,3.5pt);
+%                \fill [hriSec3Comp, opacity=0.5] (1.3,2.2) rectangle +(3.5pt,3.5pt);
+%
+%                \draw[dashed, ultra thick] (0,0.65) -- (4.9,3.45);
+%                \draw[dashed, ultra thick] (0,0.65) -- (4.9,3.45);
+%                \draw[dashed, ultra thick] (0,0.65) -- (4.9,3.45);
+%                \draw[dashed, ultra thick] (0,0.65) -- (4.9,3.45);
+%
+%            \end{tikzpicture}
+        }
+        }
+    \end{center}
+
 \only<1>{
 
-A linear classifier for two categories can be written as
-    $y = \mathbf{w} \cdot \mathbf{x} + b$.
+    A linear classifier for two categories (\textbf{binary classifier}) can be written as
+    $f(\mathbf{x}) = \mathbf{w} \cdot \mathbf{x} + b$.
 
 \begin{itemize}
 
     \item $\mathbf{w} \cdot \mathbf{x} = \sum_i w_i x_i$. This is called the
         scalar product or inner product. Can also be written as a matrix
         multiplication $\mathbf{w}^T\mathbf{x}$.
-    \item $\mathbf{w}$ is a weight vector, tilting the line
-    \item $\mathbf{x}$ is a data point
-    \item $b$ is a bias, lifting the line up along the $y$-axis
+    \item $\mathbf{w}$ is a \textbf{weight vector}, tilting the line
+    \item $\mathbf{x}$ is a data point (of dimension $n$)
+    \item $b$ is a \textbf{bias}, lifting the line up along the $y$-axis
 \end{itemize}
 
-$\mathbf{w}$ is such that if for an $\mathbf{x}$ observation, if $y$ is
-positive, then the observation belongs to one category (the $\blacksquare$
-category). If $y$ is negative, the observation belongs to the $\circ$
-category.
+}
+\only<2-3>{
+    $\mathbf{w}$\bubblemark{weightvector} has to be calculated such that:
+\[
+f(\mathbf{x}) < 0 \Rightarrow \mathbf{x} \in \{\blacksquare\}
+\]
+\[
+f(\mathbf{x}) > 0 \Rightarrow \mathbf{x} \in \{\circ\}
+\]
+
+\bubble<3>[115][0.8][4cm]{weightvector}{for kNNs, we have to carry along the training data; with a linear classifier, once $\mathbf{w}$ is found, we can discard the training data}
 }
 
-\pause
 
-In SVM we want a margin $M$, so we can rewrite the linear
+
+\only<4-5>{
+
+    \begin{itemize}
+        \item In 2D, the \textbf{discriminant} is a line
+        \item In 3D, the discriminant is a plane
+        \item In n-D\bubblemark{dimensions}, the discriminant is a hyperplane
+    \end{itemize}
+
+\bubble<5>[160][1][10cm]{dimensions}{the 'dimensions' are the \textbf{features} of our inputs, \eg for a human, the size, age, skin colour, gender...}
+}
+
+\end{frame}
+
+\begin{frame}{Support vector classifier}
+
+    \begin{center}
+        \resizebox{0.3\linewidth}{!}{
+            \begin{tikzpicture}[>=latex]
+
+                \draw[thick, ->] (0,0) -> (5.2,0);
+                \draw[thick, ->] (0,0) -> (0,4.2);
+
+                \fill [hriSec2, opacity=0.5] (2.2,1.3) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (2.5,0.4) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (2.8,0.7) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (3.8,1.7) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (4.5,1.0) circle (2pt);
+                \fill [hriSec2, opacity=0.5] (4.1,2.4) circle (2pt);
+
+                \fill [hriSec3Comp, opacity=0.5] (2.3,3.2) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (0.7,2.8) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.7,3.8) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.0,2.5) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (2.2,2.5) rectangle +(3.5pt,3.5pt);
+                \fill [hriSec3Comp, opacity=0.5] (1.3,2.2) rectangle +(3.5pt,3.5pt);
+
+
+                \draw[red,opacity=0.5,line width=25pt] (0,0.65) -- (4.9,3.45);
+                \draw[dashed, ultra thick] (0,0.65) -- (4.9,3.45);
+
+                    \draw [red, thick] (2.25,2.55) circle (5pt);
+                    \draw [red, thick] (4.1,2.4) circle (5pt);
+                    \draw [red, thick] (2.2,1.3) circle (5pt);
+
+
+
+
+            \end{tikzpicture}
+        }
+    \end{center}
+
+
+In a SVM, we want to \textbf{maximise the margin} $M$. We can rewrite the linear
 classifier.
     
 If $\mathbf{w}^T\mathbf{x} + b \geq M$, then an observation belongs to
@@ -1361,11 +1488,10 @@ $\blacksquare$, for $\mathbf{w}^T\mathbf{x} + b \leq −M$, it belongs to
 $\circ$.
 
 \pause
+A point $\mathbf{x}^\blacksquare$ that lies on the $\blacksquare$ class
+boundary line, \ie $\mathbf{w}^T\mathbf{x}^\blacksquare + b = M$, is
+a \textbf{support vector}.
 
-Now suppose that we pick a point $\mathbf{x}^\blacksquare$ that lies on the $\blacksquare$ class
-boundary line, \ie $\mathbf{w}^T\mathbf{x}^\blacksquare = M$.
-    
-$\mathbf{x}^\blacksquare$ is a \textbf{support vector}.
 
 \end{frame}
 
@@ -1384,12 +1510,11 @@ The classifier needs to satisfy two conditions
 
 \pause
 
-Let's assume the target values $t_i$ of the categories are $+1$ and $-1$
-(not 0 and 1), we can rewrite the equation for the linear classifier
-as $t_i ( \mathbf{w}^T\mathbf{x} + b) \geq 1$.
-
 A \textbf{quadratic programming solver} is used to find the optimal
 values for $\mathbf{w}$ and $b$.
+
+{\footnotesize \href{http://www.robots.ox.ac.uk/~az/lectures/ml/lect2.pdf}{Oxford lecture on SVM} to learn more about the mathematical
+    formulation and the \emph{perceptron algorithm}.}
 
 \end{frame}
 
@@ -1397,8 +1522,8 @@ values for $\mathbf{w}$ and $b$.
 
 \begin{itemize}
 
-\item Unfortunately, all this still assumes that the data is linearly
-  separable. But what if it is not, and we are not prepared for a few
+    \item Unfortunately, \emph{all this still assumes that the data is linearly
+        separable}. But what if it is not, and we are not prepared for a few
   misclassifications?
 \item The solution is to \textbf{transform} the data: move data points in
   the n-D space until the training data is linearly separable again
@@ -1409,59 +1534,76 @@ values for $\mathbf{w}$ and $b$.
     \end{center}
 \end{frame}
 
-\begin{frame}{Kernel methods}
+\begin{frame}{Feature maps}
+
+We can transform data points (= move them) or even add more dimensions.  using
+some function $\theta(\mathbf{x}_i)$ from input $\mathbf{x}_i$. $\theta$ is a \textbf{feature
+map}.
 
 \only<1>{
-We can transform data points (= move them) or even add more dimensions.
-
-We are using some function $\theta(x_i)$ from input $x_i$.
-
-If we knew something about the data, then we might be able to identify
-functions that would be a good idea.
-
-\begin{itemize}
-
-\item Example, separating odd from even numbers
-\end{itemize}
-
-But we often don't have domain knowledge.
-}
-
-    \only<2>{
-A possible solution is to take \textbf{polynomials} of the input data:
-for example everything up to degree 2:
-
-\begin{itemize}
-
-\item Starting from input data $x_1, x_2, \dots, x_d$,
-  square all data $x^2_1, x^2_2, \dots, x^2_d$,
-  and also take all products of the
-        data $x_1 x_2, x_1 x_3, \dots, x_{d−1} x_d$.
-
-\item We've transformed a data set of $d$ elements into a set with
-    $\frac{d^2}{2}$ elements.
-\end{itemize}
-
-}
-\only<3>{
-
-
-For example, for one dimension $x_1$ the data is linearly
-    inseparable. But adding a second dimension $x^2_1$ results in the
-  data being separable.
-
+Example:
+    \[
+        \theta(\mathbf{x}_i) = [\mathbf{x}_i, \mathbf{x}^2_i]
+    \]
 
 \begin{center}
     \includegraphics[width=0.8\linewidth]{svm-kernels-separation}
 \end{center}
+
+$\rightarrow$ now, linearly separable
 }
+
+\only<2>{
+Example:
+    \[
+        \theta(<x_i, y_i>) = [x_i, y_i, x^2_i + y^2_i]
+    \]
+
+\begin{center}
+    \includegraphics[width=0.7\linewidth]{svm-kernel-3d}
+\end{center}
+
+$\rightarrow$ now, linearly separable
+}
+\only<3>{
+
+
+If we know something about the structure of the data, then we might be able to identify
+feature maps that would be effective.
+
+Often however we do not have such domain knowledge.
+}
+
+\end{frame}
+
+\begin{frame}{The kernel trick}
+
+\[
+        \theta: \mathbf{x} \rightarrow  \theta(\mathbf{x}), \mathbb{R}^d \rightarrow \mathbb{R}^D
+\]
+
+\begin{itemize}
+    \item Simply map $\mathbf{x}$ to $\theta(\mathbf{x})$ where data is separable
+    \item Solve for $\mathbf{w}$ in high dimensional space $\mathbb{R}^D$
+    \item If $D >> d$ then there are many more parameters to learn for $\mathbf{w}$. Can this be avoided?
+\end{itemize}
+
+    \href{http://www.robots.ox.ac.uk/~az/lectures/ml/lect3.pdf}{It can be shown that} you actually do not need to calculate explicitely $\theta(\mathbf{x})$. Instead, you only need $\theta(\mathbf{x}_i)^T \theta(\mathbf{x}_j)$ (with $\mathbf{x}_i$ the training data) to compute $\mathbf{w}$.
+
+    \pause
+
+    We call the \textbf{kernel function} $K(\mathbf{x}_i,\mathbf{x}_j) = \theta(\mathbf{x}_i)^T \theta(\mathbf{x}_j)$.
+    The SVM classifier can be learnt and applied with only $K$, and the complexity depends only on $N$ (size of training data), not on $D$.
+
+
 \end{frame}
 
 \begin{frame}{Which kernel to use?}
 
+    \only<1>{
 \begin{itemize}
 
-    \item As seen two slides ago, \textbf{polynomials} up to some degree $s$ in the
+    \item \textbf{Polynomials} up to some degree $s$ in the
   elements $x_k$ of the input vector (\eg $x^3_3$ or $x_1 x_4$). This can be written as:
 
     \[
@@ -1479,8 +1621,12 @@ For example, for one dimension $x_1$ the data is linearly
         K(x, y) = exp(- \frac{(x-y)^2}{2\sigma^2})
     \]
 
+(a Gaussian kernel)
+
 \end{itemize}
 
+}
+    \only<2>{
 
 
 Choosing which kernel to use and the parameters in these kernels is a
@@ -1488,8 +1634,8 @@ Choosing which kernel to use and the parameters in these kernels is a
   the Vapnik--Chernik dimension that can be applied, most people just
   experiment with different values and find one that works.
 
-Let's experiment\ldots{} Install Weka
-  \url{http://www.cs.waikato.ac.nz/ml/weka/}
+
+}
 
 \end{frame}
 
@@ -1498,6 +1644,75 @@ Let's experiment\ldots{} Install Weka
         \includegraphics[width=\linewidth]{svm_comparison}
     \end{center}
 \end{frame}
+
+\begin{frame}[fragile]{Python implementation of Support Vector Machine}
+
+\begin{onlyenv}<1>
+
+\begin{pythoncode}
+from sklearn import svm
+
+C = 1.0  # SVM regularization parameter ~~ 'how acceptable are misclassification'
+classifier = svm.SVC(kernel='linear', C=C) # kernel='poly', 'rbf', 'sigmoid'...
+
+classifier.fit(data, categories)
+
+predictions = classifier.predict(inputs)
+\end{pythoncode}
+
+\end{onlyenv}
+
+\begin{onlyenv}<2>
+    Complete example, with our data:
+
+\begin{columns}
+    \begin{column}{0.4\linewidth}
+\begin{pythoncode}
+""" data.csv:
+2.2,1.3,0 -> circles
+3.2,2.3,0
+...
+
+2.3,3.2,1 -> squares
+0.3,0.6,1
+...
+
+2.8,3.5,2 -> stars
+3.2,2.6,2
+...
+"""
+\end{pythoncode}
+        
+    \end{column}
+    \begin{column}{0.6\linewidth}
+\begin{pythoncode}
+from numpy import genfromtxt
+from sklearn import svm
+
+csv = genfromtxt('data.csv', delimiter=',')
+data = csv[:,:2]
+categories = csv[:,2]
+
+
+inputs = [ [3.5,3], [1.5,3], [1.8,1.9] ]
+
+clf = svm.SVC(kernel='rbf', gamma = 0.7, C=1.0)
+clf.fit(data, categories)
+
+predictions = clf.predict(inputs)
+print(predictions)
+
+>>>  [2.  1.  0.]
+
+\end{pythoncode}
+    \end{column}
+\end{columns}
+
+\end{onlyenv}
+
+
+\end{frame}
+
 
 
 \begin{frame}{The iris data set}
