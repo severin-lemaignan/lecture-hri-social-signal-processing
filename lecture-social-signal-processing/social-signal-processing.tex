@@ -264,7 +264,7 @@ Often broken down in smaller, sometimes more manageable, tasks:
 }
 \end{frame}
 
-\imageframe{attention}
+\imageframe[scale=0.9]{attention}
 
 \begin{frame}{Skin tone feature detector}
 
@@ -400,26 +400,22 @@ colorsys.hsv_to_rgb(0.5, 0.5, 0.4)
 \end{itemize}
 
 \begin{matlabcode}
-void centerOfGravity (int[][] image, int imageWidth,
-        int imageHeight)
+void centerOfGravity (int[][] image, int imageWidth, int imageHeight)
 {
-    int SumX = 0;
-    int SumY = 0;
-    int num = 0;
-    for (int i=0; i&lt;imageWidth; i++)
+    int SumX = 0; int SumY = 0; int num = 0;
+
+    for (int i=0; i<imageWidth; i++)
     {
-        for (int j=0; j&lt;imageHeight; j++)
+        for (int j=0; j<imageHeight; j++)
         {
             if (image[i][j] == WHITE)
             {
-                SumX = SumX + i;
-                SumY = SumY + j;
+                SumX = SumX + i; SumY = SumY + j;
                 num++;
             }
         }
     }
-    SumX = SumX / num;
-    SumY = SumY / num;
+    SumX = SumX / num; SumY = SumY / num;
     // The coordinate (SumX,SumY) is the center of gravity
 }
 \end{matlabcode}
@@ -436,18 +432,16 @@ void centerOfGravity (int[][] image, int imageWidth,
 \end{itemize}
 
 \begin{matlabcode}
-int[][] motionDetection (int[][] image,
-        int[][] imagePrevious, int imageWidth, int
-        imageHeight)
-
+int[][] motionDetection (int[][] image, int[][] imagePrevious,
+                         int imageWidth, int imageHeight)
 {
     int[][] imageMotion;
     int num = 0;
-    imageMotion = (int\\)malloc( imageWidth \ imageHeight)
+    imageMotion = (int**)malloc( imageWidth \ imageHeight)
 
-    for (int i=0; i&lt;imageWidth; i++)
+    for (int i=0; i<imageWidth; i++)
     {
-        for (int j=0; j&lt;imageHeight; j++)
+        for (int j=0; j<imageHeight; j++)
         {
             imageMotion[i][j] = abs(image[i][j] - imagePrevious[i][j]);
         }
@@ -523,6 +517,8 @@ The attention map is independent of the feature (color, motion, \ldots{})
 }
 
 \end{frame}
+
+\imageframe[scale=0.9]{attention}
 
 \begin{frame}{The auditory system}
 
@@ -791,7 +787,7 @@ Child speech is very different from adult speech.
 \begin{frame}{Impact of microphone type}
 
     \begin{center}
-        \includegraphics[width=0.8\linewidth]{mic_graph}
+        \includegraphics[width=0.7\linewidth]{mic_graph}
     \end{center}
 
 Recognition rate of numbers spoken by children, split by microphone type
@@ -803,7 +799,7 @@ a grammar containing only number words.
 \begin{frame}{Impact of background noise}
 
 \begin{center}
-    \includegraphics[width=0.8\linewidth]{noise_graph}
+    \includegraphics[width=0.7\linewidth]{noise_graph}
 \end{center}
 
 Recognition rate of number utterances spoken by children, split by
@@ -811,9 +807,6 @@ background noise level (83 total utterances) using Nao's ASR engine
 (Nuance Vocon 4.7) constrained by a grammar containing only number
 words.
 
-Clean
-
-Background noise
 
 \end{frame}
 
@@ -868,6 +861,7 @@ Social signal processing often relies on \textbf{classification.}
 
 Examples:
 
+\scriptsize
 \begin{itemize}
 
 \item An incoming tweet needs to classified as being positive or negative.
@@ -1228,8 +1222,8 @@ print(predictions)
 
     \begin{itemize}
         \only<1-3>{
-        \item<1-3> to be effective, distance between neighbouring points must be $< d$
-        \item<2-3> $d$ depends on the problem. In 1-D, we would need $n \sim \frac{1}{d}$ points.
+        \item<1-3> to be effective, distance between neighbouring points must be $< d$. $d$ depends on the problem. 
+        \item<2-3> In 1-D, we would need $n \sim \frac{1}{d}$ points.
         \item<2-3> For instance, with one feature in $[0, 1]$ and $n$ training observations, new data
             will be no further away than $\frac{1}{n}$.
         \item<3> Therefore, the nearest neighbour decision will be efficient
