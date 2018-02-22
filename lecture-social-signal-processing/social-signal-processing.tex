@@ -30,6 +30,20 @@
 \makeatother
 \setcounter{subsection}{1}
 
+\makeatletter
+\let\beamer@writeslidentry@miniframeson=\beamer@writeslidentry
+\def\beamer@writeslidentry@miniframesoff{%
+  \expandafter\beamer@ifempty\expandafter{\beamer@framestartpage}{}% does not happen normally
+  {%else
+    % removed \addtocontents commands
+    \clearpage\beamer@notesactions%
+  }
+}
+\newcommand*{\miniframeson}{\let\beamer@writeslidentry=\beamer@writeslidentry@miniframeson}
+\newcommand*{\miniframesoff}{\let\beamer@writeslidentry=\beamer@writeslidentry@miniframesoff}
+\makeatother
+
+
 
 \newcommand{\source}[2]{{\tiny\it Source: \href{#1}{#2}}}
 
@@ -46,9 +60,13 @@
 
 \begin{document}
 
+\miniframesoff
+
 \licenseframe{github.com/severin-lemaignan/lectures-hri}
 
 \maketitle
+
+\miniframeson
 
 \section[Social signals?]{What are Social Signals?}
 
@@ -532,11 +550,11 @@ Advantages:
 (They just carried it upstairs and now they are going down again).
 
     \begin{center}
-    \video[1]{1cm}{figs/prosody/media1.mp4}\hspace{0.3em}
-    \video[1]{1cm}{figs/prosody/media2.mp4}\hspace{0.3em}
-    \video[1]{1cm}{figs/prosody/media3.mp4}\hspace{0.3em}
-    \video[1]{1cm}{figs/prosody/media4.mp4}\hspace{0.3em}
-    \video[1]{1cm}{figs/prosody/media5.mp4}
+    \audio{figs/prosody/media1.mp4}\hspace{0.3em}
+    \audio{figs/prosody/media2.mp4}\hspace{0.3em}
+    \audio{figs/prosody/media3.mp4}\hspace{0.3em}
+    \audio{figs/prosody/media4.mp4}\hspace{0.3em}
+    \audio{figs/prosody/media5.mp4}
     \end{center}
 
     \source{http://emodb.bilderbar.info/start.html}{Berlin Database of
@@ -577,7 +595,7 @@ Compute features from the samples
 \begin{frame}{Audio processing stream in Kismet}
 
     Many different samples were recorded and classified by a human subject.
-    Then an algorithm was trained (Expectation Maximisation) to classify the
+    Then an algorithm was trained (\emph{Expectation Maximisation}) to classify the
     samples into five distinct classes.
 
     \begin{itemize}
@@ -589,7 +607,7 @@ Compute features from the samples
     \end{itemize}
 
     \begin{center}
-        \includegraphics[width=0.8\linewidth]{kismet-audio-processing}
+        \includegraphics[width=\linewidth]{kismet-audio-processing}
     \end{center}
 
 \end{frame}
@@ -603,6 +621,7 @@ Compute features from the samples
 
 \begin{frame}{Speech recognition}
 
+    \only<1>{
     See Guido's lectures, but here's a small heads up.
 
     Automated Speech Recognition has improved tremendously over the past few
@@ -614,6 +633,8 @@ Compute features from the samples
         \item Can deal with a larger amount of background noise
     \end{itemize}
 
+}
+    \only<2>{
     Plenty of reports on increased performance
 
 \begin{itemize}
@@ -623,13 +644,13 @@ Compute features from the samples
   conversational speech recognition}'' (Oct 2016)
 \item Error rate (\% of misunderstood words) on
   \href{https://catalog.ldc.upenn.edu/LDC2004S13}{Switchboard} (SWB) and
-  CallHome (CH) corpus.
+  CallHome (CH) corpus:
 \end{itemize}
 
     \begin{center}
         \includegraphics[width=0.8\linewidth]{asr-error-rates}
     \end{center}
-
+}
 \end{frame}
 
 \begin{frame}{Speech recognition}
@@ -638,6 +659,7 @@ So what has changed?
 
 \begin{itemize}
 
+        \only<1>{
 \item Introduction of new models for speech recognition based on Deep Neural
   Networks (DNN) or Convolutional Neural Networks (CNN), replacing
   models based on n-grams or Hidden Markov Models (HMM).
@@ -645,6 +667,8 @@ So what has changed?
         \begin{center}
             \includegraphics[width=0.8\linewidth]{asr-evolution}
         \end{center}
+    }
+        \only<2>{
 \item More availability of training data, often collected through speech
   command interfaces (such as Google Now, Microsoft's Xbox chat
   function).
@@ -652,6 +676,7 @@ So what has changed?
   Computing clusters and Graphical Processing Units (GPUs).
 \item Recognition happens in the cloud, rather than on-board a device. This
   offers more computational power and access to large networks.
+        }
 \end{itemize}
 
 \end{frame}
@@ -714,18 +739,53 @@ Child speech is very different from adult speech.
 \begin{itemize}
 
 \item Numbers (0 to 10)
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+            \audio{figs/counting-1.mp4}
+            \end{center}
+
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+            \audio{figs/counting-3.mp4}
+            \end{center}
+
+        \end{column}
+    \end{columns}
+
 \item Sentences
+
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+    \audio{figs/sentence-clean.mp4}
+
+                {\footnotesize Clean}
+            \end{center}
+
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+
+    \audio{figs/sentence-noisy.mp4}
+
+    {\footnotesize Noisy}
+            \end{center}
+        \end{column}
+    \end{columns}
+
 \item Spontaneous speech
+
+
+    \begin{center}
+        \audio{figs/openspeech1.mp4}\hspace{2em}
+        \audio{figs/openspeech2.mp4}\hspace{2em}
+        \audio{figs/openspeech3.mp4}\hspace{2em}
+        \audio{figs/openspeech4.mp4}
+    \end{center}
+
 \end{itemize}
-
-Jacob, native English speaker
-
-Julia, native English speaker
-
-Clean
-
-Noisy
-
 (Recorded with studio microphone)
 
 \end{frame}
@@ -1810,9 +1870,9 @@ Can we automatically recognise someone's gender from speech?
 \end{itemize}
 
     \begin{center}
-    \video[1]{1cm}{figs/male-us.mp4}\hspace{0.3em}
-    \video[1]{1cm}{figs/male-scottish.mp4}\hspace{0.3em}
-    \video[1]{1cm}{figs/female-us.mp4}
+    \audio{figs/male-us.mp4}\hspace{0.3em}
+    \audio{figs/male-scottish.mp4}\hspace{0.3em}
+    \audio{figs/female-us.mp4}
     \end{center}
 
 
@@ -1894,11 +1954,7 @@ Performance
 
 Recognising gender from speech is easy and robust.
 
-\begin{itemize}
-
-\item All classification algorithms can deal with this problem (at least all
-  the ones I tried).
-\end{itemize}
+All classification algorithms can deal with this problem.
 
 \end{frame}
 
@@ -1942,9 +1998,9 @@ But still many open problems remaining
         That's all, folks!\\[2em]
         \normalsize
         Questions:\\
-        Portland Square A216 or \url{severin.lemaignan@plymouth.ac.uk} \\[1em]
+        Portland Square B316 or \url{severin.lemaignan@plymouth.ac.uk} \\[1em]
 
-        Slides:\\ \href{https://github.com/severin-lemaignan/module-mobile-and-humanoid-robots}{\small github.com/severin-lemaignan/module-mobile-and-humanoid-robots}
+        Slides:\\ \href{https://github.com/severin-lemaignan/lecture-social-signal-processing}{\small github.com/severin-lemaignan/lecture-social-signal-processing}
 
     \end{center}
 \end{frame}
