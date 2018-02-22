@@ -46,7 +46,7 @@ force: touch paper
 nup: $(TARGET:.pdf=.nup)
 
 clean:
-	rm -f */*.vrb */*.spl */*.idx */*.aux */*.log */*.snm */*.out */*.toc */*.nav */*intermediate */*~ */*.glo */*.ist */*.bbl */*.blg */_minted* $(SVG:.svg=.pdf) $(DOT:.dot=.svg) $(DOT:.dot=.pdf)
+	rm -rf */*.vrb */*.spl */*.idx */*.aux */*.log */*.snm */*.out */*.toc */*.nav */*intermediate */*~ */*.glo */*.ist */*.bbl */*.blg */_minted* $(SVG:.svg=.pdf) $(DOT:.dot=.svg) $(DOT:.dot=.pdf)
 
 distclean: clean
 	rm -f $(TARGET:.tex=.pdf)

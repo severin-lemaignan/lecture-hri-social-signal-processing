@@ -1905,12 +1905,8 @@ The voice samples are pre-processed by acoustic analysis in R using the
 {\tt seewave}, {\tt warbleR} and {\tt tuneR} packages, with an analysed frequency range of
 0hz-280Hz (fundamental frequency of human speech).
 
-\begin{itemize}
 
-\item Extracted 20 features.
-\end{itemize}
-
-    \source{https://www.kaggle.com/primaryobjects/voicegender}{data and more information}
+\source{https://www.kaggle.com/primaryobjects/voicegender}{data and more information}
 
 
 \end{frame}
@@ -1933,13 +1929,13 @@ The voice samples are pre-processed by acoustic analysis in R using the
 \item \textbf{mode}: mode frequency
 \item \textbf{centroid}: frequency centroid (see specprop)
 \item \textbf{peakf}: peak frequency (frequency with highest energy)
+\item \textbf{meanfun}: average of fundamental frequency measured across
+  acoustic signal
 \end{itemize}
 }
     \only<2>{
 \begin{itemize}
 
-\item \textbf{meanfun}: average of fundamental frequency measured across
-  acoustic signal
 \item \textbf{minfun}: minimum fundamental frequency measured across
   acoustic signal
 \item \textbf{maxfun}: maximum fundamental frequency measured across
@@ -2020,7 +2016,7 @@ But still many open problems remaining
 \begin{frame}{}
     \begin{center}
         \Large
-        That's all, folks!\\[2em]
+        That's all for today, folks!\\[2em]
         \normalsize
         Questions:\\
         Portland Square B316 or \url{severin.lemaignan@plymouth.ac.uk} \\[1em]
