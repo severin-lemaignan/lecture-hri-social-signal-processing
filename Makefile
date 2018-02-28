@@ -1,11 +1,11 @@
 
 LATEX=lualatex
 
-TEXTARGETS=$(wildcard lecture-*/*.tex)
+TEXTARGETS=$(wildcard *.tex)
 
 TARGET=$(TEXTARGETS:.tex=.pdf)
 
-SVG=$(wildcard lecture-*/figs/*.svg)
+SVG=$(wildcard figs/*.svg)
 
 MODE ?= batchmode
 
@@ -23,11 +23,11 @@ $(SVG:.svg=.pdf): %.pdf: %.svg
 	./make_video_preview.py $<
 
 bib: $(TARGET:.tex=.aux)
-	BSTINPUTS=:./style bibtex $(TARGET:.tex=.aux)
+	BSTINPUTS=:style bibtex $(TARGET:.tex=.aux)
 
 %.pdf: %.tex
 	cd `dirname $<`; \
-	TEXINPUTS=:../style $(LATEX) --interaction=$(MODE) -shell-escape `basename $<`; if [ $$? -gt 0 ]; then echo "Error while compiling $<"; touch `basename $<`; fi; \
+	TEXINPUTS=:style $(LATEX) --interaction=$(MODE) -shell-escape `basename $<`; if [ $$? -gt 0 ]; then echo "Error while compiling $<"; touch `basename $<`; fi; \
 	cd -
 
 paper: $(SVG:.svg=.pdf) $(DOT:.dot=.pdf) $(TARGET)
@@ -46,7 +46,7 @@ force: touch paper
 nup: $(TARGET:.pdf=.nup)
 
 clean:
-	rm -rf */*.vrb */*.spl */*.idx */*.aux */*.log */*.snm */*.out */*.toc */*.nav */*intermediate */*~ */*.glo */*.ist */*.bbl */*.blg */_minted* $(SVG:.svg=.pdf) $(DOT:.dot=.svg) $(DOT:.dot=.pdf)
+	rm -rf *.vrb *.spl *.idx *.aux *.log *.snm *.out *.toc *.nav *intermediate *~ *.glo *.ist *.bbl *.blg _minted* $(SVG:.svg=.pdf) $(DOT:.dot=.svg) $(DOT:.dot=.pdf)
 
 distclean: clean
 	rm -f $(TARGET:.tex=.pdf)
