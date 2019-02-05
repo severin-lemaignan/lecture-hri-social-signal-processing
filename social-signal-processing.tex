@@ -53,10 +53,10 @@
 \graphicspath{{figs/}}
 
 \title{Social Signal Processing}
-\subtitle{AINT512}
+\subtitle{~}
 \date{}
 \author{Séverin Lemaignan}
-\institute{Centre for Neural Systems and Robotics\\{\bf Plymouth University}}
+\institute{{\bf Bristol Robotics Lab}\\University of the West of England}
 
 \begin{document}
 
@@ -72,6 +72,20 @@
 
 \videoframe[0.56]{figs/tears-of-steel-extract.mp4}
 \imageframe{social-signal}
+
+\begin{frame}{In this lecture}
+
+\begin{itemize}
+    \item What/why social sigal processing?
+    \item Classification (k-nearest neighbours and Support Vector Machines)
+
+    \item Case study: emotions (aka: let's build an emotion classifier from
+        scratch)
+
+\end{itemize}
+
+\end{frame}
+
 
 
 {
@@ -94,55 +108,6 @@
 \end{frame}
 }
 
-\begin{frame}{Why?}
-
-    The ability to recognize human social signals and social behaviours like turn
-    taking, politeness, and disagreement is essential when building social
-    robots, human-robot interaction, or interactive systems
-
-\pause
-
-    \begin{exampleblock}{3 main problems}
-
-    \begin{itemize}
-        \item \emph{Modeling}: identification of the principles and laws
-        \item \emph{Analysis}: automatic detection and interpretation
-        \item \emph{Synthesis}: automatic generation of artificial social
-            signals
-    \end{itemize}
-
-    \end{exampleblock}
-\end{frame}
-
-\begin{frame}{Is it hard?}
-
-    On the following video, pay particular attention to turn taking
-\end{frame}
-
-\videoframe[0.56]{figs/social-signal.mkv}
-
-\begin{frame}{Is it hard?}
-
-As with most human activities that seem easy to us, social signal
-processing is tremendously hard.
-
-Often broken down in smaller, sometimes more manageable, tasks:
-
-\begin{itemize}
-
-\item People detection
-\item Face detection
-\item Face recognition
-\item Gesture recognition
-\item Gaze detection
-\item Facial expression reading (wink, blink, talking, \ldots{})
-\item Detection of social signals from verbal communication
-\item Emotion recognition (from faces, movement, speech, \ldots{})
-\item \ldots{}
-\end{itemize}
-
-\end{frame}
-
 \begin{frame}[plain]
 \centering
         \resizebox{!}{0.9\paperheight}{%
@@ -164,9 +129,11 @@ Often broken down in smaller, sometimes more manageable, tasks:
                 child[concept color=hriSec2Dark,text=white] { node[concept] (attention) {Gaze} };
             }
             child[concept color=hriSec2Comp,text=white,visible on=<2->] { node[concept] (knowledge) {...from the body}
-                [counterclockwise from=-150]
+                [counterclockwise from=-170]
                 child[concept color=hriSec1CompDark,text=white] { node[concept] (soc-rules) {Proxemics} }
                 child[concept color=hriSec3Comp,text=black] { node[concept] (soc-ctxt) {Body posture} }
+                child[concept color=hriSec2,text=black] { node[concept]
+                (soc-ctxt) {Motion} }
                 child[concept color=hriSec2Dark,text=white] { node[concept] (memory) {Gestures} };
             }
             child[concept color=hriSec3Comp,text=black,visible on=<3->] { node[concept] (comm) {...in the voice} 
@@ -182,664 +149,111 @@ Often broken down in smaller, sometimes more manageable, tasks:
 \end{frame}
 
 
-\begin{frame}{In this lecture}
+\begin{frame}{Why?}
 
-\begin{itemize}
+    The ability to recognize human social signals and social behaviours like turn
+    taking, politeness, and disagreement is essential when building social
+    robots, human-robot interaction, or interactive systems
 
-\item A historical case study: Kismet
-\item Recognising emotions from speech
-\item Speech recognition in the context of HRI
-\item Classification (k-nearest neighbours and Support Vector Machines)
-\item Classification for social signal processing
-\end{itemize}
+\pause
 
-\end{frame}
-
-
-\begin{frame}{Next 2 weeks}
-
+    \begin{exampleblock}{3 main problems}
 
     \begin{itemize}
-        \item How to extract facial features
-        \item How to estimate gaze
-        \item How to measure attention
-        \item How to recognise a face
-        \item How to model emotions
+        \item \emph{Modeling}: identification of the principles and laws
+        \item \emph{Analysis}: automatic detection and interpretation
+        \item \emph{Synthesis}: automatic generation of artificial social
+            signals
     \end{itemize}
 
+    \end{exampleblock}
 \end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}{How hard?}
 
-\section[Kismet]{Case study: Kismet's vision system}
-
-
-\begin{frame}{Case study: Kismet's vision system}
-
-    \only<1>{
-        Remember Kismet?
+    In order to understand ``what's going on?'' (\emph{classification}), we
+    first need to build \emph{representations} by the mean of raw data
+    pre-processing (\emph{conditionning}). This typically relies on
+    \emph{models} (skeletons, language, eye, etc.)
 
     \begin{center}
-    \video{0.7\paperwidth}{figs/kismet.mp4}
+        \includegraphics[width=0.9\linewidth]{pinsoro-kinematics/clips}
     \end{center}
 
-
-
-    Built by Cynthia Breazeal and a team of postgrad students at the
-    Massachusetts Institute of Technology (MIT) in 1997.
-}
-    \only<2>{
-
-        Primary goal: implement an \textbf{attention system}: directing gaze
-    towards salient features.
-
-    \begin{itemize}
-        \item This should be real-time.
-        \item Should resemble the attention system of human infants.
-    \end{itemize}
-
-    \begin{columns}
-        \begin{column}{0.4\linewidth}
-    Attention to several cues:
-
-    \begin{itemize}
-        \item Skin tone
-        \item Saturated colours
-        \item Motion
-    \end{itemize}
-            
-        \end{column}
-        \begin{column}{0.6\linewidth}
-    \begin{center}
-        \includegraphics[width=\columnwidth]{colormap}
-    \end{center}
-        \end{column}
-    \end{columns}
-
-
-    Note that detecting skin tone is easier than detecting faces, and often
-    has the same result as face detection
-}
 \end{frame}
 
-\imageframe[scale=0.9]{attention}
+\videoframe[0.56]{figs/pinsoro-kinematics/clip_skel_01.mp4}
 
-\begin{frame}{Skin tone feature detector}
+\videoframe[0.56]{figs/pinsoro-kinematics/clip_01.mp4}
 
-    Incoming stream is 8-bit colour images, 128 by 128 pixels\bubblemark{128x128}.
+\videoframe[0.56]{figs/pinsoro-kinematics/clip_skel_05.mp4}
 
-
-    \bubble<1>[70][0.7][5cm]{128x128}{
-  128 x 128 resolution limit caused by hardware throughput and
-  computation available at the time, current hardware will be able to
-    handle megapixel resolution in real-time.}
-
-    A pixel is \emph{not} skin-toned if:
-
-\begin{itemize}
-\item $R < 1.1 G$ and
-\item $R < 0.9 B$ and
-\item $R > 2.0 \times max(G,B)$ and
-\item $R < 20$ and
-\item $R > 250$
-\end{itemize}
-
-This simple procedure works for most skin colours and under most
-lighting conditions.
-
-  It is claimed this even works with non-Caucasian skin, as it picks up
-  a colour component in the blood.
+\videoframe[0.56]{figs/pinsoro-kinematics/clip_05.mp4}
 
 
-\end{frame}
+\begin{frame}{How hard?}
 
-\begin{frame}{Skin tone feature detector}
+    Building the right representation is hard, especially for multi-modal social
+    signals (essentially, an open research
+    question).
 
-    \begin{center}
-        \includegraphics[width=\linewidth]{skin-tone}
-    \end{center}
+    \pause
 
-    \begin{columns}
-        \begin{column}{0.5\linewidth}
-            Cut through RGB 3-dimensional space, picking out only skin tone RGB
-            values
-
-
-        \end{column}
-        \begin{column}{0.5\linewidth}
-            Result of skin tone detector in action.
-        \end{column}
-    \end{columns}
-
-\end{frame}
-
-\begin{frame}[fragile]{Saturation detector}
-
-Convert RGB to HSV values
-
-    \begin{columns}
-        \begin{column}{0.5\linewidth}
-\begin{itemize}
-
-    \item From \texttt{<red, green, blue>} to \texttt{<hue, saturation, value>} representation.
-\item \textbf{hue} is the ``colour'', \textbf{saturation} is how deep the
-  colour is and \textbf{value} is how bright the pixel is.
-\item Usually an excellent first step in computer vision when processing
-  colour images, as it removes the effect of uneven lighting.
-\end{itemize}
-            
-        \end{column}
-        \begin{column}{0.5\linewidth}
-
-    \begin{center}
-        \includegraphics[width=\columnwidth]{hsv}
-    \end{center}
-
-        \end{column}
-    \end{columns}
-
-
-\end{frame}
-
-\begin{frame}[fragile]{RGB to HSV in Python}
-
-    \begin{columns}
-        \begin{column}{0.5\linewidth}
-\begin{pythoncode}
-def rgb2hsv(r, g, b):
-    r, g, b = r/255.0, g/255.0, b/255.0
-    mx = max(r, g, b)
-    mn = min(r, g, b)
-    df = mx-mn
-    if mx == mn:
-        h = 0
-    elif mx == r:
-        h = (60 * ((g-b)/df) + 360) % 360
-    elif mx == g:
-        h = (60 * ((b-r)/df) + 120) % 360
-    elif mx == b:
-        h = (60 * ((r-g)/df) + 240) % 360
-    if mx == 0:
-        s = 0
-    else:
-        s = df/mx
-    v = mx
-    return h, s, v
-\end{pythoncode}
-\source{http://code.activestate.com/recipes/576919-python-rgb-and-hsv-conversion/}{Python recipes}
-            
-        \end{column}
-        \begin{column}{0.5\linewidth}
-            \vspace{4cm}
-
-or better:
-
-\begin{pythoncode}
-import colorsys
-colorsys.rgb_to_hsv(0.2, 0.4, 0.4)
---> (0.5, 0.5, 0.4)
-colorsys.hsv_to_rgb(0.5, 0.5, 0.4)
---> (0.2, 0.4, 0.4)
-\end{pythoncode}
-
-        \end{column}
-    \end{columns}
-
-
-\end{frame}
-
-\begin{frame}[fragile]{Saturation detector}
+Social signal processing is typically broken down in smaller, more manageable,
+    tasks:
 
 \begin{itemize}
 
-\item Convert image from RGB to HSV, and mark pixels (by setting them to
-  WHITE) that have a saturation over a certain threshold.
-\item Focus on \textbf{Centre of Gravity} of all saturation pixels.
-\end{itemize}
-
-\begin{matlabcode}
-void centerOfGravity (int[][] image, int imageWidth, int imageHeight)
-{
-    int SumX = 0; int SumY = 0; int num = 0;
-
-    for (int i=0; i<imageWidth; i++)
-    {
-        for (int j=0; j<imageHeight; j++)
-        {
-            if (image[i][j] == WHITE)
-            {
-                SumX = SumX + i; SumY = SumY + j;
-                num++;
-            }
-        }
-    }
-    SumX = SumX / num; SumY = SumY / num;
-    // The coordinate (SumX,SumY) is the center of gravity
-}
-\end{matlabcode}
-
-\end{frame}
-
-\begin{frame}[fragile]{Motion detector}
-
-\begin{itemize}
-
-\item Motion is a strong social signal, essential for survival (both in
-  detecting prey and predator). Robots are expected to be sensitive to
-  motion as well.
-\end{itemize}
-
-\begin{matlabcode}
-int[][] motionDetection (int[][] image, int[][] imagePrevious,
-                         int imageWidth, int imageHeight)
-{
-    int[][] imageMotion;
-    int num = 0;
-    imageMotion = (int**)malloc( imageWidth \ imageHeight)
-
-    for (int i=0; i<imageWidth; i++)
-    {
-        for (int j=0; j<imageHeight; j++)
-        {
-            imageMotion[i][j] = abs(image[i][j] - imagePrevious[i][j]);
-        }
-    }
-}
-\end{matlabcode}
-
-\end{frame}
-
-\begin{frame}{Optical flow}
-
-    Today, motion detection is performed by computing the \emph{optical flow}
-    of a video stream.
-
-    \video{0.8\paperwidth}{figs/optical_flow.mp4}
-
-    The colours indicate the direction in which each pixel moves.
-
-
-\end{frame}
-
-
-\begin{frame}{Post-attentive processing}
-
-After attention has been fixed, run some additional algorithms
-
-\begin{itemize}
-
-\item Eye detection: using template matching.
-\item Proximity estimation: using stereo vision.
-\item Loom detection: if the size of the motion blob increases rapidly.
-\item Threat detection: rapid motion or fast looming.
-\end{itemize}
-
-The results of these visual processes feed into the behaviour manager of
-the robot.
-
-\begin{itemize}
-
-\item Robot focuses on visual regions that draw its attention
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Selection of attention}
-
-Kismet does not attend to all three features for computational
-reasons\bubblemark{processingpower}, but selects one according to its
-current behaviour.
-
-For example, when the {\tt seek\_people} behaviour is active, it uses skin tone
-to direct its attention.
-
-\bubble<1>[110][1.7][5cm]{processingpower}{ This was back in early 2000s.
-Current hardware can handle this computational load without problem.
-However, it is good practice to not spend processor cycles on signals you
-do not require.  }
-
-    \onslide<2>{
-Implementation: an \textbf{attention activation map}
-
-\begin{itemize}
-    \item A 128 by 128 map of activation for the feature detectors is
-    constructed.
-    \item A threshold is applied to get rid of noise.
-    \item Connected regions are found using the 4-connect algorithm.
-    \item Regions of less than 30 pixels are thrown away.
-    \item Centroid is computed.
-    \item Attention is drawn to largest region.
-\end{itemize}
-
-The attention map is independent of the feature (color, motion, \ldots{})
-}
-
-\end{frame}
-
-\imageframe[scale=0.9]{attention}
-
-\begin{frame}{The auditory system}
-
-Kismet does not understand human language!
-
-It only pays attention to emotional content of speech. This is done
-though monitoring \textbf{prosody}.
-
-Advantages:
-
-\begin{itemize}
-
-\item rather easy and computationally inexpensive
-\item the robot is not committed to one single language
-\item the robot is speaker independent
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Emotion from prosody}
-
-„Sie haben es gerade hochgetragen und jetzt gehen sie wieder runter``
-(They just carried it upstairs and now they are going down again).
-
-    \begin{center}
-    \audio{figs/prosody/media1.mp4}\hspace{0.3em}
-    \audio{figs/prosody/media2.mp4}\hspace{0.3em}
-    \audio{figs/prosody/media3.mp4}\hspace{0.3em}
-    \audio{figs/prosody/media4.mp4}\hspace{0.3em}
-    \audio{figs/prosody/media5.mp4}
-    \end{center}
-
-    \source{http://emodb.bilderbar.info/start.html}{Berlin Database of
-  Emotional Speech}
-
-
-Which emotion do you recognise?
-
-
-    \textbf{Anger} -- \textbf{Boredom} -- \textbf{Disgust} -- \textbf{Anxiety/Fear} -- \textbf{Happiness} --
-    \textbf{Sadness} --  \textbf{Neutral}
-
-Humans recognise emotions from prosody with approx. 80\% accuracy
-(\textit{caveat: this is for speech spoken by actors in a recording studio})
-
-\end{frame}
-
-\begin{frame}{Speech processing system}
-
-Compute features from the samples
-
-\begin{itemize}
-
-\item Pitch mean
-\item Pitch variance
-\item Maximum pitch.
-\item Minimum pitch.
-\item Pitch range.
+\item People detection
+\item Face detection
+\item Face recognition
+\item Gesture recognition
+\item Gaze detection
+\item Facial expression reading (wink, blink, talking, \ldots{})
+\item Detection of social signals from verbal communication
+\item Emotion recognition (from faces, movement, speech, \ldots{})
 \item \ldots{}
 \end{itemize}
 
-    \begin{center}
-        \includegraphics[width=0.8\linewidth]{prosody}
-    \end{center}
-
 \end{frame}
 
-\begin{frame}{Audio processing stream in Kismet}
-
-    Many different samples were recorded and classified by a human subject.
-    Then an algorithm was trained (\emph{Expectation Maximisation}) to classify the
-    samples into five distinct classes.
-
-    \begin{itemize}
-        \item Approvals
-        \item Attention drawing
-        \item Prohibition
-        \item Comforting
-        \item Neutral
-    \end{itemize}
-
-    \begin{center}
-        \includegraphics[width=\linewidth]{kismet-audio-processing}
-    \end{center}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\imageframe{ros4hri-pipeline}
 
 
-\section{Speech recognition}
+\section{Case study: emotions}
 
-\begin{frame}{Speech recognition}
+\begin{frame}{Paul Ekman and basic emotions}
+
+\href{https://en.wikipedia.org/wiki/Paul_Ekman}{Paul Ekman}, a
+psychologist, found that when shown facial expressions people across the
+world all recognised six \textbf{basic emotions}.
 
     \only<1>{
-    See Guido's lectures, but here's a small heads up.
-
-    Automated Speech Recognition has improved tremendously over the past few
-    years.
-
-    \begin{itemize}
-        \item Improved recognition performance
-        \item Speaker independence
-        \item Can deal with a larger amount of background noise
-    \end{itemize}
-
-}
-    \only<2>{
-    Plenty of reports on increased performance
-
-\begin{itemize}
-
-\item ``\href{https://blogs.microsoft.com/next/2016/10/18/historic-achievement-microsoft-researchers-reach-human-parity-conversational-speech-recognition/\#g5qKXHrZZ2pbxuPH.99}{Historic
-  Achievement: Microsoft researchers reach human parity in
-  conversational speech recognition}'' (Oct 2016)
-\item Error rate (\% of misunderstood words) on
-  \href{https://catalog.ldc.upenn.edu/LDC2004S13}{Switchboard} (SWB) and
-  CallHome (CH) corpus:
-\end{itemize}
-
     \begin{center}
-        \includegraphics[width=0.8\linewidth]{asr-error-rates}
+        \includegraphics[width=0.55\linewidth]{emotions/ekman_6_basic_emotions}
+
+        \source{http://emotionresearcher.com/}{emotionresearcher.com}
     \end{center}
 }
-\end{frame}
 
-\begin{frame}{Speech recognition}
-
-So what has changed?
-
-\begin{itemize}
-
-        \only<1>{
-\item Introduction of new models for speech recognition based on Deep Neural
-  Networks (DNN) or Convolutional Neural Networks (CNN), replacing
-  models based on n-grams or Hidden Markov Models (HMM).
-
-        \begin{center}
-            \includegraphics[width=0.8\linewidth]{asr-evolution}
-        \end{center}
-    }
-        \only<2>{
-\item More availability of training data, often collected through speech
-  command interfaces (such as Google Now, Microsoft's Xbox chat
-  function).
-\item Computational power to train DNN has increased: High Performance
-  Computing clusters and Graphical Processing Units (GPUs).
-\item Recognition happens in the cloud, rather than on-board a device. This
-  offers more computational power and access to large networks.
-        }
-\end{itemize}
-
-\end{frame}
-
-\imageframe[caption=DeepSpeech: open-source efforts by Mozilla]{common-voice-project}
-
-\begin{frame}{Speech recognition}
-
-Question
-
-\begin{itemize}
-
-\item So, given that ASR performance seems high, how good is it really for
-  Human-Robot Interaction?
-\end{itemize}
-
-Human-Robot Interaction is unique
-
-\begin{itemize}
-
-\item There is often a noise environment.
-\item Users are at a distance from the robot (and any speakers carried on
-  the robot). Almost all ASR engines have been trained on speech
-  recorded close to the microphone (\textless{} 10cm).
-\item There might be a multi-party conversation (i.e.~multiple speakers).
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Speech recognition for children}
-
-How well does speech recognition perform for child speech?
-
-\begin{itemize}
-
-\item For counting (1,2,3, \ldots{}) and short sentences \textbf{spoken by
-  adults}, recognition rate is \textbf{90\% using Nao microphone and
-  on-board ASR} (Nuance VoCon 4.7). And up to 99\% recognition with a
-  high-quality microphone and Google ASR.
-\item Can we assume that ASR on children's speech will have the same
-  performance?
-\end{itemize}
-
-Child speech is very different from adult speech.
-
-\begin{itemize}
-
-\item Higher pitch (due to small vocal tracts).
-\item higher number of disfluencies and, especially in younger children,
-  language utterances are often ungrammatical (e.g. ``The boy
-  \emph{putted} the frog in the box'').
-\end{itemize}
-
-\end{frame}
-
-\imageframe{child-speech}
-
-\begin{frame}{Examples of recordings (cleaned-up, normalised)}
-
-\begin{itemize}
-
-\item Numbers (0 to 10)
-    \begin{columns}
-        \begin{column}{0.5\linewidth}
-            \begin{center}
-            \audio{figs/counting-1.mp4}
-            \end{center}
-
-        \end{column}
-        \begin{column}{0.5\linewidth}
-            \begin{center}
-            \audio{figs/counting-3.mp4}
-            \end{center}
-
-        \end{column}
-    \end{columns}
-
-\item Sentences
-
-    \begin{columns}
-        \begin{column}{0.5\linewidth}
-            \begin{center}
-    \audio{figs/sentence-clean.mp4}
-
-                {\footnotesize Clean}
-            \end{center}
-
-        \end{column}
-        \begin{column}{0.5\linewidth}
-            \begin{center}
-
-    \audio{figs/sentence-noisy.mp4}
-
-    {\footnotesize Noisy}
-            \end{center}
-        \end{column}
-    \end{columns}
-
-\item Spontaneous speech
-
-
-    \begin{center}
-        \audio{figs/openspeech1.mp4}\hspace{2em}
-        \audio{figs/openspeech2.mp4}\hspace{2em}
-        \audio{figs/openspeech3.mp4}\hspace{2em}
-        \audio{figs/openspeech4.mp4}
-    \end{center}
-
-\end{itemize}
-(Recorded with studio microphone)
-
-\end{frame}
-
-\begin{frame}{Impact of microphone type}
-
-    \begin{center}
-        \includegraphics[width=0.7\linewidth]{mic_graph}
-    \end{center}
-
-Recognition rate of numbers spoken by children, split by microphone type
-(62 utterances) using Nao's ASR engine (Nuance Vocon 4.7) constrained by
-a grammar containing only number words.
-
-\end{frame}
-
-\begin{frame}{Impact of background noise}
+\pause
 
 \begin{center}
-    \includegraphics[width=0.7\linewidth]{noise_graph}
+\textbf{Anger, disgust, fear, happiness, sadness and surprise}.
 \end{center}
 
-Recognition rate of number utterances spoken by children, split by
-background noise level (83 total utterances) using Nao's ASR engine
-(Nuance Vocon 4.7) constrained by a grammar containing only number
-words.
+Some other emotion are less universally recognised, e.g.~contempt.
 
+\pause
 
+\Large
+\centering
+How can we process this social signal?
 \end{frame}
 
-\begin{frame}{Location of speaker wrt. Nao}
-
-\only<1>{
-    \begin{columns}
-        \begin{column}{0.5\linewidth}
-            \begin{center}
-                \includegraphics[width=0.8\linewidth]{recording-audio-nao}
-            \end{center}
-        \end{column}
-        \begin{column}{0.5\linewidth}
-    \begin{center}
-        \includegraphics[width=0.8\linewidth]{directional_recordings}
-    \end{center}
-        \end{column}
-    \end{columns}
-
-}
-
-    \only<2>{
-        \begin{center}
-            \includegraphics[width=0.8\linewidth]{heatmaps}
-        \end{center}
-    }
 
 
-\end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \section{Classification}
@@ -1074,67 +488,9 @@ neighbours. The observation belongs to the class the most frequent amongst neigh
     \end{center}
 
 \end{frame}
-\begin{frame}{Choosing $k$}
-
-
-\begin{itemize}
-    \item too small and it sensitive to classification noise.
-    \item too large and classification accuracy decreases.
-\end{itemize}
-
-Decision border with $k=1$ and $k=2$:
-
-    \begin{center}
-        \includegraphics[width=0.9\linewidth]{knns-border}
-    \end{center}
-
-\end{frame}
 
 \begin{frame}[fragile]{Python implementation of $k$-nearest neighbours}
 
-\begin{onlyenv}<1>
-\begin{pythoncode}
-import numpy as np
-
-def knn(k, data, categories, inputs):
-  nb_inputs = np.shape(inputs)[0]
-  closest = np.zeros(nb_inputs)
-
-  for n in range(nb_inputs):
-    # Compute distances
-    distances = np.sum((data - inputs[n,:])\\2, axis=1)
-    
-    # Identify the nearest neighbours
-    indices = np.argsort(distances, axis=0)
-
-    classes = np.unique(categories[indices[:k]])
-    
-    if len(classes)==1:
-        closest[n] = np.unique(classes)
-    else:
-        counts = np.zeros(max(classes) + 1)
-        for i in range(k):
-            counts[categories[indices[i]]] += 1
-        closest[n] = np.argmax(counts, axis=0)
-  return closest
-\end{pythoncode}
-\end{onlyenv}
-
-\begin{onlyenv}<2>
-    Alternatively, using \python{sklearn}:
-
-\begin{pythoncode}
-from sklearn import neighbors
-
-knns = neighbors.KNeighborsClassifier(k)
-knns.fit(data, categories)
-
-predictions = knns.predict(inputs)
-\end{pythoncode}
-
-\end{onlyenv}
-
-\begin{onlyenv}<3>
     Complete example, with the data above:
 
 \begin{columns}
@@ -1180,7 +536,6 @@ print(predictions)
     \end{column}
 \end{columns}
 
-\end{onlyenv}
 
 
 \end{frame}
@@ -1218,41 +573,8 @@ print(predictions)
 
 \end{frame}
 
-\begin{frame}{The curse of dimensionality}
-
-    \begin{itemize}
-        \only<1-3>{
-        \item<1-3> to be effective, distance between neighbouring points must be $< d$. $d$ depends on the problem. 
-        \item<2-3> In 1-D, we would need $n \sim \frac{1}{d}$ points.
-        \item<2-3> For instance, with one feature in $[0, 1]$ and $n$ training observations, new data
-            will be no further away than $\frac{1}{n}$.
-        \item<3> Therefore, the nearest neighbour decision will be efficient
-            as soon as $\frac{1}{n}$ is small compared to the scale of
-            between-class feature variations.
-        }
-        \item<4-> With $p$ features, you now require $n \sim \frac{1}{d^p}$ points.
-        \item<5-> Let’s say that we require 10 points in one dimension: now
-            $10^p$ points are required in $p$ dimensions to pave the $[0, 1]$
-            space.
-        \item<5-> As $p$ becomes large, the number of training points required
-            for a good estimator grows exponentially.
-        \item<6-> For example, if each feature is just a single 8-bytes number,
-            then an effective k-NN estimator with $p \sim 20$ dimensions would
-            require more training data than the current estimated size of the
-            entire internet ($\pm 1000$ Exabytes or so).
-
-    \end{itemize}
-
-    \onslide<6>{
-            This is called \textbf{the curse of dimensionality}.
-        }
-
-\end{frame}
-
-
 \begin{frame}{Support Vector Machines}
 
-\only<1-3>{
 A very popular classification algorithm introduced by Vapnik in 1992.
 
 \pause
@@ -1260,31 +582,6 @@ A very popular classification algorithm introduced by Vapnik in 1992.
 Often (but not always) provides very impressive classification
 performance on reasonably sized datasets.
 
-\pause
-As opposed to $k$-nearest Neighbours, SVM are more difficult to understand
-(although no knowledge of the algorithms internals is needed to use it).
-}
-
- \only<4>{
-
-SVMs do not work well on extremely large datasets, since the computations do
-    not scale well with the number of training examples, and so become
-    computationally very expensive.
-
-\begin{exampleblock}{Complexity}
-Training a SVM requires $O(m^3)$\bubblemark{bigo} operations and $O(m^2)$
-memory, with $m$ being the number of training samples. For example, if you
-have 10,000 training samples, the training will take in the order of
-$10^{12}$ operations (imagine you can do 100,000 operations/second, you
-will need $10^8$ seconds $\equiv$ 3 years to train your SVM and $10^{12}$
-memory units.
-\end{exampleblock}
-
-\bubble<4>[110][2.7][5cm]{bigo}{For more information on ``big-O notation'',
-see \href{https://en.wikipedia.org/wiki/Time_complexity}{complexity of
-algorithms}}
-
-}
 \end{frame}
 
 \begin{frame}{SVM principle}
@@ -1567,12 +864,12 @@ In a SVM, we want to \textbf{maximise the margin} $M$. We can rewrite the linear
 classifier.
     
 If $\mathbf{w}^T\mathbf{x} + b \geq M$, then an observation belongs to
-$\blacksquare$, for $\mathbf{w}^T\mathbf{x} + b \leq −M$, it belongs to
+$\blacksquare$, for $\mathbf{w}^T\mathbf{x} + b \leq -M$, it belongs to
 $\circ$.
 
 \pause
 A point $\mathbf{x}^\blacksquare$ that lies on the $\blacksquare$ class
-boundary line, \ie $\mathbf{w}^T\mathbf{x}^\blacksquare + b = M$, is
+    boundary line, \ie $\mathbf{w}^T\mathbf{x}^\blacksquare + b = M$, is
 a \textbf{support vector}.
 
 
@@ -1619,36 +916,49 @@ values for $\mathbf{w}$ and $b$.
 
 \begin{frame}{Feature maps}
 
-We can transform data points (= move them) or even add more dimensions.  using
-some function $\theta(\mathbf{x}_i)$ from input $\mathbf{x}_i$. $\theta$ is a \textbf{feature
+    \onslide<1-4>{
+We can transform data points (= move them) or even add more dimensions using
+a function $\theta(\mathbf{x}_i)$ from input $\mathbf{x}_i$. $\theta$ is a \textbf{feature
 map}.
+}
 
-\only<1>{
+\only<1-2>{
 Example:
+    \onslide<2>{
     \[
         \theta(\mathbf{x}_i) = [\mathbf{x}_i, \mathbf{x}^2_i]
     \]
+    }
 
 \begin{center}
-    \includegraphics[width=0.8\linewidth]{svm-kernels-separation}
+    \includegraphics<1>[width=0.8\linewidth]{svm-kernels-separation-0}
+    \includegraphics<2>[width=0.8\linewidth]{svm-kernels-separation}
 \end{center}
 
+
+    \onslide<2>{
 $\rightarrow$ now, linearly separable
 }
+}
 
-\only<2>{
+\only<3-4>{
 Example:
+    \onslide<4>{
     \[
         \theta(<x_i, y_i>) = [x_i, y_i, x^2_i + y^2_i]
     \]
+    }
 
 \begin{center}
-    \includegraphics[width=0.7\linewidth]{svm-kernel-3d}
+    \includegraphics<3>[width=0.7\linewidth]{svm-kernel-3d-0}
+    \includegraphics<4>[width=0.7\linewidth]{svm-kernel-3d}
 \end{center}
 
+    \onslide<4>{
 $\rightarrow$ now, linearly separable
+    }
 }
-\only<3>{
+\only<5>{
 
 
 If we know something about the structure of the data, then we might be able to identify
@@ -1797,25 +1107,46 @@ print(predictions)
 
 \end{frame}
 
-\begin{frame}{Choosing the kernel}
+%\begin{frame}{Choosing the kernel}
+%
+%
+%Choosing which kernel to use and the parameters in these kernels is a tricky
+%    problem. While there reasoning based on the
+%    \href{https://en.wikipedia.org/wiki/Vapnik-Chervonenkis_dimension}{Vapnik--Chernik
+%    dimension} (a measure of the \emph{capacity} of your model) that can be
+%    applied, most people just experiment with different values and find one that
+%    works.
+%
+%\end{frame}
 
+%\begin{frame}{Complexity of SVMs}
+%
+%
+%SVMs do not work well on extremely large datasets, since the computations do
+%    not scale well with the number of training examples, and so become
+%    computationally very expensive.
+%
+%\begin{exampleblock}{Complexity}
+%Training a SVM requires $O(m^3)$\bubblemark{bigo} operations and $O(m^2)$
+%memory, with $m$ being the number of training samples.
+%    
+%For example with a NVidia GTX1080Ti ($\approx$350GFLOPs):
+%
+%    \begin{itemize}
+%        \item 10,000 training samples $\rightarrow$ $10^{12}$ operations
+%            $\rightarrow$ 2.9s ($10^{12}$ memory units).
+%        \item 100,000 samples $\rightarrow$ 2900s
+%        \item 1,000,000 samples $\rightarrow$ 2900000s $\equiv$ 33 days
+%    \end{itemize}
+%\end{exampleblock}
+%
+%\bubble<4>[190][1][6cm]{bigo}{For more information on ``big-O notation'',
+%see \href{https://en.wikipedia.org/wiki/Time_complexity}{complexity of
+%algorithms}}
+%
+%
+%\end{frame}
 
-Choosing which kernel to use and the parameters in these kernels is a
-tricky problem. While there is some theory based on something known as
-the Vapnik--Chernik dimension that can be applied, most people just
-experiment with different values and find one that works.
-
-\end{frame}
-
-
-
-\begin{frame}{The iris data set}
-
-    \begin{center}
-        \includegraphics[width=0.9\linewidth]{iris_dataset}
-    \end{center}
-
-\end{frame}
 
 \begin{frame}{Clustering vs classification}
 
@@ -1846,9 +1177,285 @@ $\rightarrow$ Used to find patterns in the data.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section[Classifying social signal]{How to classify social signal?}
 
-\begin{frame}{How to classify social signals?}
+\section[Emotion classifier]{Let's build our own emotion classifier from scratch}
+
+\begin{frame}{Shopping list}
+
+    \begin{center}
+        {\bf What do we need?}
+    \end{center}
+
+    \pause
+
+    \begin{itemize}
+        \item<+-> a dataset of labelled faces
+        \item<+-> some pre-processing to normalise the faces
+        \item<+-> features to extract
+        \item<+-> a classifier
+    \end{itemize}
+\end{frame}
+
+\imageframe[color=black]{emotions/google-emotions-query}
+\imageframe[color=black]{emotions/emotions_dataset}
+\imageframe[color=black]{emotions/emotions_dataset_aligned}
+
+
+\begin{frame}{Features: Facial Action Units}
+
+    \newcommand{\au}[1]{
+        \includegraphics[width=2cm]{emotions/au/au-0#1.jpg}
+    }
+
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+
+                \scriptsize
+                \begin{tabular}{@{}p{0.3cm}p{2.5cm}p{2cm}@{}}
+                    \toprule
+                    \textbf{AU} & \textbf{Description} & \textbf{Example image} \\
+                    \midrule
+                    \only<1>{
+                        \textbf{1}  & Inner Brow Raiser    &  \au{01} \\
+                    \textbf{2}  & Outer Brow Raiser    &  \au{02} \\
+                    \textbf{4}  & Brow Lowerer         &  \au{04} \\
+                    \textbf{5}  & Upper Lid Raiser     &  \au{05} \\
+                    \textbf{6}  & Cheek Raiser         &  \au{06} \\
+                    \bottomrule
+                }
+                    \only<2>{
+                        \textbf{15} & Lip Corner Depressor &  \au{15} \\
+                    \textbf{17} & Chin Raiser          &  \au{17} \\
+                    \textbf{20} & Lip stretcher        &  \au{20} \\
+                    \textbf{23} & Lip Tightener        &  \au{23} \\
+                    \bottomrule
+                }
+                \end{tabular}
+            \end{center}
+
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+
+                \scriptsize
+                \begin{tabular}{@{}p{0.3cm}p{2cm}p{2cm}@{}}
+                    \toprule
+                    \textbf{AU} & \textbf{Description} & \textbf{Example image} \\
+                    \midrule
+                    \only<1>{
+                        \textbf{7}  & Lid Tightener        &  \au{07} \\
+                    \textbf{9}  & Nose Wrinkler        &  \au{09} \\
+                    \textbf{10} & Upper Lip Raiser     &  \au{10} \\
+                    \textbf{12} & Lip Corner Puller    &  \au{12} \\
+                    \bottomrule
+                }
+                    \only<2>{
+                        \textbf{14} & Dimpler              &  \au{14} \\
+                    \textbf{25} & Lips part            &  \au{25} \\
+                    \textbf{26} & Jaw Drop             &  \au{26} \\
+                    \textbf{45} & Blink                &          \\
+                    \bottomrule
+                }
+                \end{tabular}
+            \end{center}
+        \end{column}
+    \end{columns}
+
+\end{frame}
+
+\begin{frame}{OpenFace Action Units}
+    \begin{center}
+        OpenFace is an open-source library that recognises 17 action units
+        (amongst many other things).
+
+        \href{https://github.com/TadasBaltrusaitis/OpenFace}{github.com/TadasBaltrusaitis/OpenFace}
+        \vspace{2em}
+
+        \includegraphics[width=0.9\linewidth]{emotions/au-openface}
+
+        \scriptsize
+        (not to be confused with this other \href{https://github.com/cmusatyalab/openface}{CMU OpenFace})
+    \end{center}
+\end{frame}
+
+
+
+
+\imageframe[color=black]{emotions/emotion-dataset-csv}
+
+\begin{frame}{Our tiny 'emotions' dataset}
+    \begin{itemize}
+        \item A couple of \href{https://www.google.co.uk/search?q=human+face+happiness&tbm=isch&source=lnt&tbs=itp:face}{Google queries}
+        \item a bit of manual filtering
+        \item 558 faces, between 70 and 130 per emotion
+        \item split into 2 datasets: a {\bf training} dataset (50 face per
+            emotion) and a {\bf testing} dataset
+        \item for each face, OpenFace pre-processing to:
+            \begin{itemize}
+                \item extract facial landmarks
+                \item normalise and mask out the faces
+                \item extract action units
+            \end{itemize}
+    \end{itemize}
+
+    The dataset is available for you to play with on the lecture's
+    \href{https://github.com/severin-lemaignan/lecture-hri-emotions}{GitHub repo}.
+\end{frame}
+
+
+\begin{frame}[fragile]{Classification results, Action Units}
+    
+
+    \begin{center}
+        {\bf $n$ = 17 dimensions (i.e., 17 action units)}
+    \end{center}
+
+    \begin{columns}
+        \begin{column}{0.4\linewidth}
+    {\bf kNN}:
+    \begin{itemize}
+        \item k=1: 46.9\%
+        \item k=2: 42.2\%
+        \item k=4: 50.8\%
+        \item k=6: 46.1\%
+        \item k=9: 52.3\%
+    \end{itemize}
+
+    {\bf SVM}:
+
+    \begin{itemize}
+        \item kernel: rbf: 48.8\%
+        \item kernel: linear: 52.3\%
+        \item kernel: poly: 38.0\%
+    \end{itemize}
+
+    \onslide<2>{
+        \textbf{Chance}: 16.7\%
+    }
+
+        \end{column}
+        \begin{column}{0.6\linewidth}
+            \begin{pythoncode}
+from numpy import genfromtxt
+from sklearn import neighbors, svm
+
+csv_train = genfromtxt('training.csv')
+training = csv_train[:,1:-1]
+training_categories = csv_train[:,0]
+
+csv_test = genfromtxt('testing.csv')
+testing = csv_test[:,1:-1]
+testing_categories = csv_test[:,0]
+
+clf = neighbors.KNeighborsClassifier(k)
+clf.fit(training, training_categories)
+knns_predictions = clf.predict(testing)
+
+clf = svm.SVC(kernel=kernel)
+clf.fit(training, training_categories)
+svm_predictions = clf.predict(testing)
+
+            \end{pythoncode}
+        \end{column}
+    \end{columns}
+
+\end{frame}
+
+\imageframe[color=black,caption=Natural emotions are much harder]{emotions/natural-emotions-hulot}
+
+
+\begin{frame}{Multi-modal social processing}
+
+    We can usually improve social signal processing by \textbf{combining several
+    modalities}.
+
+    \begin{center}
+        \audio{figs/prosody/media1.mp4}\hspace{0.3em}
+        \audio{figs/prosody/media2.mp4}\hspace{0.3em}
+        \audio{figs/prosody/media3.mp4}\hspace{0.3em}
+        \audio{figs/prosody/media4.mp4}\hspace{0.3em}
+        \audio{figs/prosody/media5.mp4}
+    \end{center}
+    \source{http://emodb.bilderbar.info/start.html}{Berlin Database of
+    Emotional Speech}
+
+    \only<2>{
+        „Sie haben es gerade hochgetragen und jetzt gehen sie wieder runter``
+    (They just carried it upstairs and now they are going down again).
+
+
+
+    Which emotion do you recognise?
+
+
+    \textbf{Anger} -- \textbf{Boredom} -- \textbf{Disgust} -- \textbf{Anxiety/Fear} -- \textbf{Happiness} --
+    \textbf{Sadness} --  \textbf{Neutral}
+}
+
+    \only<3>{
+    \textbf{Prosody} is an important \emph{non-verbal} social signal.
+
+        Humans recognise emotions from prosody with approx. 80\% accuracy
+    (\textit{caveat: this is for speech spoken by actors in a recording studio})
+
+}
+
+
+\end{frame}
+
+
+
+\begin{frame}{We've barely scratched the surface!}
+
+Social signal processing is extracting relevant information from the
+social environment.
+
+Some work relatively well
+
+\begin{itemize}
+
+\item Face \textbf{detection}, voice activity detection, gender
+  classification, \ldots{}
+\end{itemize}
+
+Some work, but need improvement
+
+\begin{itemize}
+
+\item Gaze detection, basic emotion recognition, face \textbf{recognition},
+  speech recognition, \ldots{}
+\end{itemize}
+
+But still many open problems remaining
+
+\begin{itemize}
+
+\item Complex real-word affect and emotion recognition (e.g.~embarrassment,
+  pride).
+\item Speech recognition for atypical speakers (children, elderly),
+  multi-party interaction, \ldots{}
+\end{itemize}
+
+\end{frame}
+
+\miniframesoff
+
+\begin{frame}{}
+    \begin{center}
+        \Large
+        That's all for today, folks!\\[2em]
+        \normalsize
+        Questions:\\
+        \url{severin.lemaignan@brl.ac.uk} \\[1em]
+
+        Slides:\\ \href{https://github.com/severin-lemaignan/lecture-social-signal-processing}{\small github.com/severin-lemaignan/lecture-social-signal-processing}
+
+    \end{center}
+\end{frame}
+
+
+\begin{frame}{Classification of auditory signals}
 
     Raw signals will in most cases require pre-processing to extract
 features.
@@ -1978,55 +1585,6 @@ Recognising gender from speech is easy and robust.
 All classification algorithms can deal with this problem.
 
 \end{frame}
-
-\begin{frame}{Conclusion}
-
-Social signal processing is extracting relevant information from the
-social environment.
-
-Some work relatively well
-
-\begin{itemize}
-
-\item Face \textbf{detection}, voice activity detection, gender
-  classification, \ldots{}
-\end{itemize}
-
-Some work, but need improvement
-
-\begin{itemize}
-
-\item Gaze detection, basic emotion recognition, face \textbf{recognition},
-  speech recognition, \ldots{}
-\end{itemize}
-
-But still many open problems remaining
-
-\begin{itemize}
-
-\item Complex real-word affect and emotion recognition (e.g.~embarrassment,
-  pride).
-\item Speech recognition for atypical speakers (children, elderly),
-  multi-party interaction, \ldots{}
-\end{itemize}
-
-\end{frame}
-
-
-\begin{frame}{}
-    \begin{center}
-        \Large
-        That's all for today, folks!\\[2em]
-        \normalsize
-        Questions:\\
-        Portland Square B316 or \url{severin.lemaignan@plymouth.ac.uk} \\[1em]
-
-        Slides:\\
-        \href{https://github.com/severin-lemaignan/lecture-hri-social-signal-processing}{\small github.com/severin-lemaignan/lecture-hri-social-signal-processing}
-
-    \end{center}
-\end{frame}
-
 
 
 \end{document}
