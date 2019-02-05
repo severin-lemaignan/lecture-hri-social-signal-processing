@@ -4,9 +4,10 @@ Introduction to Social Signal Processing
 Lecture slides on social signal processing for human robot interaction.
 
 - **Target audience**: MSc students
-- **License**: CC-BY-SA (ie, you can freely reuse this material, as long as you clearly mention Tony
-Belpaeme and Séverin Lemaignan as the original authors. If you modify/augment
-these slides, you *must* share the modifications under the same license)
+- **License**: CC-BY-SA (ie, you can freely reuse this material, as long as you
+  clearly mention Séverin Lemaignan as the original author. If you
+  modify/augment these slides, you *must* share the modifications under the same
+  license)
 - [Link to the PDF slides](social-signal-processing.pdf)
 
 
