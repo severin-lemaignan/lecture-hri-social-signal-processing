@@ -1,0 +1,13 @@
+Input:./fear-036.jpg
+Input full path:/home/slemaignan/teaching/aint512/lecture-emotions/dataset-emotions/fear/fear-036.jpg
+Camera parameters:205.078,205.078,112.5,112.5
+Output HOG:fear-036.hog
+Output image:fear-036.jpg
+Output aligned directory:fear-036_aligned
+Output csv:fear-036.csv
+Gaze: 1
+AUs: 1
+Landmarks 2D: 1
+Landmarks 3D: 1
+Pose: 1
+Shape parameters: 1

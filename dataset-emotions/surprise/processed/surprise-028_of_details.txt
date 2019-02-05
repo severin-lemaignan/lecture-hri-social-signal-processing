@@ -1,0 +1,13 @@
+Input:./surprise-028.jpg
+Input full path:/home/slemaignan/teaching/aint512/lecture-emotions/dataset-emotions/surprise/surprise-028.jpg
+Camera parameters:216.797,216.797,89.5,141
+Output HOG:surprise-028.hog
+Output image:surprise-028.jpg
+Output aligned directory:surprise-028_aligned
+Output csv:surprise-028.csv
+Gaze: 1
+AUs: 1
+Landmarks 2D: 1
+Landmarks 3D: 1
+Pose: 1
+Shape parameters: 1

@@ -1,0 +1,6 @@
+Input:./sadness-097.jpg
+Input full path:/home/slemaignan/teaching/aint512/lecture-emotions/dataset-emotions/sadness/sadness-097.jpg
+Camera parameters:203.125,203.125,140,90
+Output HOG:sadness-097.hog
+Output image:sadness-097.jpg
+Output aligned directory:sadness-097_aligned

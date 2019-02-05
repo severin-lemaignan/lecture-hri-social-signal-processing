@@ -1,0 +1,13 @@
+Input:./disgust-018.jpg
+Input full path:/home/slemaignan/teaching/aint512/lecture-emotions/dataset-emotions/disgust/disgust-018.jpg
+Camera parameters:203.255,203.255,117.5,107
+Output HOG:disgust-018.hog
+Output image:disgust-018.jpg
+Output aligned directory:disgust-018_aligned
+Output csv:disgust-018.csv
+Gaze: 1
+AUs: 1
+Landmarks 2D: 1
+Landmarks 3D: 1
+Pose: 1
+Shape parameters: 1

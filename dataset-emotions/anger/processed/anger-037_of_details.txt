@@ -1,0 +1,6 @@
+Input:./anger-037.jpg
+Input full path:/home/slemaignan/teaching/aint512/lecture-emotions/dataset-emotions/anger/anger-037.jpg
+Camera parameters:202.734,202.734,137.5,91.5
+Output HOG:anger-037.hog
+Output image:anger-037.jpg
+Output aligned directory:anger-037_aligned

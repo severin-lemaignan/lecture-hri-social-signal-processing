@@ -1,0 +1,13 @@
+Input:./happiness-121.jpg
+Input full path:/home/slemaignan/teaching/aint512/lecture-emotions/dataset-emotions/happiness/happiness-121.jpg
+Camera parameters:202.734,202.734,137.5,91.5
+Output HOG:happiness-121.hog
+Output image:happiness-121.jpg
+Output aligned directory:happiness-121_aligned
+Output csv:happiness-121.csv
+Gaze: 1
+AUs: 1
+Landmarks 2D: 1
+Landmarks 3D: 1
+Pose: 1
+Shape parameters: 1

@@ -1,0 +1,13 @@
+Input:./anger-058.jpg
+Input full path:/home/slemaignan/teaching/aint512/lecture-emotions/dataset-emotions/anger/anger-058.jpg
+Camera parameters:214.714,214.714,91.5,137.5
+Output HOG:anger-058.hog
+Output image:anger-058.jpg
+Output aligned directory:anger-058_aligned
+Output csv:anger-058.csv
+Gaze: 1
+AUs: 1
+Landmarks 2D: 1
+Landmarks 3D: 1
+Pose: 1
+Shape parameters: 1

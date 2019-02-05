@@ -1,0 +1,13 @@
+Input:./sadness-010.jpg
+Input full path:/home/slemaignan/teaching/aint512/lecture-emotions/dataset-emotions/sadness/sadness-010.jpg
+Camera parameters:214.714,214.714,91.5,137.5
+Output HOG:sadness-010.hog
+Output image:sadness-010.jpg
+Output aligned directory:sadness-010_aligned
+Output csv:sadness-010.csv
+Gaze: 1
+AUs: 1
+Landmarks 2D: 1
+Landmarks 3D: 1
+Pose: 1
+Shape parameters: 1

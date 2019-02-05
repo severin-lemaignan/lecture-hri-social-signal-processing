@@ -1,0 +1,6 @@
+Input:./happiness-045.jpg
+Input full path:/home/slemaignan/teaching/aint512/lecture-emotions/dataset-emotions/happiness/happiness-045.jpg
+Camera parameters:202.214,202.214,129.5,97
+Output HOG:happiness-045.hog
+Output image:happiness-045.jpg
+Output aligned directory:happiness-045_aligned

@@ -1,0 +1,6 @@
+Input:./sadness-008.jpg
+Input full path:/home/slemaignan/teaching/aint512/lecture-emotions/dataset-emotions/sadness/sadness-008.jpg
+Camera parameters:202.474,202.474,132.5,95
+Output HOG:sadness-008.hog
+Output image:sadness-008.jpg
+Output aligned directory:sadness-008_aligned

@@ -1,0 +1,6 @@
+Input:./surprise-052.jpg
+Input full path:/home/slemaignan/teaching/aint512/lecture-emotions/dataset-emotions/surprise/surprise-052.jpg
+Camera parameters:205.078,205.078,112.5,112.5
+Output HOG:surprise-052.hog
+Output image:surprise-052.jpg
+Output aligned directory:surprise-052_aligned
