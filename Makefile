@@ -6,13 +6,14 @@ TEXTARGETS=$(wildcard *.tex)
 TARGET=$(TEXTARGETS:.tex=.pdf)
 
 SVG=$(wildcard figs/*.svg)
+SVG+=$(wildcard figs/*/*.svg)
 
 MODE ?= batchmode
 
 all: paper
 
 $(SVG:.svg=.pdf): %.pdf: %.svg
-	inkscape --export-pdf $(@) $(<)
+	inkscape -o $(@) $(<)
 
 %.aux: paper
 
