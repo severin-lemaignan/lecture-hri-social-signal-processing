@@ -79,6 +79,7 @@
 \definecolor{hriRed}{rgb}{0.882352941,0,0.098039216}
 \definecolor{hriRedDark}{rgb}{0.588235294,0,0.058823529}
 \definecolor{hriWarmGreyDark}{rgb}{0.274509804,0.254901961,0.235294118}
+\definecolor{uweBlue}{RGB}{26,157,172}
 \definecolor{hriWarmGreyLight}{rgb}{0.666666667,0.647058824,0.62745098}
 
 % Secondary Colors
@@ -101,28 +102,28 @@
 \setbeamercolor{normal text}{fg=hriWarmGreyDark}
 \setbeamercolor{structure}{fg=hriWarmGreyDark}
 \setbeamercolor{alerted text}{fg=hriRed}
-\setbeamercolor{example text}{fg=white}
+\setbeamercolor{example text}{fg=hriWarmGreyDark}
 \setbeamercolor{copyright text}{fg=hriWarmGreyLight}
 \setbeamercolor{palette primary}{fg=hriWarmGreyDark}
 \setbeamercolor{palette secondary}{fg=hriWarmGreyDark,bg=hriWarmGreyLight}
-\setbeamercolor{palette tertiary}{fg=black,bg=hriWarmGreyLight}
-\setbeamercolor{palette quaternary}{fg=white, bg=hriWarmGreyDark}
+\setbeamercolor{palette tertiary}{fg=black,bg=uweBlue!30}
+\setbeamercolor{palette quaternary}{fg=white, bg=uweBlue}
 % Titlepage
-\setbeamercolor{title}{parent=normal text}
-\setbeamercolor{subtitle}{parent=normal text}
-\setbeamercolor{institute}{parent=normal text}
+\setbeamercolor{title}{fg=white}
+\setbeamercolor{subtitle}{parent=title}
+\setbeamercolor{institute}{parent=title}
 % Content
 \setbeamercolor{frametitle}{parent=palette quaternary}
 % Blocks
 \setbeamercolor{block title}{parent=palette quaternary}
 \setbeamercolor{block body}{parent=palette secondary}
-\setbeamercolor{block title example}{fg=white, bg=hriSec1Dark}
-\setbeamercolor{block body example}{fg=white, bg=hriSec1}
+\setbeamercolor{block title example}{fg=white, bg=uweBlue}
+\setbeamercolor{block body example}{fg=hriWarmGreyDark, bg=uweBlue!50}
 \setbeamercolor{block title alerted}{fg=white, bg=hriRedDark}
 \setbeamercolor{block body alerted}{fg=white, bg=hriRed}
 % Notes
 \setbeamercolor{note page}{fg=hriWarmGreyDark,bg=hriWarmGreyLight}
-\setbeamercolor{note title}{fg=white, bg=hriWarmGreyDark}
+\setbeamercolor{note title}{fg=white, bg=uweBlue}
 \setbeamercolor{note date}{parent=note title}
 % Page Number
 \setbeamercolor{page number in head/foot}{fg=hriWarmGreyDark}
@@ -147,8 +148,8 @@
 
 \renewcommand\UrlFont{\bf}
 % Titlepage
-\setbeamerfont{title}{size=\fontsize{20}{20}}
-\setbeamerfont{subtitle}{size=\fontsize{12}{14}}
+\setbeamerfont{title}{family=\fontspec{Georgia},size=\fontsize{25}{20}}
+\setbeamerfont{subtitle}{family=\fontspec{Georgia},size=\fontsize{20}{14}}
 \setbeamerfont{date}{size=\fontsize{8}{10}}
 \setbeamerfont{author}{size=\fontsize{12}{15}}
 \setbeamerfont{institute}{size=\fontsize{8}{10}}
@@ -184,6 +185,7 @@
     \ifx\insertsubtitle\@empty%
     \else%
         {\usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle\par}%
+        \vspace*{5mm}
     \fi%
     \ifx\insertsubtitle\@empty%
     \else%
@@ -224,7 +226,7 @@
 {
 \begingroup
 \setbeamertemplate{background}{}
-\setbeamercolor{background canvas}{bg=hriWarmGreyDark}
+\setbeamercolor{background canvas}{bg=uweBlue}
 \begin{frame}[plain]
 \centering
 \vfill\usebeamerfont{section title}\textcolor{white}{\insertsectionHEAD}\vfill
@@ -427,8 +429,8 @@
         \ifdefequal{\bgCaption}{\empty}{%
         }{%
             \begin{tikzpicture}[remember picture,overlay]
-                \node at (-1, -4.5) [anchor=south west,shape=rectangle,fill=hriSec3Dark, opacity=0.7, align=right, text width=0.6\paperwidth]
-                {\usebeamerfont{subtitle}\usebeamercolor[bg]{subtitle}\bgCaption\par};
+                \node at (-1, -5.5) [anchor=south west,shape=rectangle,fill=uweBlue, opacity=0.8, align=right, text width=0.6\paperwidth]
+                {\usebeamerfont{frametitle}\usebeamercolor[bg]{subtitle}\bgCaption\par};
             \end{tikzpicture}
         }%
     \end{frame}
