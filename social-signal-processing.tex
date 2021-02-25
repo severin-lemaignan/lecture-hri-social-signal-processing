@@ -50,7 +50,7 @@
 \usepackage{tikz}
 \usetikzlibrary{mindmap,backgrounds,positioning,calc,patterns}
 
-\graphicspath{{figs/}}
+\graphicspath{{figs/face_recognition/}{figs/}}
 
 \title{Human-Robot Interaction}
 \subtitle{Social Signal Processing}
@@ -79,11 +79,9 @@
 \begin{frame}{In this lecture}
 
 \begin{itemize}
-    \item What/why social sigal processing?
-    \item Classification (k-nearest neighbours and Support Vector Machines)
-
-    \item Case study: emotions (aka: let's build an emotion classifier from
-        scratch)
+    \item What/why social signal processing?
+    \item Processing complex social signals
+    \item Focus on the face: how face recognition works? what are action units?
 
 \end{itemize}
 
@@ -222,986 +220,345 @@ Social signal processing is typically broken down in smaller, more manageable,
 
 \imageframe{ros4hri-pipeline}
 
+\section[Principal Component Analysis]{Face recognition: Principal Component Analysis}
 
-\section{Case study: emotions}
+\imageframe{face-recognition-challenge}
 
-\begin{frame}{Paul Ekman and basic emotions}
-
-\href{https://en.wikipedia.org/wiki/Paul_Ekman}{Paul Ekman}, a
-psychologist, found that when shown facial expressions people across the
-world all recognised six \textbf{basic emotions}.
+{
+    \paper{UK food consumption in 1997, DEFRA, \source{http://www.dsc.ufcg.edu.br/~hmg/disciplinas/posgraduacao/rn-copin-2014.3/material/SignalProcPCA.pdf}{Mark
+    Richardson, Principal Component Analysis}}
+\begin{frame}{Principal Component Analysis}
 
     \only<1>{
-    \begin{center}
-        \includegraphics[width=0.55\linewidth]{emotions/ekman_6_basic_emotions}
+    Principal Component Analysis (PCA) is a technique to find the sources of variance in a dataset.
+    }
 
-        \source{http://emotionresearcher.com/}{emotionresearcher.com}
+    \only<2>{
+    \begin{center}
+        \includegraphics[width=0.7\linewidth]{pca-food-example}
+
+        Question: what food preference distinguishes best the four nations?
     \end{center}
-}
+    }
 
-\pause
-
-\begin{center}
-\textbf{Anger, disgust, fear, happiness, sadness and surprise}.
-\end{center}
-
-Some other emotion are less universally recognised, e.g.~contempt.
-
-\pause
-
-\Large
-\centering
-How can we process this social signal?
-\end{frame}
-
-
-
-
-
-
-\section{Classification}
-
-\begin{frame}{Classification}
-
-Social signal processing often relies on \textbf{classification.}
-
-\begin{itemize}
-    \item \href{https://en.wikipedia.org/wiki/Statistical_classification}{\textbf{Classification}}
-        is deciding on which \textbf{category} a new observation belongs to
-        based on training data.
-
-    \item The training data contains data and known categories.
-    \item Classification is a \textbf{supervised} learning algorithm.
-\end{itemize}
-
-\pause
-
-Examples:
-
-\scriptsize
-\begin{itemize}
-
-\item An incoming tweet needs to classified as being positive or negative.
-\item An radar ping of a flying objects needs to be classified as belonging
-  to one of \emph{n} possible planes.
-\item The prosody of speech needs to be classified as belonging to one of
-  six basic categories of emotion (happy, sad, angry, bored, surprised,
-  neutral).
-\item A gesture filmed through a camera needs to be classified as meaning
-  stop, go, left or right.
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Classification: example}
-
-\begin{itemize}
-\item Two dimensional problem
-\item Two categories, with training data for both categories
-\item To which category does a new observation belong?
-\end{itemize}
-
+    \only<3>{
     \begin{center}
-        \resizebox{0.5\linewidth}{!}{
-            \begin{tikzpicture}[>=latex,
-                starmarker/.style={star, fill=hriSec2Comp,opacity=0.5,inner sep=0,minimum size=4pt}]
+        \includegraphics[width=0.7\linewidth]{pca-features-observations}
 
-                %\draw[help lines] (0,0) grid (5,4);
-                \draw[thick, ->] (0,0) -> (5.2,0);
-                \draw[thick, ->] (0,0) -> (0,4.2);
+        Same question: what linear combination of features maximize the
+        variance in the dataset? $\Rightarrow$ PCA!
+    \end{center}
+    }
 
-                \fill [hriSec2, opacity=0.5] (2.2,1.3) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (3.2,2.3) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (2.5,0.4) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (0.6,0.3) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (2.8,0.7) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (3.8,1.7) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (4.5,1.0) circle (2pt);
+    \only<4->{
 
-                \only<1-2,4->{
-                    \fill [hriSec2, opacity=0.5] (4.1,2.4) circle (2pt);
-                    \fill [hriSec2, opacity=0.5] (4.5,3.5) circle (2pt);
-                }
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+    \begin{center}
+        \includegraphics[width=\linewidth]{pca-food-example}
+    \end{center}
 
-                \fill [hriSec3Comp, opacity=0.5] (2.3,3.2) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (0.3,0.6) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.5,1.4) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (2.4,2.2) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (0.7,2.8) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.7,3.8) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.0,2.5) rectangle +(3.5pt,3.5pt);
-
-                \only<1-3>{
-                    \fill [hriSec3Comp, opacity=0.5] (2.2,2.5) rectangle +(3.5pt,3.5pt);
-                    \fill [hriSec3Comp, opacity=0.5] (1.3,2.2) rectangle +(3.5pt,3.5pt);
-                }
-                \only<4->{
-                    \fill [hriSec2, opacity=0.5] (2.2,2.5) circle (2pt);
-                    \fill [hriSec2, opacity=0.5] (1.3,2.2) circle (2pt);
-                }
-
-
-                \only<1>{
-                    \fill (3.5,3) circle (2pt) node[above] {?};
-                }
-
-                \only<2>{
-                    \draw[dashed, ultra thick] (0,0.1) -- (4.9,4);
-                    \fill[hriSec3Comp] (3.5,3) circle (3pt);
-                }
-
-                \only<3->{
-                \node[starmarker] at(2.8,3.5) {};
-                \node[starmarker] at(3.2,2.6) {};
-                \node[starmarker] at(3.7,2.5) {};
-                \node[starmarker] at(4.8,2.3) {};
-                \node[starmarker] at(4.2,3.5) {};
-                \node[starmarker] at(4.7,3.2) {};
-                \node[starmarker] at(3.6,3.5) {};
-                \node[starmarker] at(3.2,3.0) {};
+            \only<6>{
+                \small $pc_1 \approx 0.4 \times \text{potatoes} + 0.2 \times
+                \text{softs} - 0.4 \times \text{alcohol} - 0.6 \times \text{fruits}$
             }
 
-                \only<3>{
-                \coordinate (center) at (3,2.5);
-                    \draw[dashed, ultra thick] (0,0.1) -- (center);
-                    \draw[dashed, ultra thick] (2.1,4) -- (center);
-                    \draw[dashed, ultra thick] (5,2) -- (center);
-                }
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+                \includegraphics[width=\linewidth]{pca-food-example-1-eigenvector}
 
-                \only<4>{
-                    \draw[ultra thick, dashed] svg[scale=0.355mm] {M 0,0 C 7.3028978,5.4871928 17.986558,18.924336 25.712718,23.631806 33.180198,27.981126 42.096418,29.772386 48.918988,35.157436 53.234728,39.486306 53.152318,48.037756 47.022748,50.669426 42.040828,52.174296 36.443098,53.302996 33.138128,57.811566 29.262578,61.437306 31.018648,68.735086 36.313848,69.650946 45.513978,70.336506 52.317528,79.815856 61.890318,78.092016 67.994798,76.405086 66.315798,68.913296 65.206548,64.346256 62.816378,59.430726 65.265748,53.196516 71.506418,55.666566 76.735423,57.642746 77.207603,62.923806 82.494663,67.005556 87.781723,71.087306 97.769793,65.300896 103.85227,64.480036 109.93475,63.659176 113.08322,69.782766 115.38846,74.251266 119.51535,82.521786 120.32667,91.925786 123.66302,100.4599 126.136,107.56288 135.65151,102.31662 131.03155,96.353476 128.47853,90.355456 123.56513,84.297766 125.88953,77.387966 127.40319,68.340166 132.79437,57.935476 141.71719,53.730616};
-                    \draw[ultra thick, dashed] svg[scale=0.355mm] {M 84.116373,67.870526 C 84.388083,71.283156 84.773743,74.838716 83.492033,78.110256 82.006413,83.150896 79.611653,88.027626 75.899043,91.805036 73.482483,94.619536 71.510448,97.822816 70.142548,101.27341 69.330828,105.09004 70.025558,108.99486 70.135548,112.8405};
-                }
+                \includegraphics<5->[width=\linewidth]{pca-food-example-2-eigenvector}
 
-
-
-            \end{tikzpicture}
-        }
-    \end{center}
-
-
-    \only<2> {
-        When categories can be linearly separated, we have a very easy
-        classification problem.
+                \includegraphics<6->[width=\linewidth]{pca-food-example-load-plot}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \only<4>{
+        \small
+        The \emph{first principal component} \texttt{pc1} is the best possible linear
+        combination. Can you guess what it is?
+    }
+    \only<5>{
+        \small
+        We can add more principal components to better \emph{explain the dataset
+        variance}. From a classification perspective, 2 components seem
+        sufficient to separate our 4 nations: We can \textbf{reduce} our 17 dimensions to
+        only 2
     }
 
-    \only<3> {
-        Three or more can still be linearly separated.
-    }
-
-
-    \only<4-> {
-        \textbf{But what if categories are not linearly separable?}
     }
 
 \end{frame}
+}
 
-\begin{frame}{Two classification methods}
+%\imageframe[scale=0.9, caption={Applied to handwriting}]{pca}
+%\videoframe{figs/face_recognition/cowriter.mp4?start=135}
 
-Two methods will be explained here:
+\imageframe[scale=0.9, caption={Applied to faces}]{dataset}
 
-\begin{itemize}
+{
+    \paper{\source{https://github.com/bytefish/facerecognition_guide}{Philipp
+    Wagner, Face Recognition with Python} (code source available as well)}
 
-\item $k$-nearest Neighbours (kNN)
-\item Support Vector Machines (SVM)
-\end{itemize}
+\begin{frame}{PCA Algorithm}
+    Let $\mathbf{X} = \{ \mathbf{x}_{1}, \mathbf{x}_{2}, \ldots, \mathbf{x}_{n} \}$ be a vector with observations $\mathbf{x}_i \in \mathbb{R}^{d}$.
 
-But there are hundreds of classifiers
+    \begin{enumerate}
+        \item Compute the mean $\mu$
+            \[
+                \mu = \frac{1}{n} \sum_{i=1}^{n} \mathbf{x}_{i}
+            \]
+        \item Compute the the Covariance Matrix $S$
+            \[
+                S = \frac{1}{n} \sum_{i=1}^{n} (\mathbf{x}_{i} - \mu) (\mathbf{x}_{i} - \mu)^{T}
+            \]
+        \item Compute the eigenvalues $\lambda_{i}$ and eigenvectors $\mathbf{v}_{i}$ of $S$
+            \[
+                S \cdot \mathbf{v}_{i} = \lambda_{i} \mathbf{v}_{i} \text{\hspace{1em} with } i=1,2,\ldots,n
+            \]
+        \item Order the eigenvectors descending by their eigenvalue. The $k$
+            principal components are the eigenvectors corresponding to the $k$
+            largest eigenvalues.
 
-\begin{itemize}
-
-\item Decision trees
-\item Random forest
-\item Bayes classifiers
-\item Neural Networks
-\item \ldots{}
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{$k$-nearest Neighbours}
-
-
-When an observation comes in, calculate the distance to the $k$ nearest
-neighbours. The observation belongs to the class the most frequent amongst neighbours.
-
-    \begin{center}
-        \resizebox{0.5\linewidth}{!}{
-            \begin{tikzpicture}[>=latex,
-                starmarker/.style={star, fill=hriSec2Comp,opacity=0.5,inner sep=0,minimum size=4pt}]
-
-                %\draw[help lines] (0,0) grid (5,4);
-                \draw[thick, ->] (0,0) -> (5.2,0);
-                \draw[thick, ->] (0,0) -> (0,4.2);
-
-                \fill [hriSec2, opacity=0.5] (2.2,1.3) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (3.2,2.3) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (2.5,0.4) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (0.6,0.3) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (2.8,0.7) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (3.8,1.7) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (4.5,1.0) circle (2pt);
-
-                \fill [hriSec2, opacity=0.5] (1.3,2.2) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (4.1,2.4) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (4.5,3.5) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (2.2,2.5) circle (2pt);
-
-                \fill [hriSec3Comp, opacity=0.5] (2.3,3.2) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (0.3,0.6) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.5,1.4) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (2.4,2.2) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (0.7,2.8) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.7,3.8) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.0,2.5) rectangle +(3.5pt,3.5pt);
-
-
-
-                \node[starmarker] at(2.8,3.5) {};
-                \node[starmarker] at(3.2,2.6) {};
-                \node[starmarker] at(3.7,2.5) {};
-                \node[starmarker] at(4.8,2.3) {};
-                \node[starmarker] at(4.2,3.5) {};
-                \node[starmarker] at(4.7,3.2) {};
-                \node[starmarker] at(3.6,3.5) {};
-                \node[starmarker] at(3.2,3.0) {};
-
-                \only<1>{
-                    \fill (3.5,3) circle (2pt);
-                }
-                \only<2>{
-                    \node[starmarker,opacity=1] at(3.5,3) {};
-                    \fill (1.5,3) circle (2pt);
-                }
-                \only<3>{
-                    \node[starmarker,opacity=1] at(3.5,3) {};
-                    \fill [hriSec3Comp, opacity=1] (1.5,3) rectangle +(3.5pt,3.5pt);
-                    \fill (1.8,1.9) circle (2pt);
-                }
-                \only<4>{
-                    \node[starmarker,opacity=1] at(3.5,3) {};
-                    \fill [hriSec3Comp, opacity=1] (1.5,3) rectangle +(3.5pt,3.5pt);
-                    \fill (1.8,1.9) circle (2pt) node[above] {?};
-                    %\fill [hriSec3Comp, opacity=1] (1.8,1.9) rectangle +(3.5pt,3.5pt);
-                }
-
-
-            \end{tikzpicture}
-        }
-    \end{center}
+    \end{enumerate}
 
 \end{frame}
+}
 
-\begin{frame}[fragile]{Python implementation of $k$-nearest neighbours}
 
-    Complete example, with the data above:
+\begin{frame}[fragile]{Python code}
 
-\begin{columns}
-    \begin{column}{0.4\linewidth}
 \begin{pythoncode}
-""" data.csv:
-2.2,1.3,0 -> circles
-3.2,2.3,0
-...
+def pca(X):
 
-2.3,3.2,1 -> squares
-0.3,0.6,1
-...
+    mu = X.mean(axis=0)
+    X = X - mu
+    C = np.dot(X.T,X)
+    eigenvalues, eigenvectors = np.linalg.eigh(C)
 
-2.8,3.5,2 -> stars
-3.2,2.6,2
-...
-"""
-\end{pythoncode}
-        
-    \end{column}
-    \begin{column}{0.6\linewidth}
-\begin{pythoncode}
-from numpy import genfromtxt
-from sklearn import neighbors
+    # sort eigenvectors descending by their eigenvalue
+    idx = np.argsort(-eigenvalues)
+    eigenvalues = eigenvalues[idx]
+    eigenvectors = eigenvectors[:,idx]
+    return eigenvalues, eigenvectors, mu
 
-csv = genfromtxt('data.csv', delimiter=',')
-data = csv[:,:2]
-categories = csv[:,2]
+# D: eigenvalues, W: eigenvectors, mu: mean, X: 40 X 10304 image array
+D, W, mu = pca(X) 
 
-inputs = [ [3.5,3], [1.5,3], [1.8,1.9] ]
+# plot the first 16 'eigenfaces'
+images = []
+for i in range(16):
+    image = W[:,i].reshape(X[0].shape)
+    images.append(normalize(image,0,255))
 
-k = 3
-knns = neighbors.KNeighborsClassifier(k)
-knns.fit(data, categories)
-
-predictions = knns.predict(inputs)
-print(predictions)
-
->>>  [2.  1.  1.]
+subplot(title="Eigenfaces", images=images, rows=4, cols=4)
 
 \end{pythoncode}
-    \end{column}
-\end{columns}
-
-
-
-\end{frame}
-
-\begin{frame}{Choice of $k$ and weights}
-
-\begin{center}
-    \includegraphics[width=0.45\linewidth]{knns_1}
-    \includegraphics[width=0.45\linewidth]{knns_2}
-
-    \includegraphics[width=0.45\linewidth]{knns_3}
-    \includegraphics[width=0.45\linewidth]{knns_4}
-\end{center}
 \end{frame}
 
 
-    \begin{frame}{$k$-nearest neighbours: summary}
+\imageframe{dataset}
+\imageframe{eigenfaces}
 
-\begin{itemize}
-    \item<+-> $k$-nearest Neighbours usually does really well on a large number of
-    classification problem, but can underperform near the classification
-    boundary.
+\begin{frame}{PCA Projection and Reconstruction}
 
-    \item<+-> might struggle with very large datasets, as it needs to calculate the
-    distance to all training data every time you classify a new observation
-    (some work around are available, relying on approximate distances and
-    optimisation of the algorithmic code)
+    The $k$ principal components of an observed vector
+    $\mathbf{x}\bubblemark{image}$ are then given by:
 
-    \item<+-> commonly, the neighbours are weighted with the inverse of the
-        distance $\frac{1}{d}$ to the observation (\ie closer neighbours have
-        stronger influence). With \python{sklearn}:
-        \python{neighbors.KNeighborsClassifier(k, weights='distance')}
+    \[
+        \mathbf{y} = W^{T} (\mathbf{x} - \mu)
+    \]
 
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Support Vector Machines}
-
-A very popular classification algorithm introduced by Vapnik in 1992.
-
-\pause
-
-Often (but not always) provides very impressive classification
-performance on reasonably sized datasets.
-
-\end{frame}
-
-\begin{frame}{SVM principle}
-
-\only<1-2>{
-Three different classification lines. All are correct, but is there any
-reason why one is better than the others?
-}
-
-\only<3>{
-
-The classifier in the middle is called the \textbf{maximum margin
-classifier}.
-
-The data points nearest the classifier are called \textbf{support
-vectors}.
-
-}
-
-
-    \begin{center}
-        \only<1>{
-        \resizebox{0.3\linewidth}{!}{
-            \begin{tikzpicture}[>=latex]
-
-                \draw[thick, ->] (0,0) -> (5.2,0);
-                \draw[thick, ->] (0,0) -> (0,4.2);
-
-                \fill [hriSec2, opacity=0.5] (2.2,1.3) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (2.5,0.4) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (2.8,0.7) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (3.8,1.7) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (4.5,1.0) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (4.1,2.4) circle (2pt);
-
-                \fill [hriSec3Comp, opacity=0.5] (2.3,3.2) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (0.7,2.8) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.7,3.8) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.0,2.5) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (2.2,2.5) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.3,2.2) rectangle +(3.5pt,3.5pt);
-
-                \draw[dashed, ultra thick] (0,1.8) -- (4.9,2.8);
-
-            \end{tikzpicture}
-        }
-        }
-        \resizebox{0.3\linewidth}{!}{
-            \begin{tikzpicture}[>=latex]
-
-                \draw[thick, ->] (0,0) -> (5.2,0);
-                \draw[thick, ->] (0,0) -> (0,4.2);
-
-                \fill [hriSec2, opacity=0.5] (2.2,1.3) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (2.5,0.4) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (2.8,0.7) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (3.8,1.7) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (4.5,1.0) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (4.1,2.4) circle (2pt);
-
-                \fill [hriSec3Comp, opacity=0.5] (2.3,3.2) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (0.7,2.8) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.7,3.8) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.0,2.5) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (2.2,2.5) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.3,2.2) rectangle +(3.5pt,3.5pt);
-
-                \only<2->{
-                \draw[red,opacity=0.5,line width=25pt] (0,0.65) -- (4.9,3.45);
-                }
-                \draw[dashed, ultra thick] (0,0.65) -- (4.9,3.45);
-
-                \only<3>{
-                    \draw [red, thick] (2.25,2.55) circle (5pt);
-                    \draw [red, thick] (4.1,2.4) circle (5pt);
-                    \draw [red, thick] (2.2,1.3) circle (5pt);
-
-                }
-
-            \end{tikzpicture}
-        }
-        \only<1>{
-        \resizebox{0.3\linewidth}{!}{
-            \begin{tikzpicture}[>=latex]
-
-                \draw[thick, ->] (0,0) -> (5.2,0);
-                \draw[thick, ->] (0,0) -> (0,4.2);
-
-                \fill [hriSec2, opacity=0.5] (2.2,1.3) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (2.5,0.4) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (2.8,0.7) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (3.8,1.7) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (4.5,1.0) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (4.1,2.4) circle (2pt);
-
-                \fill [hriSec3Comp, opacity=0.5] (2.3,3.2) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (0.7,2.8) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.7,3.8) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.0,2.5) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (2.2,2.5) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.3,2.2) rectangle +(3.5pt,3.5pt);
-
-                \draw[dashed, ultra thick] (1.5,0) -- (3.2,4);
-
-            \end{tikzpicture}
-        }
-        }
-    \end{center}
-
-\only<1-2> {
-
-Intuitively, the line that is most distant to the training data is the
-best division.
-
-\onslide<2>{
-The empty area near the division line is symmetric. It forms a bar in
-2D space, a cylinder in 3D space, and a hyper-cylinder in n-D space.
-}
-
-}
-\only<3> {
-Two observations
-
-\begin{itemize}
-
-\item The margins should be as large as possible.
-\item The support vectors are the most useful datapoints because they are
-  the ones that we might get wrong.
-\end{itemize}
-
-}
-
-\end{frame}
-
-\begin{frame}{Linear classifier}
-
-    \begin{center}
-        \resizebox{0.3\linewidth}{!}{
-            \begin{tikzpicture}[>=latex]
-
-                \draw[thick, ->] (0,0) -> (5.2,0);
-                \draw[thick, ->] (0,0) -> (0,4.2);
-
-                \fill [hriSec2, opacity=0.5] (2.2,1.3) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (2.5,0.4) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (2.8,0.7) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (3.8,1.7) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (4.5,1.0) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (4.1,2.4) circle (2pt);
-
-                \fill [hriSec3Comp, opacity=0.5] (2.3,3.2) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (0.7,2.8) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.7,3.8) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.0,2.5) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (2.2,2.5) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.3,2.2) rectangle +(3.5pt,3.5pt);
-
-                \draw[dashed, ultra thick] (0,0.65) -- (4.9,3.45);
-
-            \end{tikzpicture}
-        }
-        \hspace{2em}
-        \only<4-5>{
-        \resizebox{0.4\linewidth}{!}{
-                \includegraphics[width=\linewidth]{svm-hyperplane}
-%            \begin{tikzpicture}[>=latex]
-%
-%                %\draw[help lines] (-1,-1) grid (5,4);
-%                \draw[thick, ->] (0,0) -> (5.2,0);
-%                \draw[thick, ->] (0,0) -> (0,4.2);
-%                \draw[thick, ->] (0,0) -> (-1.5,-1.2);
-%
-%                \fill [hriSec2, opacity=0.5] (2.2,1.3) circle (2pt);
-%                \fill [hriSec2, opacity=0.5] (2.5,0.4) circle (2pt);
-%                \fill [hriSec2, opacity=0.5] (2.8,0.7) circle (2pt);
-%                \fill [hriSec2, opacity=0.5] (3.8,1.7) circle (2pt);
-%                \fill [hriSec2, opacity=0.5] (4.5,1.0) circle (2pt);
-%                \fill [hriSec2, opacity=0.5] (4.1,2.4) circle (2pt);
-%
-%                \fill [hriSec3Comp, opacity=0.5] (2.3,3.2) rectangle +(3.5pt,3.5pt);
-%                \fill [hriSec3Comp, opacity=0.5] (0.7,2.8) rectangle +(3.5pt,3.5pt);
-%                \fill [hriSec3Comp, opacity=0.5] (1.7,3.8) rectangle +(3.5pt,3.5pt);
-%                \fill [hriSec3Comp, opacity=0.5] (1.0,2.5) rectangle +(3.5pt,3.5pt);
-%                \fill [hriSec3Comp, opacity=0.5] (2.2,2.5) rectangle +(3.5pt,3.5pt);
-%                \fill [hriSec3Comp, opacity=0.5] (1.3,2.2) rectangle +(3.5pt,3.5pt);
-%
-%                \draw[dashed, ultra thick] (0,0.65) -- (4.9,3.45);
-%                \draw[dashed, ultra thick] (0,0.65) -- (4.9,3.45);
-%                \draw[dashed, ultra thick] (0,0.65) -- (4.9,3.45);
-%                \draw[dashed, ultra thick] (0,0.65) -- (4.9,3.45);
-%
-%            \end{tikzpicture}
-        }
-        }
-    \end{center}
-
-\only<1>{
-
-    A linear classifier for two categories (\textbf{binary classifier}) can be written as
-    $f(\mathbf{x}) = \mathbf{w} \cdot \mathbf{x} + b$.
-
-\begin{itemize}
-
-    \item $\mathbf{w} \cdot \mathbf{x} = \sum_i w_i x_i$. This is called the
-        scalar product or inner product. Can also be written as a matrix
-        multiplication $\mathbf{w}^T\mathbf{x}$.
-    \item $\mathbf{w}$ is a \textbf{weight vector}, tilting the line
-    \item $\mathbf{x}$ is a data point (of dimension $n$)
-    \item $b$ is a \textbf{bias}, lifting the line up along the $y$-axis
-\end{itemize}
-
-}
-\only<2-3>{
-    $\mathbf{w}$\bubblemark{weightvector} has to be calculated such that:
-\[
-f(\mathbf{x}) < 0 \Rightarrow \mathbf{x} \in \{\blacksquare\}
-\]
-\[
-f(\mathbf{x}) > 0 \Rightarrow \mathbf{x} \in \{\circ\}
-\]
-
-\bubble<3>[115][0.8][4cm]{weightvector}{for kNNs, we have to carry along the training data; with a linear classifier, once $\mathbf{w}$ is found, we can discard the training data}
-}
-
-
-
-\only<4-5>{
-
-    \begin{itemize}
-        \item In 2D, the \textbf{discriminant} is a line
-        \item In 3D, the discriminant is a plane
-        \item In n-D\bubblemark{dimensions}, the discriminant is a hyperplane
-    \end{itemize}
-
-\bubble<5>[160][1][10cm]{dimensions}{the 'dimensions' are the \textbf{features} of our inputs, \eg for a human, the size, age, skin colour, gender...}
-}
-
-\end{frame}
-
-\begin{frame}{Support vector classifier}
-
-    \begin{center}
-        \resizebox{0.3\linewidth}{!}{
-            \begin{tikzpicture}[>=latex]
-
-                \draw[thick, ->] (0,0) -> (5.2,0);
-                \draw[thick, ->] (0,0) -> (0,4.2);
-
-                \fill [hriSec2, opacity=0.5] (2.2,1.3) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (2.5,0.4) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (2.8,0.7) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (3.8,1.7) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (4.5,1.0) circle (2pt);
-                \fill [hriSec2, opacity=0.5] (4.1,2.4) circle (2pt);
-
-                \fill [hriSec3Comp, opacity=0.5] (2.3,3.2) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (0.7,2.8) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.7,3.8) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.0,2.5) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (2.2,2.5) rectangle +(3.5pt,3.5pt);
-                \fill [hriSec3Comp, opacity=0.5] (1.3,2.2) rectangle +(3.5pt,3.5pt);
-
-
-                \draw[red,opacity=0.5,line width=25pt] (0,0.65) -- (4.9,3.45);
-                \draw[dashed, ultra thick] (0,0.65) -- (4.9,3.45);
-
-                    \draw [red, thick] (2.25,2.55) circle (5pt);
-                    \draw [red, thick] (4.1,2.4) circle (5pt);
-                    \draw [red, thick] (2.2,1.3) circle (5pt);
-
-
-
-
-            \end{tikzpicture}
-        }
-    \end{center}
-
-
-In a SVM, we want to \textbf{maximise the margin} $M$. We can rewrite the linear
-classifier.
+    where $W\bubblemark{pcabasis} = (\mathbf{v}_{1}, \mathbf{v}_{2}, \ldots, \mathbf{v}_{k})$.
     
-If $\mathbf{w}^T\mathbf{x} + b \geq M$, then an observation belongs to
-$\blacksquare$, for $\mathbf{w}^T\mathbf{x} + b \leq -M$, it belongs to
-$\circ$.
-
-\pause
-A point $\mathbf{x}^\blacksquare$ that lies on the $\blacksquare$ class
-    boundary line, \ie $\mathbf{w}^T\mathbf{x}^\blacksquare + b = M$, is
-a \textbf{support vector}.
-
+    \bubble<1->[80][0.5][3cm]{image}{The image of a face!}
+    \bubble<1->[100]{pcabasis}{The PCA basis}
 
 \end{frame}
 
-\begin{frame}{Finding the optimal classifier}
+\imageframe[scale=0.8]{pca-projections-1}
+\imageframe[scale=0.8]{pca-projections-2}
+\imageframe[scale=0.8]{pca-projections-3}
 
-The problem is to find the \textbf{optimal} values for $\mathbf{w}$ and
-$b$.
+\begin{frame}{PCA Projection and reconstruction}
 
-The classifier needs to satisfy two conditions
-
-\begin{itemize}
-
-\item It needs to correctly classify the training data,
-\item and needs the margin from the classifier to be as large as possible.
-\end{itemize}
-
-\pause
-
-A \textbf{quadratic programming solver} is used to find the optimal
-values for $\mathbf{w}$ and $b$.
-
-{\footnotesize \href{http://www.robots.ox.ac.uk/~az/lectures/ml/lect2.pdf}{Oxford lecture on SVM} to learn more about the mathematical
-    formulation and the \emph{perceptron algorithm}.}
-
-\end{frame}
-
-\begin{frame}{Transformation of data}
-
-\begin{itemize}
-
-    \item Unfortunately, \emph{all this still assumes that the data is linearly
-        separable}. But what if it is not, and we are not prepared for a few
-  misclassifications?
-\item The solution is to \textbf{transform} the data: move data points in
-  the n-D space until the training data is linearly separable again
-\end{itemize}
-
-    \begin{center}
-        \includegraphics[width=0.8\linewidth]{svm-kernels}
-    \end{center}
-\end{frame}
-
-\begin{frame}{Feature maps}
-
-    \onslide<1-4>{
-We can transform data points (= move them) or even add more dimensions using
-a function $\theta(\mathbf{x}_i)$ from input $\mathbf{x}_i$. $\theta$ is a \textbf{feature
-map}.
-}
-
-\only<1-2>{
-Example:
-    \onslide<2>{
-    \[
-        \theta(\mathbf{x}_i) = [\mathbf{x}_i, \mathbf{x}^2_i]
-    \]
-    }
-
-\begin{center}
-    \includegraphics<1>[width=0.8\linewidth]{svm-kernels-separation-0}
-    \includegraphics<2>[width=0.8\linewidth]{svm-kernels-separation}
-\end{center}
-
-
-    \onslide<2>{
-$\rightarrow$ now, linearly separable
-}
-}
-
-\only<3-4>{
-Example:
-    \onslide<4>{
-    \[
-        \theta(<x_i, y_i>) = [x_i, y_i, x^2_i + y^2_i]
-    \]
-    }
-
-\begin{center}
-    \includegraphics<3>[width=0.7\linewidth]{svm-kernel-3d-0}
-    \includegraphics<4>[width=0.7\linewidth]{svm-kernel-3d}
-\end{center}
-
-    \onslide<4>{
-$\rightarrow$ now, linearly separable
-    }
-}
-\only<5>{
-
-
-If we know something about the structure of the data, then we might be able to identify
-feature maps that would be effective.
-
-Often however we do not have such domain knowledge.
-}
-
-\end{frame}
-
-\begin{frame}{The kernel trick}
-
-\[
-        \theta: \mathbf{x} \rightarrow  \theta(\mathbf{x}), \mathbb{R}^d \rightarrow \mathbb{R}^D
-\]
-
-\[
-    f(\mathbf{x}) = \mathbf{w}^T \theta(\mathbf{x}) + b
-\]
-
-\only<1>{
-\begin{itemize}
-    \item Simply map $\mathbf{x}$ to $\theta(\mathbf{x})$ where data is separable
-    \item Solve for $\mathbf{w}$ in high dimensional space $\mathbb{R}^D$
-    \item If $D >> d$ then there are many more parameters to learn for $\mathbf{w}$. Can this be avoided?
-\end{itemize}
-}
-
- \only<2>{
-    \href{http://www.robots.ox.ac.uk/~az/lectures/ml/lect3.pdf}{It can be shown
-    that} you do not actually need to calculate explicitely
-    $\theta(\mathbf{x})$. Instead, you only need $\theta(\mathbf{x}_i)^T
-    \theta(\mathbf{x}_j)$ (with $\mathbf{x}_i$ the training data) to compute
-    $\mathbf{w}$.
-
-
-    We call the \textbf{kernel function} $K(\mathbf{x}_i,\mathbf{x}_j) =
-    \theta(\mathbf{x}_i)^T \theta(\mathbf{x}_j)$.  The SVM classifier can be
-    learnt and applied with only $K$, and the complexity depends only on $N$
-    (size of training data), not on $D$.  }
-
-\end{frame}
-
-\begin{frame}{Standard kernels}
-
-\begin{itemize}
-
-    \item \textbf{Polynomials} up to some degree $s$ in the
-  elements $x_k$ of the input vector (\eg $x^3_3$ or $x_1 x_4$). This can be written as:
+    The $k$ principal components of an observed vector
+    $\mathbf{x}\bubblemark{image}$ are then given by:
 
     \[
-        K(x, y) = (1 + x^Ty)^s
+        \mathbf{y} = W^{T} (\mathbf{x} - \mu)
     \]
 
-\item \textbf{Sigmoid functions} of the $x_k$ with parameters $\kappa$ and $\delta$, and
-  kernel:
+    where $W\bubblemark{pcabasis} = (\mathbf{v}_{1}, \mathbf{v}_{2}, \ldots,
+    \mathbf{v}_{k})$. $\mathbf{y}$ is the \textbf{projection} of $\mathbf{x}$
+    onto
+    $W$.
+    
+    \bubble<1->[80][0.5][3cm]{image}{The image of a face!}
+    \bubble<1->[100]{pcabasis}{The PCA basis}
+
+
+    The reconstruction from the PCA basis is given by:
+
     \[
-        K(x, y) = tanh(\kappa x^T y - \delta)
+        \mathbf{x} = W \cdot \mathbf{y} + \mu
     \]
-\item \textbf{Radial basis function} expansions of the $x_k$ with parameter $\sigma$
-  and kernel:
-    \[
-        K(x, y) = exp(- \frac{(x-y)^2}{2\sigma^2})
-    \]
-
-(a Gaussian kernel)
-
-\end{itemize}
 
 \end{frame}
 
-\begin{frame}{Comparison of kernel functions}
-    \begin{center}
-        \includegraphics[width=\linewidth]{svm_comparison}
-    \end{center}
-\end{frame}
-
-\begin{frame}[fragile]{Python implementation of Support Vector Machine}
-
-\begin{onlyenv}<1>
+\begin{frame}[fragile]{Python code}
 
 \begin{pythoncode}
-from sklearn import svm
+def project(W, X, mu=None):
+    if mu is None:
+        return np.dot(X,W)
+    return np.dot(X - mu, W)
 
-C = 1.0  # SVM regularization parameter 
-         # +- 'how acceptable are misclassification'
-clf = svm.SVC(kernel='linear', C=C) # kernel='poly', 'rbf', 'sigmoid'...
+def reconstruct(W, Y, mu=None):
+    if mu is None:
+        return np.dot(Y,W.T)
+    return np.dot(Y, W.T) + mu
 
-clf.fit(data, categories)
+images = []
+for nb_evs in range(10, 310, 20):
+    P = project(W[:,0:nb_evs], X[0].reshape(1,-1), mu)
+    R = reconstruct(W[:,0:nb_evs], P, mu)
 
-predictions = clf.predict(inputs)
+    R = R.reshape(X[0].shape)
+    images.append(normalize(R,0,255))
+
+subplot(title="Reconstruction of one face", images=images, rows=4, cols=4)
 \end{pythoncode}
-
-\end{onlyenv}
-
-\begin{onlyenv}<2>
-    Complete example, with our data:
-
-\begin{columns}
-    \begin{column}{0.4\linewidth}
-\begin{pythoncode}
-""" data.csv:
-2.2,1.3,0 -> circles
-3.2,2.3,0
-...
-
-2.3,3.2,1 -> squares
-0.3,0.6,1
-...
-
-2.8,3.5,2 -> stars
-3.2,2.6,2
-...
-"""
-\end{pythoncode}
-        
-    \end{column}
-    \begin{column}{0.6\linewidth}
-\begin{pythoncode}
-from numpy import genfromtxt
-from sklearn import svm
-
-csv = genfromtxt('data.csv', delimiter=',')
-data = csv[:,:2]
-categories = csv[:,2]
-
-
-inputs = [ [3.5,3], [1.5,3], [1.8,1.9] ]
-
-clf = svm.SVC(kernel='rbf',
-              gamma = 0.7,
-              C=1.0)
-clf.fit(data, categories)
-
-predictions = clf.predict(inputs)
-print(predictions)
-
->>>  [2.  1.  0.]
-
-\end{pythoncode}
-    \end{column}
-\end{columns}
-
-\end{onlyenv}
-
-
 \end{frame}
 
-%\begin{frame}{Choosing the kernel}
-%
-%
-%Choosing which kernel to use and the parameters in these kernels is a tricky
-%    problem. While there reasoning based on the
-%    \href{https://en.wikipedia.org/wiki/Vapnik-Chervonenkis_dimension}{Vapnik--Chernik
-%    dimension} (a measure of the \emph{capacity} of your model) that can be
-%    applied, most people just experiment with different values and find one that
-%    works.
-%
-%\end{frame}
+\imageframe{one-face}
 
-%\begin{frame}{Complexity of SVMs}
-%
-%
-%SVMs do not work well on extremely large datasets, since the computations do
-%    not scale well with the number of training examples, and so become
-%    computationally very expensive.
-%
-%\begin{exampleblock}{Complexity}
-%Training a SVM requires $O(m^3)$\bubblemark{bigo} operations and $O(m^2)$
-%memory, with $m$ being the number of training samples.
-%    
-%For example with a NVidia GTX1080Ti ($\approx$350GFLOPs):
-%
-%    \begin{itemize}
-%        \item 10,000 training samples $\rightarrow$ $10^{12}$ operations
-%            $\rightarrow$ 2.9s ($10^{12}$ memory units).
-%        \item 100,000 samples $\rightarrow$ 2900s
-%        \item 1,000,000 samples $\rightarrow$ 2900000s $\equiv$ 33 days
-%    \end{itemize}
-%\end{exampleblock}
-%
-%\bubble<4>[190][1][6cm]{bigo}{For more information on ``big-O notation'',
-%see \href{https://en.wikipedia.org/wiki/Time_complexity}{complexity of
-%algorithms}}
-%
-%
-%\end{frame}
+\begin{frame}{Why is it useful?}
 
 
-\begin{frame}{Clustering vs classification}
+    Original images: $dim(\mathbf{x}) = 92 \times 112 = 10304$ pixels: large number of dimensions!
 
-\textbf{Clustering} is sometimes confused with \textbf{classification}.  (often
-    because some algorithms have similar names,e.g. \emph{k-means clustering}
-    and \emph{k-nearest neighbours}).
-
-\textbf{Clustering} starts from unlabelled data points and tries to find
-    $k$ clusters in the data $\rightarrow$ \textbf{unsupervised learning}.
-
-
-$\rightarrow$ Used to find patterns in the data.
-
-    \begin{center}
-        \includegraphics[width=0.3\linewidth]{clustering-0}
-        $\rightarrow$
-        \includegraphics[width=0.3\linewidth]{clustering-1}
-    \end{center}
-
-
-    \textbf{Classification} starts from training data ($\rightarrow$
-    \textbf{supervised learning}), and attempts to correctly classify an
-    unknown observation.
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\section[Emotion classifier]{Let's build our own emotion classifier from scratch}
-
-\begin{frame}{Shopping list}
-
-    \begin{center}
-        {\bf What do we need?}
-    \end{center}
+    $\Rightarrow$ difficult to tell whether 2 images represent the same person
+    (\ie \emph{classify} them).
 
     \pause
 
-    \begin{itemize}
-        \item<+-> a dataset of labelled faces
-        \item<+-> some pre-processing to normalise the faces
-        \item<+-> features to extract
-        \item<+-> a classifier
-    \end{itemize}
+    With the PCA, we project our test image onto a PCA basis of $k$ principal
+    components: $\mathbf{y} = W^{T} (\mathbf{x} - \mu)$ with $W = (\mathbf{v}_{1}, \mathbf{v}_{2}, \ldots, \mathbf{v}_{k})$.
+
+
+    $dim(\mathbf{y}) = k$ can typically be much smaller than $dim(\mathbf{x})$
+
+    \pause
+
+    \textbf{We effectively ``summarize'' our image into a few key values}, along
+    the principal axes of variation of our dataset.
+
+    $\Rightarrow$ these values discriminate effectively amongst our images
+    (maximise variance)
+    
+    $\Rightarrow$ \textbf{Well suited for classification!}
+
 \end{frame}
 
-\imageframe[color=black]{emotions/google-emotions-query}
-\imageframe[color=black]{emotions/emotions_dataset}
-\imageframe[color=black]{emotions/emotions_dataset_aligned}
+\imageframe{reconstruction-1-eigenfaces}
+\imageframe{reconstruction-10-eigenfaces}
+\imageframe{reconstruction-50-eigenfaces}
+
+\begin{frame}{}
+    \begin{center}
+        \includegraphics[width=\linewidth]{reconstruction-50-eigenfaces-top-row}
+
+        \vspace{2em}
+        Remember: these faces are reconstructed from 50 values (to be compared
+        to the 10304 values required for the original photos).
+
+        \vspace{2em}
+
+        \pause
+
+        PCA is often used as a \textbf{dimensionality reduction} technique (\ie a
+        kind of data lossy data compression).
+
+    \end{center}
+\end{frame}
+
+
+\section[Face recognition]{Face recognition}
+
+\imageframe{face-recognition-challenge}
+
+\imageframe[scale=0.8]{pca-projections-4}
+\imageframe[scale=0.8]{pca-projections-5}
+\imageframe[scale=0.8]{pca-projections-6}
+
+\begin{frame}{Recognition}
+
+    \begin{enumerate}
+        \item \textbf{learn a model} by (1) computing the PCA basis of the
+            training set, (2) projecting each training face onto that basis
+        \item \textbf{project the test image} (eg, the face you want to
+            recognise)
+        \item \textbf{find the 1-nearest neighbour}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Python code}
+
+
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+\begin{minted}[fontsize=\scriptsize]{python}
+def dist(p, q):
+    p = np.asarray(p).flatten()
+    q = np.asarray(q).flatten()
+    return np.sqrt(np.sum(
+                    np.power((p-q),2)
+                    ))
+
+
+def learn_model(X):
+    # compute PCA basis
+    D, W, mu = pca(X, nb_evs=10)
+    # compute projections
+    projections = []
+    for xi in X:
+        yi = project(W,
+                   xi.reshape(1,-1), 
+                   mu)
+        projections.append(yi)
+
+    return W, projections
+\end{minted}
+
+        \end{column}
+        \begin{column}{0.5\linewidth}
+
+
+\begin{minted}[fontsize=\scriptsize]{python}
+def predict(x, W, projections):
+    minDist = np.finfo('float').max
+    minClass = -1
+    Q = project(W, x.reshape(1,-1), mu)
+
+    for i in range(len(projections)):
+        dist = dist(projections[i], Q)
+        if dist < minDist:
+            minDist = dist
+            faceClass = faceClasses[i]
+    return faceClass
+
+
+X, faceClasses = read_images()
+W, projections = learn_model(X)
+predict(test_image, W, projections)
+
+\end{minted}
+        \end{column}
+    \end{columns}
+
+\end{frame}
 
 
 \begin{frame}{Features: Facial Action Units}
@@ -1287,87 +644,6 @@ $\rightarrow$ Used to find patterns in the data.
 
 \imageframe[color=black]{emotions/emotion-dataset-csv}
 
-\begin{frame}{Our tiny 'emotions' dataset}
-    \begin{itemize}
-        \item A couple of \href{https://www.google.co.uk/search?q=human+face+happiness&tbm=isch&source=lnt&tbs=itp:face}{Google queries}
-        \item a bit of manual filtering
-        \item 558 faces, between 70 and 130 per emotion
-        \item split into 2 datasets: a {\bf training} dataset (50 face per
-            emotion) and a {\bf testing} dataset
-        \item for each face, OpenFace pre-processing to:
-            \begin{itemize}
-                \item extract facial landmarks
-                \item normalise and mask out the faces
-                \item extract action units
-            \end{itemize}
-    \end{itemize}
-
-    The dataset is available for you to play with on the lecture's
-    \href{https://github.com/severin-lemaignan/lecture-hri-emotions}{GitHub repo}.
-\end{frame}
-
-
-\begin{frame}[fragile]{Classification results, Action Units}
-    
-
-    \begin{center}
-        {\bf $n$ = 17 dimensions (i.e., 17 action units)}
-    \end{center}
-
-    \begin{columns}
-        \begin{column}{0.4\linewidth}
-    {\bf kNN}:
-    \begin{itemize}
-        \item k=1: 46.9\%
-        \item k=2: 42.2\%
-        \item k=4: 50.8\%
-        \item k=6: 46.1\%
-        \item k=9: 52.3\%
-    \end{itemize}
-
-    {\bf SVM}:
-
-    \begin{itemize}
-        \item kernel: rbf: 48.8\%
-        \item kernel: linear: 52.3\%
-        \item kernel: poly: 38.0\%
-    \end{itemize}
-
-    \onslide<2>{
-        \textbf{Chance}: 16.7\%
-    }
-
-        \end{column}
-        \begin{column}{0.6\linewidth}
-            \begin{pythoncode}
-from numpy import genfromtxt
-from sklearn import neighbors, svm
-
-csv_train = genfromtxt('training.csv')
-training = csv_train[:,1:-1]
-training_categories = csv_train[:,0]
-
-csv_test = genfromtxt('testing.csv')
-testing = csv_test[:,1:-1]
-testing_categories = csv_test[:,0]
-
-clf = neighbors.KNeighborsClassifier(k)
-clf.fit(training, training_categories)
-knns_predictions = clf.predict(testing)
-
-clf = svm.SVC(kernel=kernel)
-clf.fit(training, training_categories)
-svm_predictions = clf.predict(testing)
-
-            \end{pythoncode}
-        \end{column}
-    \end{columns}
-
-\end{frame}
-
-\imageframe[color=black,caption=Natural emotions are much harder]{emotions/natural-emotions-hulot}
-
-
 \begin{frame}{Multi-modal social processing}
 
     We can usually improve social signal processing by \textbf{combining several
@@ -1442,7 +718,17 @@ But still many open problems remaining
 
 \end{frame}
 
+
 \miniframesoff
+
+\begin{frame}{Next week}
+    \begin{center}
+        \Large
+        Let's build an emotion classifier from scratch!
+        \vspace{2cm}
+        \includegraphics[width=0.8\linewidth]{emotions/google-emotions-query}
+    \end{center}
+\end{frame}
 
 \begin{frame}{}
     \begin{center}
