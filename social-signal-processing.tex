@@ -78,12 +78,13 @@
 
 \begin{frame}{In this lecture}
 
-\begin{itemize}
+\begin{enumerate}
     \item What/why social signal processing?
-    \item Processing complex social signals
-    \item Focus on the face: how face recognition works? what are action units?
+    \item Example of facial action units
+    \item Principal Component Analysis and application to face recognition
+    \item From social signal to internal state inference
 
-\end{itemize}
+\end{enumerate}
 
 \end{frame}
 
@@ -106,6 +107,12 @@
 
     \end{itemize}
 
+
+    \begin{itemize}
+        \item<4-> Social signals are also a ``window'' into someone else \emph{internal
+            state} (physiological state, mental state, emotional state):
+            \textbf{essential for the robot to generate appropriate behaviour!}
+    \end{itemize}
 \end{frame}
 }
 
@@ -126,13 +133,14 @@
             child[concept color=hriSec2] { node[concept] (percept){...on the face}
                 [clockwise from=30]
                 child[concept color=hriSec3Dark,text=white] { node[concept]
-                (emotions) {Emotions} }
+                (emotions) {Expressions\\Emotions} }
                 child[concept color=hriSec2Dark,text=white] { node[concept] (attention) {Gaze} };
             }
             child[concept color=hriSec2Comp,text=white,visible on=<2->] { node[concept] (knowledge) {...from the body}
                 [counterclockwise from=-170]
                 child[concept color=hriSec1CompDark,text=white] { node[concept] (soc-rules) {Proxemics} }
-                child[concept color=hriSec3Comp,text=black] { node[concept] (soc-ctxt) {Body posture} }
+                child[concept color=hriSec3Comp,text=black] { node[concept]
+                (soc-ctxt) {Posture\\body language} }
                 child[concept color=hriSec2,text=black] { node[concept]
                 (soc-ctxt) {Motion} }
                 child[concept color=hriSec2Dark,text=white] { node[concept] (memory) {Gestures} };
@@ -200,6 +208,77 @@
 
     \pause
 
+    What social signals would you rely on for a robot to recognise that the
+    little girl is bored?
+
+    \pause
+
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+    \begin{itemize}
+        \item gaze
+        \item facial expression
+        \item speech (of lack thereof!)
+        \item (repetitive) gesture
+        \item body language: bent over the table
+    \end{itemize}
+
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+                \includegraphics[trim=4cm 0 18cm 5cm,clip,height=4cm]{pinsoro-kinematics/clip_05_thumb}
+            \end{center}
+        \end{column}
+    \end{columns}
+
+\end{frame}
+
+\begin{frame}{Multi-modal social processing}
+
+    \textbf{Combining several modalities} makes social signal processing more
+    robust.
+
+    Example: while we usually recognise emotions from face images, adding voice
+    is very useful:
+
+    \begin{center}
+        \audio{figs/prosody/media1.mp4}\hspace{0.3em}
+        \audio{figs/prosody/media2.mp4}\hspace{0.3em}
+        \audio{figs/prosody/media3.mp4}\hspace{0.3em}
+        \audio{figs/prosody/media4.mp4}\hspace{0.3em}
+        \audio{figs/prosody/media5.mp4}
+    \end{center}
+    \source{http://emodb.bilderbar.info/start.html}{Berlin Database of
+    Emotional Speech}
+
+    \only<2>{
+        „Sie haben es gerade hochgetragen und jetzt gehen sie wieder runter``
+    (They just carried it upstairs and now they are going down again).
+
+
+
+    Which emotion do you recognise?
+
+
+    \textbf{Anger} -- \textbf{Boredom} -- \textbf{Disgust} -- \textbf{Anxiety/Fear} -- \textbf{Happiness} --
+    \textbf{Sadness} --  \textbf{Neutral}
+}
+
+    \only<3>{
+    \textbf{Prosody} is an important \emph{non-verbal} social signal.
+
+    In this dataset, humans were able to recognise emotions from prosody with
+    more than 80\% accuracy
+    (\textit{caveat: actors in a recording studio, not natural prosody!})
+
+}
+
+
+\end{frame}
+
+
+\begin{frame}{Processing pipelines}
+
 Social signal processing is typically broken down in smaller, more manageable,
     tasks:
 
@@ -218,7 +297,113 @@ Social signal processing is typically broken down in smaller, more manageable,
 
 \end{frame}
 
-\imageframe{ros4hri-pipeline}
+{
+    \fullbackground[scale=0.9]{ros4hri-pipeline}
+
+    \paper{\source{https://arxiv.org/abs/2012.13944}{Mohamed, Lemaignan, \textbf{ROS for Human-Robot
+    Interaction}, 2021}}
+
+    \begin{frame}{Example: the ROS4HRI pipeline}
+    \end{frame}
+}
+
+\section[Action units]{Reading facial expressions: facial action units}
+
+\begin{frame}{Facial Action Units}
+
+    \newcommand{\au}[1]{
+        \includegraphics[width=2cm]{emotions/au/au-0####1.jpg}
+    }
+
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+
+                \scriptsize
+                \begin{tabular}{@{}p{0.3cm}p{2.5cm}p{2cm}@{}}
+                    \toprule
+                    \textbf{AU} & \textbf{Description} & \textbf{Example image} \\
+                    \midrule
+                    \only<1>{
+                        \textbf{1}  & Inner Brow Raiser    &  \au{01} \\
+                    \textbf{2}  & Outer Brow Raiser    &  \au{02} \\
+                    \textbf{4}  & Brow Lowerer         &  \au{04} \\
+                    \textbf{5}  & Upper Lid Raiser     &  \au{05} \\
+                    \textbf{6}  & Cheek Raiser         &  \au{06} \\
+                    \bottomrule
+                }
+                    \only<2>{
+                        \textbf{15} & Lip Corner Depressor &  \au{15} \\
+                    \textbf{17} & Chin Raiser          &  \au{17} \\
+                    \textbf{20} & Lip stretcher        &  \au{20} \\
+                    \textbf{23} & Lip Tightener        &  \au{23} \\
+                    \bottomrule
+                }
+                \end{tabular}
+            \end{center}
+
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+
+                \scriptsize
+                \begin{tabular}{@{}p{0.3cm}p{2cm}p{2cm}@{}}
+                    \toprule
+                    \textbf{AU} & \textbf{Description} & \textbf{Example image} \\
+                    \midrule
+                    \only<1>{
+                        \textbf{7}  & Lid Tightener        &  \au{07} \\
+                    \textbf{9}  & Nose Wrinkler        &  \au{09} \\
+                    \textbf{10} & Upper Lip Raiser     &  \au{10} \\
+                    \textbf{12} & Lip Corner Puller    &  \au{12} \\
+                    \bottomrule
+                }
+                    \only<2>{
+                        \textbf{14} & Dimpler              &  \au{14} \\
+                    \textbf{25} & Lips part            &  \au{25} \\
+                    \textbf{26} & Jaw Drop             &  \au{26} \\
+                    \textbf{45} & Blink                &          \\
+                    \bottomrule
+                }
+                \end{tabular}
+            \end{center}
+        \end{column}
+    \end{columns}
+
+\end{frame}
+
+\begin{frame}{OpenFace Action Units}
+    \begin{center}
+        OpenFace is an open-source library that recognises 17 action units
+        (amongst many other things).
+
+        \href{https://github.com/TadasBaltrusaitis/OpenFace}{github.com/TadasBaltrusaitis/OpenFace}
+        \vspace{2em}
+
+        \includegraphics[width=0.9\linewidth]{emotions/au-openface}
+
+        \scriptsize
+        (not to be confused with this other \href{https://github.com/cmusatyalab/openface}{CMU OpenFace})
+    \end{center}
+\end{frame}
+
+
+
+
+\imageframe[color=black]{emotions/emotion-dataset-csv}
+
+\begin{frame}{Next week}
+    \begin{center}
+        \Large
+        Let's build an emotion classifier from scratch!
+        \vspace{2cm}
+        \includegraphics[width=0.8\linewidth]{emotions/google-emotions-query}
+    \end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section[Principal Component Analysis]{Face recognition: Principal Component Analysis}
 
@@ -230,7 +415,13 @@ Social signal processing is typically broken down in smaller, more manageable,
 \begin{frame}{Principal Component Analysis}
 
     \only<1>{
-    Principal Component Analysis (PCA) is a technique to find the sources of variance in a dataset.
+        Principal Component Analysis (PCA) is a technique to \emph{find the
+        source of variance in a dataset}.
+
+    PCA is a fundamental tool in data science, and a \emph{basic building block for
+    social signal processing and analysis}.
+
+    (it is one of the simplest and most effective \emph{dimensionality reduction technique}, but other exist! eg (deep) autoencoder)
     }
 
     \only<2>{
@@ -561,152 +752,79 @@ predict(test_image, W, projections)
 \end{frame}
 
 
-\begin{frame}{Features: Facial Action Units}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{From social signal to internal state}
 
-    \newcommand{\au}[1]{
-        \includegraphics[width=2cm]{emotions/au/au-0####1.jpg}
-    }
+\begin{frame}{From social signal to internal state}
 
-    \begin{columns}
-        \begin{column}{0.5\linewidth}
-            \begin{center}
-
-                \scriptsize
-                \begin{tabular}{@{}p{0.3cm}p{2.5cm}p{2cm}@{}}
-                    \toprule
-                    \textbf{AU} & \textbf{Description} & \textbf{Example image} \\
-                    \midrule
-                    \only<1>{
-                        \textbf{1}  & Inner Brow Raiser    &  \au{01} \\
-                    \textbf{2}  & Outer Brow Raiser    &  \au{02} \\
-                    \textbf{4}  & Brow Lowerer         &  \au{04} \\
-                    \textbf{5}  & Upper Lid Raiser     &  \au{05} \\
-                    \textbf{6}  & Cheek Raiser         &  \au{06} \\
-                    \bottomrule
-                }
-                    \only<2>{
-                        \textbf{15} & Lip Corner Depressor &  \au{15} \\
-                    \textbf{17} & Chin Raiser          &  \au{17} \\
-                    \textbf{20} & Lip stretcher        &  \au{20} \\
-                    \textbf{23} & Lip Tightener        &  \au{23} \\
-                    \bottomrule
-                }
-                \end{tabular}
-            \end{center}
-
-        \end{column}
-        \begin{column}{0.5\linewidth}
-            \begin{center}
-
-                \scriptsize
-                \begin{tabular}{@{}p{0.3cm}p{2cm}p{2cm}@{}}
-                    \toprule
-                    \textbf{AU} & \textbf{Description} & \textbf{Example image} \\
-                    \midrule
-                    \only<1>{
-                        \textbf{7}  & Lid Tightener        &  \au{07} \\
-                    \textbf{9}  & Nose Wrinkler        &  \au{09} \\
-                    \textbf{10} & Upper Lip Raiser     &  \au{10} \\
-                    \textbf{12} & Lip Corner Puller    &  \au{12} \\
-                    \bottomrule
-                }
-                    \only<2>{
-                        \textbf{14} & Dimpler              &  \au{14} \\
-                    \textbf{25} & Lips part            &  \au{25} \\
-                    \textbf{26} & Jaw Drop             &  \au{26} \\
-                    \textbf{45} & Blink                &          \\
-                    \bottomrule
-                }
-                \end{tabular}
-            \end{center}
-        \end{column}
-    \end{columns}
-
-\end{frame}
-
-\begin{frame}{OpenFace Action Units}
-    \begin{center}
-        OpenFace is an open-source library that recognises 17 action units
-        (amongst many other things).
-
-        \href{https://github.com/TadasBaltrusaitis/OpenFace}{github.com/TadasBaltrusaitis/OpenFace}
-        \vspace{2em}
-
-        \includegraphics[width=0.9\linewidth]{emotions/au-openface}
-
-        \scriptsize
-        (not to be confused with this other \href{https://github.com/cmusatyalab/openface}{CMU OpenFace})
-    \end{center}
-\end{frame}
-
-
-
-
-\imageframe[color=black]{emotions/emotion-dataset-csv}
-
-\begin{frame}{Multi-modal social processing}
-
-    We can usually improve social signal processing by \textbf{combining several
-    modalities}.
+    Question: can we infer the internal state of the children based on either
+    image?
 
     \begin{center}
-        \audio{figs/prosody/media1.mp4}\hspace{0.3em}
-        \audio{figs/prosody/media2.mp4}\hspace{0.3em}
-        \audio{figs/prosody/media3.mp4}\hspace{0.3em}
-        \audio{figs/prosody/media4.mp4}\hspace{0.3em}
-        \audio{figs/prosody/media5.mp4}
+        \includegraphics[width=0.9\linewidth]{pinsoro-kinematics/clips}
     \end{center}
-    \source{http://emodb.bilderbar.info/start.html}{Berlin Database of
-    Emotional Speech}
-
-    \only<2>{
-        „Sie haben es gerade hochgetragen und jetzt gehen sie wieder runter``
-    (They just carried it upstairs and now they are going down again).
-
-
-
-    Which emotion do you recognise?
-
-
-    \textbf{Anger} -- \textbf{Boredom} -- \textbf{Disgust} -- \textbf{Anxiety/Fear} -- \textbf{Happiness} --
-    \textbf{Sadness} --  \textbf{Neutral}
-}
-
-    \only<3>{
-    \textbf{Prosody} is an important \emph{non-verbal} social signal.
-
-        Humans recognise emotions from prosody with approx. 80\% accuracy
-    (\textit{caveat: this is for speech spoken by actors in a recording studio})
-
-}
-
 
 \end{frame}
 
+{
+    \paper{Lemaignan et al. {\bf The PInSoRo
+    dataset: Supporting the data-driven study of child-child...} PLOS One 2018}
+\begin{frame}{13000+ annotations}
+    \begin{center}
+        \includegraphics[width=0.8\linewidth]{pinsoro-kinematics/coding-scheme}
+    \end{center}
+\end{frame}
+}
+\videoframe[0.56]{figs/pinsoro-kinematics/annotations.mp4?autostart}
+\videoframe[0.56]{figs/pinsoro-kinematics/pinsoro-matplotlib.mp4?autostart}
 
+{
+    \paper{Bartlett, Edmunds, Belpaeme, Thill, Lemaignan, \textbf{What Can You
+    See? Identifying Cues on Internal States...}, FrontiersIn 2019}
+\begin{frame}{}
+    \begin{itemize}
+        \item 20 clips extracted from the dataset, featuring notable social
+            behaviours (boredom, aggression, cooperation, dominance, fun,
+            excitement)
+        \item online study to ask people to annotate the clips along 20
+            dimensions
+    \end{itemize}
+\end{frame}
+}
+
+\imageframe[caption={200 participants, 4 clips each, on MTurk}]{kinematics_social_dynamics/questionnaire.png}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\miniframesoff
 
 \begin{frame}{We've barely scratched the surface!}
 
-Social signal processing is extracting relevant information from the
+\only<1>{
+Social signal processing is about extracting relevant information from the
 social environment.
 
-Some work relatively well
+Some techniques work relatively well:
 
 \begin{itemize}
 
-\item Face \textbf{detection}, voice activity detection, gender
+\item Face recognition, voice activity detection, gender
   classification, \ldots{}
 \end{itemize}
 
-Some work, but need improvement
+Some work, but need improvement:
 
 \begin{itemize}
 
-\item Gaze detection, basic emotion recognition, face \textbf{recognition},
-  speech recognition, \ldots{}
+\item Gaze detection, basic emotion recognition, speech recognition, \ldots{}
 \end{itemize}
+}
 
-But still many open problems remaining
+\only<2>{
+But many open problems remain, eg:
 
 \begin{itemize}
 
@@ -714,21 +832,14 @@ But still many open problems remaining
   pride).
 \item Speech recognition for atypical speakers (children, elderly),
   multi-party interaction, \ldots{}
+\item most body language
+\item group dynamics
 \end{itemize}
+}
 
 \end{frame}
 
 
-\miniframesoff
-
-\begin{frame}{Next week}
-    \begin{center}
-        \Large
-        Let's build an emotion classifier from scratch!
-        \vspace{2cm}
-        \includegraphics[width=0.8\linewidth]{emotions/google-emotions-query}
-    \end{center}
-\end{frame}
 
 \begin{frame}{}
     \begin{center}
