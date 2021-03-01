@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="398.99167mm"
+   height="227.48972mm"
+   viewBox="0 0 398.99167 227.48972"
+   version="1.1"
+   id="svg5129"
+   inkscape:version="1.0.1 (0767f8302a, 2020-10-17)"
+   sodipodi:docname="questionnaires.svg">
+  <defs
+     id="defs5123" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="452.05025"
+     inkscape:cy="253.27631"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:snap-global="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1052"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5126">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(63.679459,-14.537546)">
+    <image
+       sodipodi:absref="/home/severin/teaching/lecture-hri-social-signal-processing/figs/kinematics_social_dynamics/questionnaire.png"
+       xlink:href="questionnaire.png"
+       y="24.275164"
+       x="135.81638"
+       id="image5702"
+       preserveAspectRatio="none"
+       height="217.75209"
+       width="199.49583" />
+    <image
+       sodipodi:absref="/home/severin/teaching/lecture-hri-social-signal-processing/figs/kinematics_social_dynamics/questionnaire.png"
+       xlink:href="questionnaire.png"
+       y="24.275164"
+       x="-63.679459"
+       id="image5706"
+       preserveAspectRatio="none"
+       height="217.75209"
+       width="199.49583" />
+    <image
+       sodipodi:absref="/home/severin/teaching/lecture-hri-social-signal-processing/figs/kinematics_social_dynamics/clip_skel_01_thumb.jpg"
+       xlink:href="clip_skel_01_thumb.jpg"
+       style="stroke-width:1.34639"
+       y="29.799339"
+       x="142.18434"
+       id="image5718"
+       preserveAspectRatio="none"
+       height="106.11723"
+       width="188.65285" />
+    <text
+       xml:space="preserve"
+       style="font-size:12.2577px;line-height:1.25;font-family:FredokaOne;-inkscape-font-specification:FredokaOne;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="71.701988"
+       y="23.461151"
+       id="text5742"><tspan
+         sodipodi:role="line"
+         id="tspan5740"
+         x="71.701988"
+         y="23.461151"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FlamaLight;-inkscape-font-specification:FlamaLight;stroke-width:0.264583">full-scene <tspan
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Flama;-inkscape-font-specification:Flama;stroke-width:0.264583"
+   id="tspan5744">OR</tspan> skeletons only</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.665;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 135.51385,29.838298 V 233.23109"
+       id="path5746" />
+  </g>
+</svg>

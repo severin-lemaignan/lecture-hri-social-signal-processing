@@ -80,6 +80,7 @@
 
 \begin{enumerate}
     \item What/why social signal processing?
+    \item Features
     \item Example of facial action units
     \item Principal Component Analysis and application to face recognition
     \item From social signal to internal state inference
@@ -178,18 +179,293 @@
     \end{exampleblock}
 \end{frame}
 
-\begin{frame}{How hard?}
+\begin{frame}{Features}
 
-    In order to understand ``what's going on?'' (\emph{classification}), we
-    first need to build \emph{representations} by the mean of raw data
-    pre-processing (\emph{conditionning}). This typically relies on
-    \emph{models} (skeletons, language, eye, etc.)
+    In order to understand ``what's going on?'' (usually reduced to a
+    \textbf{classification} task), we first need to build a
+    \textbf{representation}.
+
+    \pause
+
+    Building a representation often requires raw data
+    \textbf{pre-processing} to extract \textbf{features}.
+
+    Features can be manually designed (\emph{feature engineering}) or can be
+    learnt (\emph{supervised} or \emph{unsupervised machine learning})
+
+    \pause
+
+    Feature engineering or supervised learning relies on pre-existing
+    \textbf{models} (skeletons, language, eye, etc.), with \emph{unsupervised
+    feature learning} rely on the algorithm finding \emph{patterns} in the data
+    (that might or might not relate to recognisable models).
+
+    \pause
+
+    Features can be more or less complex, from the age of a participant, to a complex social gesture.
+
+\end{frame}
+
+\begin{frame}{Features}
+    \centering
+    {\Large What data features do you know of?}
+
+    \only<1>{
+    Take 5 minutes and list 3 \emph{features} for each of the following
+    source of data:
+
+    \begin{itemize}
+        \item image of a face
+        \item audio recording of a voice
+        \item x,y,z coordinates of people in a crowd
+        \item depth image of a person
+    \end{itemize}
+    }
+
+    \only<2->{
+    \begin{itemize}
+        \item image of a face
+            \begin{itemize}
+                \item skin colour
+                \item head pose, gaze direction
+                \item facial landmarks (eg contours) \only<3>{$\leftarrow$ {\bf learnt}}
+                \item action-units (more about that later!) \only<3>{$\leftarrow$ {\bf learnt}}
+            \end{itemize}
+        \item audio recording of a voice
+            \begin{itemize}
+                \item amplitude, frequencies
+                \item prosody \only<3>{$\leftarrow$ {\bf learnt}}
+                \item verbal content! \only<3>{$\leftarrow$ {\bf learnt}}
+            \end{itemize}
+        \item x,y,z coordinates of people in a crowd
+            \begin{itemize}
+                \item trajectories
+                \item proxemics
+            \end{itemize}
+        \item depth image of a person
+            \begin{itemize}
+                \item skeleton \only<3>{$\leftarrow$ {\bf learnt}}
+                \item gestures \only<3>{$\leftarrow$ {\bf learnt}}
+            \end{itemize}
+    \end{itemize}
+    }
+
+\end{frame}
+
+\begin{frame}{Example: recognising gender from speech}
+
+Can we automatically recognise someone's gender from speech?
+
+3,168 recorded voice samples, collected from male and female speakers.
+
+\begin{itemize}
+
+\item Examples from the database: male (US), female (US), male (Scotish)
+\end{itemize}
+
+    \begin{center}
+    \audio{figs/audio/male-us.mp4}\hspace{0.3em}
+    \audio{figs/audio/male-scottish.mp4}\hspace{0.3em}
+    \audio{figs/audio/female-us.mp4}
+    \end{center}
+
+
+The voice samples are pre-processed by acoustic analysis to extract 20 features
+(like mean frequency of the sample, spectral flatness, etc).
+
+
+\source{https://www.kaggle.com/primaryobjects/voicegender}{data and more information}
+
+
+\end{frame}
+
+%\begin{frame}{The 20 features used for gender classification}
+%
+%    \only<1>{
+%\begin{itemize}
+%
+%\item \textbf{meanfreq}: mean frequency (in kHz)
+%\item \textbf{sd}: standard deviation of frequency
+%\item \textbf{median}: median frequency (in kHz)
+%\item \textbf{Q25}: first quantile (in kHz)
+%\item \textbf{Q75}: third quantile (in kHz)
+%\item \textbf{IQR}: interquantile range (in kHz)
+%\item \textbf{skew}: skewness (see note in specprop description)
+%\item \textbf{kurt}: kurtosis (see note in specprop description)
+%\item \textbf{sp.ent}: spectral entropy
+%\item \textbf{sfm}: spectral flatness
+%\item \textbf{mode}: mode frequency
+%\item \textbf{centroid}: frequency centroid (see specprop)
+%\item \textbf{peakf}: peak frequency (frequency with highest energy)
+%\item \textbf{meanfun}: average of fundamental frequency measured across
+%  acoustic signal
+%\end{itemize}
+%}
+%    \only<2>{
+%\begin{itemize}
+%
+%\item \textbf{minfun}: minimum fundamental frequency measured across
+%  acoustic signal
+%\item \textbf{maxfun}: maximum fundamental frequency measured across
+%  acoustic signal
+%\item \textbf{meandom}: average of dominant frequency measured across
+%  acoustic signal
+%\item \textbf{mindom}: minimum of dominant frequency measured across
+%  acoustic signal
+%\item \textbf{maxdom}: maximum of dominant frequency measured across
+%  acoustic signal
+%\item \textbf{dfrange}: range of dominant frequency measured across acoustic
+%  signal
+%\item \textbf{modindx}: modulation index. Calculated as the accumulated
+%  absolute difference between adjacent measurements of fundamental
+%  frequencies divided by the frequency range
+%\end{itemize}
+%}
+%
+%\end{frame}
+
+\begin{frame}{Example: recognising gender from speech}
+
+    \begin{center}
+        \includegraphics[width=\linewidth]{vector-gender-voice}
+    \end{center}
+
+\pause
+
+\begin{itemize}
+\item kNN (k = 7): 97.8\% classified correctly.
+\item SVM: 97.5\% classified correctly.
+\end{itemize}
+
+$\rightarrow$ Recognising gender from speech is easy and robust; many
+    classification algorithms can deal with this problem.
+
+\emph{\scriptsize(more on classification algorithms next week)}
+\end{frame}
+
+{
+\paper{Ekman, {\bf The Facial Action Coding System}, 1977}
+\begin{frame}{Example: Facial Action Units}
+
+    \only<1>{
+        \scriptsize
+        The {\bf Facial Action Coding System} (FACS) aim is to {\bf taxonomize
+        human facial movements} by their appearance on the face.
+
+        Facial movements are encoded as {\bf action units} $\rightarrow$ useful
+        features to decode facial expressions
+    }
+
+    \newcommand{\au}[1]{
+        \includegraphics[width=2cm]{emotions/au/au-0####1.jpg}
+    }
+
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+
+                \scriptsize
+                \begin{tabular}{@{}p{0.3cm}p{2.5cm}p{2cm}@{}}
+                    \toprule
+                    \textbf{AU} & \textbf{Description} & \textbf{Example image} \\
+                    \midrule
+                    \only<1>{
+                        \textbf{1}  & Inner Brow Raiser    &  \au{01} \\
+                        \textbf{2}  & Outer Brow Raiser    &  \au{02} \\
+                        \textbf{4}  & Brow Lowerer         &  \au{04} \\
+                        \textbf{5}  & Upper Lid Raiser     &  \au{05} \\
+                        \bottomrule
+                    }
+                    \only<2>{
+                        \textbf{15} & Lip Corner Depressor &  \au{15} \\
+                        \textbf{17} & Chin Raiser          &  \au{17} \\
+                        \textbf{20} & Lip stretcher        &  \au{20} \\
+                        \textbf{23} & Lip Tightener        &  \au{23} \\
+                        \bottomrule
+                    }
+                \end{tabular}
+            \end{center}
+
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+
+                \scriptsize
+                \begin{tabular}{@{}p{0.3cm}p{2cm}p{2cm}@{}}
+                    \toprule
+                    \textbf{AU} & \textbf{Description} & \textbf{Example image} \\
+                    \midrule
+                    \only<1>{
+                        \textbf{6}  & Cheek Raiser         &  \au{06} \\
+                        \textbf{7}  & Lid Tightener        &  \au{07} \\
+                        \textbf{9}  & Nose Wrinkler        &  \au{09} \\
+                        \textbf{10} & Upper Lip Raiser     &  \au{10} \\
+                        \textbf{12} & Lip Corner Puller    &  \au{12} \\
+                        \bottomrule
+                    }
+                    \only<2>{
+                        \textbf{14} & Dimpler              &  \au{14} \\
+                        \textbf{25} & Lips part            &  \au{25} \\
+                        \textbf{26} & Jaw Drop             &  \au{26} \\
+                        \textbf{45} & Blink                &          \\
+                        \bottomrule
+                    }
+                \end{tabular}
+            \end{center}
+        \end{column}
+    \end{columns}
+
+    \only<2>{
+        \href{https://en.wikipedia.org/wiki/Facial_Action_Coding_System}{Wikipedia
+        has a large list of action units}.
+    }
+
+\end{frame}
+}
+
+\begin{frame}{OpenFace Action Units}
+    \begin{center}
+        OpenFace is an open-source library that recognises 17 action units
+        (amongst many other things).
+
+        \href{https://github.com/TadasBaltrusaitis/OpenFace}{github.com/TadasBaltrusaitis/OpenFace}
+        \vspace{2em}
+
+        \includegraphics[width=0.9\linewidth]{emotions/au-openface}
+
+        \scriptsize
+        (not to be confused with this other \href{https://github.com/cmusatyalab/openface}{CMU OpenFace})
+    \end{center}
+\end{frame}
+
+\begin{frame}{Next week}
+    \begin{center}
+        \Large
+        Let's build an emotion classifier from scratch!
+        \vspace{2cm}
+        \includegraphics[width=0.8\linewidth]{emotions/google-emotions-query}
+    \end{center}
+\end{frame}
+
+
+
+{
+    \paper{Lemaignan et al. \textbf{The PInSoRo dataset: Supporting the
+    data-driven study of child-child and child-robot [...]} PLOS One 2018}
+
+\begin{frame}{Multi-modal example}
+
+    In practice, our data is multi-modal, and social signal processing requires multi-modal processing.
+
+    PInSoro dataset: a large dataset of multi-modal child-child (and child-robot
+    interaction)
 
     \begin{center}
         \includegraphics[width=0.9\linewidth]{pinsoro-kinematics/clips}
     \end{center}
 
 \end{frame}
+}
 
 \videoframe[0.56]{figs/pinsoro-kinematics/clip_skel_01.mp4}
 
@@ -200,7 +476,7 @@
 \videoframe[0.56]{figs/pinsoro-kinematics/clip_05.mp4}
 
 
-\begin{frame}{How hard?}
+\begin{frame}{Multi-modal representations}
 
     Building the right representation is hard, especially for multi-modal social
     signals (essentially, an open research
@@ -307,105 +583,11 @@ Social signal processing is typically broken down in smaller, more manageable,
     \end{frame}
 }
 
-\section[Action units]{Reading facial expressions: facial action units}
-
-\begin{frame}{Facial Action Units}
-
-    \newcommand{\au}[1]{
-        \includegraphics[width=2cm]{emotions/au/au-0####1.jpg}
-    }
-
-    \begin{columns}
-        \begin{column}{0.5\linewidth}
-            \begin{center}
-
-                \scriptsize
-                \begin{tabular}{@{}p{0.3cm}p{2.5cm}p{2cm}@{}}
-                    \toprule
-                    \textbf{AU} & \textbf{Description} & \textbf{Example image} \\
-                    \midrule
-                    \only<1>{
-                        \textbf{1}  & Inner Brow Raiser    &  \au{01} \\
-                    \textbf{2}  & Outer Brow Raiser    &  \au{02} \\
-                    \textbf{4}  & Brow Lowerer         &  \au{04} \\
-                    \textbf{5}  & Upper Lid Raiser     &  \au{05} \\
-                    \textbf{6}  & Cheek Raiser         &  \au{06} \\
-                    \bottomrule
-                }
-                    \only<2>{
-                        \textbf{15} & Lip Corner Depressor &  \au{15} \\
-                    \textbf{17} & Chin Raiser          &  \au{17} \\
-                    \textbf{20} & Lip stretcher        &  \au{20} \\
-                    \textbf{23} & Lip Tightener        &  \au{23} \\
-                    \bottomrule
-                }
-                \end{tabular}
-            \end{center}
-
-        \end{column}
-        \begin{column}{0.5\linewidth}
-            \begin{center}
-
-                \scriptsize
-                \begin{tabular}{@{}p{0.3cm}p{2cm}p{2cm}@{}}
-                    \toprule
-                    \textbf{AU} & \textbf{Description} & \textbf{Example image} \\
-                    \midrule
-                    \only<1>{
-                        \textbf{7}  & Lid Tightener        &  \au{07} \\
-                    \textbf{9}  & Nose Wrinkler        &  \au{09} \\
-                    \textbf{10} & Upper Lip Raiser     &  \au{10} \\
-                    \textbf{12} & Lip Corner Puller    &  \au{12} \\
-                    \bottomrule
-                }
-                    \only<2>{
-                        \textbf{14} & Dimpler              &  \au{14} \\
-                    \textbf{25} & Lips part            &  \au{25} \\
-                    \textbf{26} & Jaw Drop             &  \au{26} \\
-                    \textbf{45} & Blink                &          \\
-                    \bottomrule
-                }
-                \end{tabular}
-            \end{center}
-        \end{column}
-    \end{columns}
-
-\end{frame}
-
-\begin{frame}{OpenFace Action Units}
-    \begin{center}
-        OpenFace is an open-source library that recognises 17 action units
-        (amongst many other things).
-
-        \href{https://github.com/TadasBaltrusaitis/OpenFace}{github.com/TadasBaltrusaitis/OpenFace}
-        \vspace{2em}
-
-        \includegraphics[width=0.9\linewidth]{emotions/au-openface}
-
-        \scriptsize
-        (not to be confused with this other \href{https://github.com/cmusatyalab/openface}{CMU OpenFace})
-    \end{center}
-\end{frame}
-
-
-
-
-\imageframe[color=black]{emotions/emotion-dataset-csv}
-
-\begin{frame}{Next week}
-    \begin{center}
-        \Large
-        Let's build an emotion classifier from scratch!
-        \vspace{2cm}
-        \includegraphics[width=0.8\linewidth]{emotions/google-emotions-query}
-    \end{center}
-\end{frame}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section[Principal Component Analysis]{Face recognition: Principal Component Analysis}
+\section[Principal Component Analysis]{Principal Component Analysis: example of face recognition}
 
 \imageframe{face-recognition-challenge}
 
@@ -751,11 +933,32 @@ predict(test_image, W, projections)
 
 \end{frame}
 
+{
+    \paper{\source{http://blog.dlib.net/2017/02/high-quality-face-recognition-with-deep.html}{{\tt
+    }dlib} face recognition}
+\begin{frame}{State of the art face recognition}
+
+    \begin{center}
+        \includegraphics<1>[width=0.8\linewidth]{face_recognition/dlib_deep_learning_magic_input}
+        \includegraphics<2>[width=0.8\linewidth]{face_recognition/dlib_deep_learning_magic_output}
+    \end{center}
+
+\end{frame}
+}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{From social signal to internal state}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Internal state estimation]{From social signal to internal state}
 
 \begin{frame}{From social signal to internal state}
+
+    For the robot to behave appropriately, it needs to assess the current state
+    of the interaction, which typically requires estimating the \emph{internal
+    state} of the people: are they bored, excited, tired, curious,...?
+
+    \pause
 
     Question: can we infer the internal state of the children based on either
     image?
@@ -763,6 +966,9 @@ predict(test_image, W, projections)
     \begin{center}
         \includegraphics[width=0.9\linewidth]{pinsoro-kinematics/clips}
     \end{center}
+
+    If a human can guess based on skeletons only, then there's good hope we can
+    train a classifier for the robot to do the same.
 
 \end{frame}
 
@@ -781,19 +987,33 @@ predict(test_image, W, projections)
 {
     \paper{Bartlett, Edmunds, Belpaeme, Thill, Lemaignan, \textbf{What Can You
     See? Identifying Cues on Internal States...}, FrontiersIn 2019}
-\begin{frame}{}
+\begin{frame}<1-2>[label=internalstate]{}
     \begin{itemize}
-        \item 20 clips extracted from the dataset, featuring notable social
+        \item<+-> 20 clips extracted from the dataset, featuring notable social
             behaviours (boredom, aggression, cooperation, dominance, fun,
             excitement)
-        \item online study to ask people to annotate the clips along 20
-            dimensions
+        \item<+-> online study to ask people to rate the clips along 20 dimensions
+        \item<+-> train a classifier to guess the social behaviour based on the ratings
+            provided with the \emph{full video} $\Rightarrow$ resulting precision = 46\%
+        \item<+-> check how well a \emph{similar} classifier performs when trained with the ratings provided for the \emph{skeleton-only} videos $\Rightarrow$ precision = 42\%
     \end{itemize}
+
+    \uncover<+->{
+
+        \textbf{The \emph{skeleton-only} data seems to contain approx. the same amount of information on the internal state as the \emph{full-scene} videos.}
+
+    }
+
+    \pause
+
+    {\bf Humans can pick these complex social signal; robots not yet!}
+
 \end{frame}
 }
 
-\imageframe[caption={200 participants, 4 clips each, on MTurk}]{kinematics_social_dynamics/questionnaire.png}
+\imageframe{kinematics_social_dynamics/questionnaires}
 
+\againframe<3->{internalstate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -887,102 +1107,6 @@ Man and Cybernetics, 2005 IEEE International Conference on.
 
 \bubble<2>[50][0.7][5cm]{preprocessing}{An exception to this are Convolutional Neural
     Networks, which can deal with unprocessed data}
-
-\end{frame}
-
-\begin{frame}{Example: recognising gender from speech}
-
-Can we automatically recognise someone's gender from speech?
-
-3,168 recorded voice samples, collected from male and female speakers.
-
-\begin{itemize}
-
-\item Examples from the database: male (US), female (US), male (Scotish)
-\end{itemize}
-
-    \begin{center}
-    \audio{figs/male-us.mp4}\hspace{0.3em}
-    \audio{figs/male-scottish.mp4}\hspace{0.3em}
-    \audio{figs/female-us.mp4}
-    \end{center}
-
-
-The voice samples are pre-processed by acoustic analysis in R using the
-{\tt seewave}, {\tt warbleR} and {\tt tuneR} packages, with an analysed frequency range of
-0hz-280Hz (fundamental frequency of human speech).
-
-
-\source{https://www.kaggle.com/primaryobjects/voicegender}{data and more information}
-
-
-\end{frame}
-
-\begin{frame}{The 20 features used for gender classification}
-
-    \only<1>{
-\begin{itemize}
-
-\item \textbf{meanfreq}: mean frequency (in kHz)
-\item \textbf{sd}: standard deviation of frequency
-\item \textbf{median}: median frequency (in kHz)
-\item \textbf{Q25}: first quantile (in kHz)
-\item \textbf{Q75}: third quantile (in kHz)
-\item \textbf{IQR}: interquantile range (in kHz)
-\item \textbf{skew}: skewness (see note in specprop description)
-\item \textbf{kurt}: kurtosis (see note in specprop description)
-\item \textbf{sp.ent}: spectral entropy
-\item \textbf{sfm}: spectral flatness
-\item \textbf{mode}: mode frequency
-\item \textbf{centroid}: frequency centroid (see specprop)
-\item \textbf{peakf}: peak frequency (frequency with highest energy)
-\item \textbf{meanfun}: average of fundamental frequency measured across
-  acoustic signal
-\end{itemize}
-}
-    \only<2>{
-\begin{itemize}
-
-\item \textbf{minfun}: minimum fundamental frequency measured across
-  acoustic signal
-\item \textbf{maxfun}: maximum fundamental frequency measured across
-  acoustic signal
-\item \textbf{meandom}: average of dominant frequency measured across
-  acoustic signal
-\item \textbf{mindom}: minimum of dominant frequency measured across
-  acoustic signal
-\item \textbf{maxdom}: maximum of dominant frequency measured across
-  acoustic signal
-\item \textbf{dfrange}: range of dominant frequency measured across acoustic
-  signal
-\item \textbf{modindx}: modulation index. Calculated as the accumulated
-  absolute difference between adjacent measurements of fundamental
-  frequencies divided by the frequency range
-\end{itemize}
-}
-
-\end{frame}
-
-\begin{frame}{Example: recognising gender from speech}
-
-    \begin{center}
-        \includegraphics[width=\linewidth]{vector-gender-voice}
-    \end{center}
-\end{frame}
-
-\begin{frame}{Example: recognising gender from speech}
-
-Performance
-
-\begin{itemize}
-
-\item kNN (k = 7): 97.8\% classified correctly.
-\item SVM: 97.5\% classified correctly.
-\end{itemize}
-
-Recognising gender from speech is easy and robust.
-
-All classification algorithms can deal with this problem.
 
 \end{frame}
 
