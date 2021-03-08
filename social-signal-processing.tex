@@ -208,11 +208,11 @@
 
 \begin{frame}{Features}
     \centering
+    \only<1>{
     {\Large What data features do you know of?}
 
-    \only<1>{
     Take 5 minutes and list 3 \emph{features} for each of the following
-    source of data:
+    sources of data:
 
     \begin{itemize}
         \item image of a face
@@ -455,17 +455,21 @@ $\rightarrow$ Recognising gender from speech is easy and robust; many
 
 \begin{frame}{Multi-modal example}
 
-    In practice, our data is multi-modal, and social signal processing requires multi-modal processing.
+    In practice, our data is often multi-modal, and social signal processing
+    usually requires multi-modal processing.
 
-    PInSoro dataset: a large dataset of multi-modal child-child (and child-robot
-    interaction)
 
     \begin{center}
         \includegraphics[width=0.9\linewidth]{pinsoro-kinematics/clips}
     \end{center}
 
+    PInSoro dataset: a large dataset of multi-modal child-child (and child-robot
+    interaction)
+
 \end{frame}
 }
+
+\videoframe[0.56]{figs/pinsoro-kinematics/pinsoro-matplotlib.mp4?autostart}
 
 \videoframe[0.56]{figs/pinsoro-kinematics/clip_skel_01.mp4}
 
@@ -494,7 +498,7 @@ $\rightarrow$ Recognising gender from speech is easy and robust; many
     \begin{itemize}
         \item gaze
         \item facial expression
-        \item speech (of lack thereof!)
+        \item speech (or lack thereof!)
         \item (repetitive) gesture
         \item body language: bent over the table
     \end{itemize}
@@ -527,10 +531,9 @@ $\rightarrow$ Recognising gender from speech is easy and robust; many
     \source{http://emodb.bilderbar.info/start.html}{Berlin Database of
     Emotional Speech}
 
-    \only<2>{
-        „Sie haben es gerade hochgetragen und jetzt gehen sie wieder runter``
-    (They just carried it upstairs and now they are going down again).
-
+    \only<1>{
+    {\scriptsize „Sie haben es gerade hochgetragen und jetzt gehen sie wieder runter``
+    (They just carried it upstairs and now they are going down again).}
 
 
     Which emotion do you recognise?
@@ -540,7 +543,7 @@ $\rightarrow$ Recognising gender from speech is easy and robust; many
     \textbf{Sadness} --  \textbf{Neutral}
 }
 
-    \only<3>{
+    \only<2>{
     \textbf{Prosody} is an important \emph{non-verbal} social signal.
 
     In this dataset, humans were able to recognise emotions from prosody with
@@ -553,23 +556,28 @@ $\rightarrow$ Recognising gender from speech is easy and robust; many
 \end{frame}
 
 
-\begin{frame}{Processing pipelines}
+\begin{frame}{Social Signal Processing pipeline}
 
-Social signal processing is typically broken down in smaller, more manageable,
-    tasks:
+Due to the complexity of real-world multi-modal signal, need to process the raw signal via a set of specialist functions, for instance:
 
 \begin{itemize}
 
 \item People detection
-\item Face detection
 \item Face recognition
 \item Gesture recognition
 \item Gaze detection
 \item Facial expression reading (wink, blink, talking, \ldots{})
 \item Detection of social signals from verbal communication
-\item Emotion recognition (from faces, movement, speech, \ldots{})
+\item Emotion recognition
+    \begin{itemize}
+        \item from faces
+        \item movement
+        \item speech \ldots{}
+    \end{itemize}
 \item \ldots{}
 \end{itemize}
+
+These tasks are typicaly executed \textbf{in parallel} and in a \textbf{pipeline}.
 
 \end{frame}
 
@@ -632,8 +640,12 @@ Social signal processing is typically broken down in smaller, more manageable,
     \end{center}
 
             \only<6>{
-                \small $pc_1 \approx 0.4 \times \text{potatoes} + 0.2 \times
+                \scriptsize $pc_1 \approx 0.4 \times \text{potatoes} + 0.2 \times
                 \text{softs} - 0.4 \times \text{alcohol} - 0.6 \times \text{fruits}$
+
+                \vspace{1em}
+                \scriptsize $pc_2 \approx 0.55 \times \text{potatoes} - 0.5 \times
+                \text{softs}$
             }
 
         \end{column}
@@ -665,10 +677,6 @@ Social signal processing is typically broken down in smaller, more manageable,
 \end{frame}
 }
 
-%\imageframe[scale=0.9, caption={Applied to handwriting}]{pca}
-%\videoframe{figs/face_recognition/cowriter.mp4?start=135}
-
-\imageframe[scale=0.9, caption={Applied to faces}]{dataset}
 
 {
     \paper{\source{https://github.com/bytefish/facerecognition_guide}{Philipp
@@ -702,6 +710,7 @@ Social signal processing is typically broken down in smaller, more manageable,
 
 \begin{frame}[fragile]{Python code}
 
+
 \begin{pythoncode}
 def pca(X):
 
@@ -716,17 +725,54 @@ def pca(X):
     eigenvectors = eigenvectors[:,idx]
     return eigenvalues, eigenvectors, mu
 
-# D: eigenvalues, W: eigenvectors, mu: mean, X: 40 X 10304 image array
+# D: eigenvalues, W: eigenvectors, mu: mean, X: dataset
 D, W, mu = pca(X) 
 
-# plot the first 16 'eigenfaces'
+\end{pythoncode}
+
+    or:
+
+\begin{pythoncode}
+from sklearn.decomposition import PCA
+pca = PCA(n_components=2) # for instance, only keep 2 eigenvectors
+pca.fit(X) # calculate the eigenvalues/eigenvectors of X
+Y_pca = pca.transform(Y) # apply the dimensionality reduction
+pca.explained_variance_ratio_ # variance explained by each eigenvector
+\end{pythoncode}
+\end{frame}
+
+
+%\imageframe[scale=0.9, caption={Applied to handwriting}]{pca}
+%\videoframe{figs/face_recognition/cowriter.mp4?start=135}
+
+\imageframe[scale=0.9, caption={Applied to faces}]{dataset}
+
+\begin{frame}[fragile]{Eigenfaces: Python code}
+
+\begin{pythoncode}
+from pathlib import Path
+from PIL import Image
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+
+# load the images
 images = []
+for img in Path("att_faces").glob("*/*.pgm"):
+    face = Image.open(img)
+    images.append(np.asarray(face).flatten())
+
+# compute the first 16 eigenvectors, eg 'eigenfaces'
+X = np.asarray(images) # 400 X 10304 image array
+pca = PCA(n_components=16)
+pca.fit(X)
+
+# reconstruct and plot 16 'eigenfaces'
+f, axarr = plt.subplots(4,4)
 for i in range(16):
-    image = W[:,i].reshape(X[0].shape)
-    images.append(normalize(image,0,255))
-
-subplot(title="Eigenfaces", images=images, rows=4, cols=4)
-
+    image = pca.components_[i,:].reshape(112,92)
+    axarr[i%4,i//4].imshow(image * 255)
+plt.show()
 \end{pythoncode}
 \end{frame}
 
@@ -734,44 +780,26 @@ subplot(title="Eigenfaces", images=images, rows=4, cols=4)
 \imageframe{dataset}
 \imageframe{eigenfaces}
 
-\begin{frame}{PCA Projection and Reconstruction}
+\begin{frame}<1>[label=pca_proj]{PCA projection and reconstruction}
 
     The $k$ principal components of an observed vector
     $\mathbf{x}\bubblemark{image}$ are then given by:
 
     \[
-        \mathbf{y} = W^{T} (\mathbf{x} - \mu)
+        \mathbf{y} = [\mathbf{x}_{pc_1},\ldots,\mathbf{x}_{pc_k}] = W^{T} (\mathbf{x} - \mu)
     \]
 
-    where $W\bubblemark{pcabasis} = (\mathbf{v}_{1}, \mathbf{v}_{2}, \ldots, \mathbf{v}_{k})$.
-    
-    \bubble<1->[80][0.5][3cm]{image}{The image of a face!}
-    \bubble<1->[100]{pcabasis}{The PCA basis}
-
-\end{frame}
-
-\imageframe[scale=0.8]{pca-projections-1}
-\imageframe[scale=0.8]{pca-projections-2}
-\imageframe[scale=0.8]{pca-projections-3}
-
-\begin{frame}{PCA Projection and reconstruction}
-
-    The $k$ principal components of an observed vector
-    $\mathbf{x}\bubblemark{image}$ are then given by:
-
-    \[
-        \mathbf{y} = W^{T} (\mathbf{x} - \mu)
-    \]
-
+    \vspace{2em}
     where $W\bubblemark{pcabasis} = (\mathbf{v}_{1}, \mathbf{v}_{2}, \ldots,
-    \mathbf{v}_{k})$. $\mathbf{y}$ is the \textbf{projection} of $\mathbf{x}$
-    onto
-    $W$.
+    \mathbf{v}_{k})$, with $\mathbf{v}_{k}$ the eigenvectors.
+
+    $\mathbf{y}$ is the \textbf{projection} of $\mathbf{x}$ onto $W$.
     
     \bubble<1->[80][0.5][3cm]{image}{The image of a face!}
-    \bubble<1->[100]{pcabasis}{The PCA basis}
+    \bubble<1->[290]{pcabasis}{The PCA basis}
 
 
+    \pause
     The reconstruction from the PCA basis is given by:
 
     \[
@@ -780,28 +808,38 @@ subplot(title="Eigenfaces", images=images, rows=4, cols=4)
 
 \end{frame}
 
-\begin{frame}[fragile]{Python code}
+
+\imageframe[scale=0.8]{pca-projections-1}
+\imageframe[scale=0.8]{pca-projections-2}
+\imageframe[scale=0.8]{pca-projections-3}
+
+\againframe<2>{pca_proj}
+
+\begin{frame}[fragile]{Python code: face reconstruction}
 
 \begin{pythoncode}
+W = pca.components_
+mu = pca.mean_
+
 def project(W, X, mu=None):
     if mu is None:
-        return np.dot(X,W)
-    return np.dot(X - mu, W)
+        return np.dot(W,X)
+    return np.dot(W,X - mu)
 
 def reconstruct(W, Y, mu=None):
     if mu is None:
-        return np.dot(Y,W.T)
-    return np.dot(Y, W.T) + mu
+        return np.dot(W.T,Y)
+    return np.dot(W.T,Y) + mu
 
-images = []
+images = []; f, axarr = plt.subplots(4,4)
 for nb_evs in range(10, 310, 20):
-    P = project(W[:,0:nb_evs], X[0].reshape(1,-1), mu)
-    R = reconstruct(W[:,0:nb_evs], P, mu)
+    P = project(W[0:nb_evs,:], X[0], mu) # you can also use pca.transform
+    R = reconstruct(W[0:nb_evs,:], P, mu) # ...and pca.inverse_transform
+    images.append(R.reshape(112,92))
 
-    R = R.reshape(X[0].shape)
-    images.append(normalize(R,0,255))
-
-subplot(title="Reconstruction of one face", images=images, rows=4, cols=4)
+for i in range(len(images)):
+    axarr[i//4,i%4].imshow(images[i]*255)
+plt.show()
 \end{pythoncode}
 \end{frame}
 
@@ -851,8 +889,15 @@ subplot(title="Reconstruction of one face", images=images, rows=4, cols=4)
 
         \pause
 
-        PCA is often used as a \textbf{dimensionality reduction} technique (\ie a
-        kind of data lossy data compression).
+        PCA is one example of a \textbf{dimensionality reduction} technique (\ie a
+        kind of lossy data compression).
+
+        \pause 
+
+        The resulting 50-dimensional vector is called an \textbf{embedding} of
+        the face: a projection of a high dimensional representation (10304 pixels)
+        into a much lower dimensional space (50 'eigenfaces').
+
 
     \end{center}
 \end{frame}
@@ -982,7 +1027,6 @@ predict(test_image, W, projections)
 \end{frame}
 }
 \videoframe[0.56]{figs/pinsoro-kinematics/annotations.mp4?autostart}
-\videoframe[0.56]{figs/pinsoro-kinematics/pinsoro-matplotlib.mp4?autostart}
 
 {
     \paper{Bartlett, Edmunds, Belpaeme, Thill, Lemaignan, \textbf{What Can You

@@ -24,17 +24,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497475"
-     inkscape:cx="565.31914"
-     inkscape:cy="270.81486"
+     inkscape:zoom="0.9899495"
+     inkscape:cx="551.50543"
+     inkscape:cy="152.4324"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
      showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1052"
-     inkscape:window-x="1920"
-     inkscape:window-y="0"
+     inkscape:window-height="1025"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -48,7 +48,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -60,23 +60,23 @@
     <image
        sodipodi:absref="/home/severin/teaching/lecture-hri-face/figs/face_recognition/pca-food-example.png"
        xlink:href="../../../lecture-hri-face/figs/face_recognition/pca-food-example.png"
-       y="25.777973"
-       x="-22.678577"
-       id="image843"
-       preserveAspectRatio="none"
+       width="264.58334"
        height="197.90834"
-       width="264.58334" />
+       preserveAspectRatio="none"
+       id="image843"
+       x="-22.678577"
+       y="25.777973" />
     <text
        xml:space="preserve"
        style="font-size:10.5833px;line-height:1.25;font-family:FredokaOne;-inkscape-font-specification:FredokaOne;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
-       x="120.1572"
+       x="92.640549"
        y="23.379517"
        id="text879"><tspan
          sodipodi:role="line"
          id="tspan877"
-         x="120.1572"
+         x="92.640549"
          y="23.379517"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FlamaLight;-inkscape-font-specification:FlamaLight;stroke-width:0.264583">4 observations</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FlamaLight;-inkscape-font-specification:FlamaLight;stroke-width:0.264583">4 classes of observations</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:10.5833px;line-height:1.25;font-family:FredokaOne;-inkscape-font-specification:FredokaOne;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
