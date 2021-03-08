@@ -821,21 +821,21 @@ plt.show()
 W = pca.components_
 mu = pca.mean_
 
-def project(W, X, mu=None):
+def project(W, x, mu=None):
     if mu is None:
-        return np.dot(W,X)
-    return np.dot(W,X - mu)
+        return np.dot(W,x)
+    return np.dot(W,x - mu)
 
-def reconstruct(W, Y, mu=None):
+def reconstruct(W, y, mu=None):
     if mu is None:
-        return np.dot(W.T,Y)
-    return np.dot(W.T,Y) + mu
+        return np.dot(W.T,y)
+    return np.dot(W.T,y) + mu
 
 images = []; f, axarr = plt.subplots(4,4)
 for nb_evs in range(10, 310, 20):
-    P = project(W[0:nb_evs,:], X[0], mu) # you can also use pca.transform
-    R = reconstruct(W[0:nb_evs,:], P, mu) # ...and pca.inverse_transform
-    images.append(R.reshape(112,92))
+    p = project(W[0:nb_evs,:], X[0], mu) # you can also use pca.transform
+    r = reconstruct(W[0:nb_evs,:], p, mu) # ...and pca.inverse_transform
+    images.append(r.reshape(112,92))
 
 for i in range(len(images)):
     axarr[i//4,i%4].imshow(images[i]*255)
@@ -942,9 +942,7 @@ def learn_model(X):
     # compute projections
     projections = []
     for xi in X:
-        yi = project(W,
-                   xi.reshape(1,-1), 
-                   mu)
+        yi = project(W, xi, mu)
         projections.append(yi)
 
     return W, projections
@@ -958,7 +956,7 @@ def learn_model(X):
 def predict(x, W, projections):
     minDist = np.finfo('float').max
     minClass = -1
-    Q = project(W, x.reshape(1,-1), mu)
+    Q = project(W, x, mu)
 
     for i in range(len(projections)):
         dist = dist(projections[i], Q)
